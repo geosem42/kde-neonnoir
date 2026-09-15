@@ -136,6 +136,12 @@ for base in "$HOME/.mozilla/firefox" "$HOME/snap/firefox/common/.mozilla/firefox
 done
 
 say "Dolphin view"
+rc="$SHARE/kxmlgui5/dolphin/dolphinui.rc"
+if [ -f "$BACKUP/dolphinui.rc" ]; then
+  run cp "$BACKUP/dolphinui.rc" "$rc"; ok "toolbar layout restored"
+elif [ -f "$rc" ]; then
+  run rm -f "$rc"; ok "toolbar layout removed"
+fi
 vp="$SHARE/dolphin/view_properties/global/.directory"
 if [ -f "$BACKUP/dolphin-global-directory" ]; then
   run cp "$BACKUP/dolphin-global-directory" "$vp"; ok "view properties restored"

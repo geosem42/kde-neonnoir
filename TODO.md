@@ -70,8 +70,17 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       the tab-bar strip — the artboard has no tabs, so there is nothing to match
       there
 - [ ] Sidebar section headers are plain grey; design is cyan caps
-- [ ] Address bar is a bare breadcrumb; design is a bordered pill with a
-      separate search pill beside it
+- [x] Address bar has its frame back. Dolphin embeds the URL navigator IN the
+      toolbar and calls `KUrlNavigator::setBackgroundEnabled(false)` while it
+      lives there, which is why the path was bare text; there is no setting for
+      it. A KXmlGui override that drops `url_navigators` from the toolbar puts
+      the navigator on its own row and lets it paint again. The user copy still
+      goes in `kxmlgui5` under KF6, not `kxmlgui6` — verified — and its
+      `version` must exceed Dolphin's or the file is discarded. It is full-width
+      rather than an inset pill: Dolphin gives that row no side margins
+- [ ] Dolphin rewrites `view_properties/global/.directory` on exit, so
+      installing while it is open loses the details view. Same trap as Kate's
+      session file and Konsole's rc — install.sh should refuse or warn
 
 ## Other apps
 

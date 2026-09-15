@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<!--
+  Dolphin's toolbar, cut down to what the artboard draws: back, forward, up,
+  search, menu. The point is not the buttons, it is the location bar.
+
+  Dolphin embeds the URL navigator IN the toolbar and calls
+  KUrlNavigator::setBackgroundEnabled(false) while it lives there, which is why
+  the path renders as bare text with no frame. There is no setting for it — the
+  Status & Location bars page offers only "show full path" and "make editable".
+  Taking `url_navigators` out of the toolbar is what puts the navigator in its
+  own row and lets it paint its background again.
+
+  version must exceed Dolphin's own or KXmlGui discards this file. The local
+  path is still kxmlgui5 under KF6, not kxmlgui6 — verified, not assumed.
+-->
+<gui name="dolphin" version="999">
+ <ToolBar noMerge="1" name="mainToolBar" iconText="icononly">
+  <text context="@title:menu">Dolphin Toolbar</text>
+  <Action name="go_back"/>
+  <Action name="go_forward"/>
+  <Action name="go_up"/>
+  <Separator/>
+  <Action name="toggle_search"/>
+  <Action name="hamburger_menu"/>
+ </ToolBar>
+</gui>

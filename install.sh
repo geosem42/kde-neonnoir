@@ -440,6 +440,18 @@ EOF
   fi
   run kwriteconfig6 --file dolphinrc --group General --key GlobalViewProps true
   run kwriteconfig6 --file dolphinrc --group DetailsMode --key ExpandableFolders false
+  run kwriteconfig6 --file dolphinrc --group "Toolbar mainToolBar" --key IconText IconOnly
+
+  # Dolphin's toolbar, so the location bar can leave it — see the comment in
+  # the .rc. KF6 still reads the user's copy from kxmlgui5, not kxmlgui6.
+  if [ -f "$DIST/config/dolphinui.rc" ]; then
+    rc="$SHARE/kxmlgui5/dolphin/dolphinui.rc"
+    if [ -f "$rc" ] && [ ! -e "$BACKUP/dolphinui.rc" ]; then
+      run cp "$rc" "$BACKUP/dolphinui.rc"; ok "toolbar layout backed up"
+    fi
+    run install -Dm644 "$DIST/config/dolphinui.rc" "$rc"
+    ok "toolbar: back, forward, up, search, menu — navigator on its own row"
+  fi
 
   # Account picture. This is user data, not theme: Kickoff reads it through
   # KUser, which resolves ~/.face.icon (normally a symlink to ~/.face), and the

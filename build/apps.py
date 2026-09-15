@@ -315,7 +315,10 @@ def build(T, ANSI, DIST, THEME_ID, THEME_NAME, UI_FONT, MONO_FONT, template_dir=
         # at install time, not here.
         (cfg / 'panel-layout.js').write_text(
             (template_dir / 'panel-layout.js').read_text())
-        out.append('config/desktop-layout.js, config/panel-layout.js')
+        (cfg / 'dolphinui.rc').write_text(
+            (template_dir / 'dolphinui.rc').read_text())
+        out.append('config/desktop-layout.js, config/panel-layout.js, '
+                   'config/dolphinui.rc')
 
     fc = DIST / 'fontconfig'
     fc.mkdir(parents=True, exist_ok=True)
