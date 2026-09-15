@@ -17,6 +17,10 @@ DIST="$HERE/dist"
 SHARE="${XDG_DATA_HOME:-$HOME/.local/share}"
 CONF="${XDG_CONFIG_HOME:-$HOME/.config}"
 BACKUP="$CONF/neon-noir-backup"
+# libXcursor's search path is compiled in as ~/.icons:/usr/share/icons:
+# /usr/share/pixmaps — ~/.local/share/icons is NOT on it, so a cursor theme
+# installed there is invisible to both the KCM and the compositor.
+ICONS="$HOME/.icons"
 
 DRY=0; APPLY=0; SYSTEM=0
 for a in "$@"; do case "$a" in
@@ -48,10 +52,12 @@ for f in kdeglobals kwinrc plasmarc breezerc konsolerc kcminputrc ksplashrc \
   fi
 done
 for g in gtk-3.0 gtk-4.0; do
-  if [ -f "$CONF/$g/gtk.css" ]; then
-    if [ -e "$BACKUP/$g/gtk.css" ]; then skip "$g/gtk.css already backed up"
-    else run cp "$CONF/$g/gtk.css" "$BACKUP/$g/gtk.css"; ok "$g/gtk.css"; fi
-  fi
+  for f in gtk.css settings.ini; do
+    if [ -f "$CONF/$g/$f" ]; then
+      if [ -e "$BACKUP/$g/$f" ]; then skip "$g/$f already backed up"
+      else run cp "$CONF/$g/$f" "$BACKUP/$g/$f"; ok "$g/$f"; fi
+    fi
+  done
 done
 # Record the colour scheme that was active BEFORE we touch anything, so
 # uninstall restores what you actually had rather than assuming Breeze Dark.
@@ -59,6 +65,13 @@ if [ "$DRY" = 0 ] && [ ! -f "$BACKUP/PREVIOUS_SCHEME" ]; then
   prev="$(kreadconfig6 --file kdeglobals --group General --key ColorScheme 2>/dev/null || true)"
   [ -z "$prev" ] && prev="BreezeDark"
   [ "$prev" = "$THEME_ID" ] || printf '%s\n' "$prev" > "$BACKUP/PREVIOUS_SCHEME"
+fi
+# Same for the pointer: kcminputrc may not exist yet, in which case the live
+# theme is a default that restoring the file would not bring back.
+if [ "$DRY" = 0 ] && [ ! -f "$BACKUP/PREVIOUS_CURSOR" ]; then
+  prevc="$(kreadconfig6 --file kcminputrc --group Mouse --key cursorTheme 2>/dev/null || true)"
+  [ -z "$prevc" ] && prevc="breeze_cursors"
+  [ "$prevc" = "$THEME_ID-cursors" ] || printf '%s\n' "$prevc" > "$BACKUP/PREVIOUS_CURSOR"
 fi
 if [ "$DRY" = 0 ] && [ ! -f "$BACKUP/MANIFEST" ]; then
   { echo "Neon Noir backup of pre-install KDE configuration."
@@ -102,6 +115,9 @@ install_tree "$DIST/aurorae/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID"
 say "Icon theme"
 install_tree "$DIST/icons/$THEME_ID" "$SHARE/icons/$THEME_ID"
 
+say "Cursor theme"
+install_tree "$DIST/cursors/$THEME_ID-cursors" "$ICONS/$THEME_ID-cursors"
+
 say "Wallpaper"
 install_tree "$DIST/wallpapers/$THEME_ID" "$SHARE/wallpapers/$THEME_ID"
 
@@ -110,7 +126,9 @@ if [ -f "$DIST/config/settings.tsv" ]; then
   n=0
   while IFS=$'\t' read -r file group key value; do
     [ -z "${file:-}" ] && continue
-    run kwriteconfig6 --file "$file" --group "$group" --key "$key" "$value"
+    # --notify is what emits the KConfigWatcher D-Bus signal; without it the
+    # file changes but nothing running reloads it.
+    run kwriteconfig6 --file "$file" --group "$group" --key "$key" "$value" --notify
     n=$((n+1))
   done < "$DIST/config/settings.tsv"
   ok "$n settings written (decoration, effects, fonts, blur)"
@@ -153,6 +171,12 @@ if [ "$APPLY" = 1 ]; then
     command -v gtk-update-icon-cache >/dev/null && \
       run gtk-update-icon-cache -qtf "$SHARE/icons/$THEME_ID" 2>/dev/null || true
     ok "icon theme"
+  fi
+
+  if command -v plasma-apply-cursortheme >/dev/null \
+     && [ -d "$ICONS/$THEME_ID-cursors" ]; then
+    run plasma-apply-cursortheme "$THEME_ID-cursors" --size 24 >/dev/null 2>&1 \
+      && ok "cursor theme" || warn "cursor theme could not be applied"
   fi
 
   if command -v plasma-apply-wallpaperimage >/dev/null \

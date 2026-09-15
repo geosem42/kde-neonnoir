@@ -4,3 +4,6 @@ __pycache__/
 # 1952 folder icons derived from breeze-dark (LGPL) at build time.
 # Regenerate with: python3 build/generate.py
 dist/icons/
+
+# 39 cursors x 8 sizes of generated XCursor binaries, ~6 MB.
+dist/cursors/

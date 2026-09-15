@@ -219,6 +219,16 @@ BlinkingCursorEnabled=true
     add('kdeglobals', 'WM',      'activeFont',           qfont(UI, 10, 500))
     add('kdeglobals', 'Icons', 'Theme', THEME_ID)
     add('plasmarc', 'Theme', 'name', THEME_ID)
+    # Pointer. 24 is the nominal size, which the theme renders as a 32px image.
+    add('kcminputrc', 'Mouse', 'cursorTheme', THEME_ID + '-cursors')
+    add('kcminputrc', 'Mouse', 'cursorSize', '24')
+    # GTK reads its own cursor and icon keys. Plasma's gtkconfig kded normally
+    # mirrors kcminputrc into these, but only on its own schedule, so they are
+    # written directly too.
+    for ver in ('gtk-3.0', 'gtk-4.0'):
+        add(f'{ver}/settings.ini', 'Settings', 'gtk-cursor-theme-name', THEME_ID + '-cursors')
+        add(f'{ver}/settings.ini', 'Settings', 'gtk-cursor-theme-size', '24')
+        add(f'{ver}/settings.ini', 'Settings', 'gtk-icon-theme-name', THEME_ID)
 
     c = DIST / 'config' / 'settings.tsv'
     c.parent.mkdir(parents=True, exist_ok=True)
