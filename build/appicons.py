@@ -192,6 +192,9 @@ GLYPHS = {
     'phone': '<rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.4"/>'
              '<path d="M10.6 5.4h2.8"/><path d="M12 18.2h.01"/>',
 
+    'person': '<circle cx="12" cy="8" r="4.2"/>'
+              '<path d="M4.4 20.6a7.6 7.6 0 0 1 15.2 0"/>',
+
     'keyboard': '<rect x="2.2" y="6" width="19.6" height="12" rx="2"/>'
                 '<path d="M6 9.4h.01M9.4 9.4h.01M12.8 9.4h.01M16.2 9.4h.01'
                 'M6 12.4h.01M9.4 12.4h.01M12.8 12.4h.01M16.2 12.4h.01'
@@ -343,44 +346,18 @@ def category_svgs(stroke_hex):
     return out
 
 
-# Sidebar places. Emitted only at the SMALL fixed sizes (see icons.py): Breeze
-# itself ships monochrome place icons at 16/22/24 and coloured ones at 32 and
-# up, and a file manager uses the small set in its sidebar and the large set in
-# the file view. Following the same split is what lets the sidebar be outlines
-# while folders in the view stay cyan and filled.
-PLACES = {
-    'user-home': 'house',            'folder-home': 'house',
-    'user-desktop': 'monitor',       'folder-desktop': 'monitor',
-    'desktop': 'monitor',
-    'folder-documents': 'document',  'folder-text': 'document',
-    'folder-downloads': 'download',  'folder-download': 'download',
-    'folder-music': 'note',          'folder-sound': 'note',
-    'folder-pictures': 'image',      'folder-images': 'image',
-    'folder-videos': 'film',         'folder-video': 'film',
-    'user-trash': 'trash',           'user-trash-full': 'trash',
-    'trash-empty': 'trash',          'trash-full': 'trash',
-    'network-workgroup': 'nodes',    'folder-network': 'nodes',
-    'folder-remote': 'nodes',
-    'document-open-recent': 'clock', 'folder-recent': 'clock',
-    'folder-temp': 'clock',
-    'folder-root': 'drive',          'drive-harddisk': 'drive',
-    'folder-development': 'wrench',  'folder-script': 'wrench',
-    'folder-html': 'globe',          'folder-cloud': 'globe',
-    'folder-print': 'document',      'folder-publicshare': 'nodes',
-    'folder-templates': 'slide',     'folder-games': 'gamepad',
-    'folder-mail': 'mail',           'folder-favorites': 'bookmark',
-    'favorites': 'bookmark',         'bookmarks': 'bookmark',
-    'folder-important': 'bookmark',  'folder-locked': 'lock',
-    'folder-encrypted': 'lock',      'folder-tar': 'archive',
-    'folder-image-people': 'image',  'folder-camera': 'camera',
-}
-
 # Tray applets whose icon is an application or action name rather than one of
 # the status families, so statusicons.py never reaches them. These are the ones
 # that were still showing a filled Breeze glyph in the panel.
 TRAY = {
     'klipper': 'clipboard',          'edit-paste': 'clipboard',
     'klipper-symbolic': 'clipboard',
+    'document-open-recent': 'clock',
+    'drive-harddisk': 'drive',       'drive-harddisk-root': 'drive',
+    'drive-harddisk-usb': 'drive',   'drive-multidisk': 'drive',
+    'drive-optical': 'book',         'media-optical': 'book',
+    'media-flash': 'usb',            'media-flash-sd-mmc': 'usb',
+    'drive-removable-media-usb-pendrive-symbolic': 'usb',
     'device-notifier': 'usb',        'drive-removable-media': 'usb',
     'drive-removable-media-usb': 'usb',
     'drive-removable-media-usb-pendrive': 'usb',
@@ -404,16 +381,6 @@ TRAY = {
     'redshift-status-off-symbolic': 'moon',
     'night-color-on': 'moon',        'night-color-off': 'moon',
 }
-
-
-def place_svgs(stroke_hex):
-    """{icon-name: svg} for the file-manager sidebar."""
-    out = {}
-    for name, glyph in PLACES.items():
-        svg = _wrap(GLYPHS[glyph], stroke_hex)
-        out[name] = svg
-        out[name + '-symbolic'] = svg
-    return out
 
 
 def tray_svgs(stroke_hex):

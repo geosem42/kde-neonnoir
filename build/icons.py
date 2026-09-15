@@ -10,7 +10,7 @@ breeze-dark via Inherits.
 """
 import re, shutil, pathlib
 
-import appicons, mimeicons, statusicons
+import appicons, mimeicons, placeicons, statusicons
 
 SRC_BLUE = re.compile(r'#3daee9', re.I)
 
@@ -53,7 +53,7 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     # a file manager's sidebar draws from; 32 and up keep the recoloured cyan
     # folders the file view uses. Breeze splits its own place icons the same
     # way, monochrome below 32 and coloured above.
-    places = appicons.place_svgs(app_glyph_hex)
+    places = placeicons.svgs(app_glyph_hex, src)
     n_places = 0
     for d in dirs:
         size = d.split('/')[1]

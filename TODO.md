@@ -48,8 +48,8 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 ## Dolphin
 
 - [x] File icons are grey line art — all 517 mimetype names swept by pattern
-- [x] Sidebar place icons are our outline glyphs (small sizes only, so folders
-      in the file view stay cyan and filled)
+- [x] Sidebar place icons are our outline glyphs — all 231 names swept by
+      pattern, small sizes only so folders in the file view stay cyan and filled
 - [ ] Sidebar section headers are plain grey; design is cyan caps
 - [x] Focus outline around the file view is the popup grey #454F58, not an accent
 
@@ -67,6 +67,15 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 Ctrl+M shows the menubar, Ctrl+N makes a new document, Ctrl+Shift+I opens the
 command bar, which reaches every action the menubar had. Read off the running
 instance over D-Bus, not from documentation.
+
+## Icon set coverage
+
+Swept by pattern, so a whole context changes at once and styles never mix:
+apps, categories, places, mimetypes, status/devices/actions/preferences for the
+tray. ~1,100 distinct names.
+
+Still Breeze: the `actions/` context — 2,222 names, the icons inside menus and
+toolbars (cut, copy, zoom, go-previous…). That is the last large surface.
 
 ## Rejected
 
