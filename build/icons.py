@@ -10,7 +10,7 @@ breeze-dark via Inherits.
 """
 import re, shutil, pathlib
 
-import appicons
+import appicons, statusicons
 
 SRC_BLUE = re.compile(r'#3daee9', re.I)
 
@@ -58,17 +58,34 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     for name, svg in sorted(glyphs.items()):
         (apps / f'{name}.svg').write_text(svg, encoding='utf-8')
 
+    # Tray glyphs. Written into every context we declare rather than into the
+    # one breeze happens to file each name under: the same name lives in
+    # different contexts at different sizes (network-wireless-connected-100 is
+    # in devices/16 but status/22), and icon lookup scans directories, not
+    # contexts.
+    status = statusicons.svgs(T, src)
+    for d in statusicons.DIRS:
+        outdir = dst / d
+        outdir.mkdir(parents=True, exist_ok=True)
+        for name, svg in sorted(status.items()):
+            (outdir / f'{name}.svg').write_text(svg, encoding='utf-8')
+
+    scalable = ['apps/scalable'] + list(statusicons.DIRS)
     lines = ['[Icon Theme]', f'Name={THEME_NAME}',
-             'Comment=Neon Noir — cyan folders and outline app glyphs',
+             'Comment=Neon Noir — cyan folders and outline glyphs',
              'Inherits=breeze-dark,breeze,hicolor',
-             f'Directories={",".join(dirs + ["apps/scalable"])}', '']
+             f'Directories={",".join(dirs + scalable)}', '']
     for d in dirs:
         size = d.split('/')[1]
         lines += [f'[{d}]', f'Size={size}', 'Context=Places',
                   'Type=Fixed' if size.isdigit() else 'Type=Scalable', '']
-    lines += ['[apps/scalable]', 'Size=24', 'MinSize=8', 'MaxSize=512',
-              'Context=Applications', 'Type=Scalable', '']
+    CONTEXT = {'apps': 'Applications', 'status': 'Status',
+               'devices': 'Devices', 'actions': 'Actions',
+               'preferences': 'Preferences'}
+    for d in scalable:
+        lines += [f'[{d}]', 'Size=24', 'MinSize=8', 'MaxSize=512',
+                  f'Context={CONTEXT[d.split("/")[0]]}', 'Type=Scalable', '']
     (dst / 'index.theme').write_text('\n'.join(lines))
     return [f'icons/{THEME_ID}/  ({n_files} folder icons, {n_recoloured} recoloured, '
-            f'{len(glyphs)} outline app glyphs, {len(dirs) + 1} dirs; '
-            f'inherits breeze-dark)']
+            f'{len(glyphs)} app glyphs, {len(status)} tray glyphs, '
+            f'{len(dirs) + len(scalable)} dirs; inherits breeze-dark)']
