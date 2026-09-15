@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Id": "org.neonnoir.sysmon",
+        "Name": "Neon Noir System",
+        "Description": "CPU, memory and network in the Neon Noir language",
+        "Icon": "utilities-system-monitor",
+        "Category": "System Information",
+        "Authors": [
+            {
+                "Name": "George",
+                "Email": "geosem042@gmail.com"
+            }
+        ],
+        "License": "GPL-3.0-or-later",
+        "Version": "1.0",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ]
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

@@ -16,6 +16,7 @@ DIST = ROOT / 'dist'
 
 THEME_ID   = 'NeonNoir'
 PKG_ID     = 'org.neonnoir.desktop'
+APPLET_ID  = 'org.neonnoir.sysmon'
 THEME_NAME = 'Neon Noir'
 
 # ---------- colour helpers ----------
@@ -196,7 +197,7 @@ def main():
         p.write_text(fn())
         print(f'  wrote dist/{rel}  ({p.stat().st_size} bytes)')
     sys.path.insert(0, str(ROOT / 'build'))
-    import artefacts, decoration, icons, cursors, brand, kvantum, lookandfeel, sddm, plymouth
+    import artefacts, decoration, icons, cursors, brand, kvantum, lookandfeel, sddm, plymouth, plasmoid
     # A folder is a large filled shape: the full-strength UI accent is far too
     # loud across 500 icons, so match Breeze's own folder lightness instead.
     folder_hex = T['accent.cyan.folder']
@@ -218,6 +219,9 @@ def main():
     for line in sddm.build(T, DIST, THEME_ID, THEME_NAME, ROOT / 'build' / 'templates'):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     for line in plymouth.build(T, DIST, THEME_ID, THEME_NAME, ROOT / 'build' / 'templates'):
+        print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
+    for line in plasmoid.build(T, DIST, THEME_ID, THEME_NAME, APPLET_ID,
+                               ROOT / 'build' / 'templates'):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
 
     if FAILURES:

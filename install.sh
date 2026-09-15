@@ -13,6 +13,7 @@ set -euo pipefail
 
 THEME_ID="NeonNoir"
 PKG_ID="org.neonnoir.desktop"
+APPLET_ID="org.neonnoir.sysmon"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST="$HERE/dist"
 SHARE="${XDG_DATA_HOME:-$HOME/.local/share}"
@@ -133,6 +134,9 @@ install_tree "$DIST/cursors/$THEME_ID-cursors" "$ICONS/$THEME_ID-cursors"
 
 say "Widget style"
 install_tree "$DIST/kvantum/$THEME_ID" "$CONF/Kvantum/$THEME_ID"
+
+say "System widget"
+install_tree "$DIST/plasmoids/$APPLET_ID" "$SHARE/plasma/plasmoids/$APPLET_ID"
 
 say "Global theme package"
 install_tree "$DIST/look-and-feel/$PKG_ID" "$SHARE/plasma/look-and-feel/$PKG_ID"
