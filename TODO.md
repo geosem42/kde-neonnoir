@@ -92,8 +92,12 @@ application's toolbar so no mixed-style list results.
   sweep and the folder recolour.
 - Icons in Fixed-size directories were written at 24px regardless of the size
   the directory declares, so a 16px request returned a 24px icon.
-- Konsole shipped at `Opacity=0.95` with blur, so the window stack behind
-  ghosted through it during minimise/maximise. Now opaque.
+- Windows two layers down ghosted into the titlebar during another window's
+  minimise/maximise. Not Konsole's opacity and not KWin's blur effect (both
+  tested and cleared): Aurorae's `Animation` cross-fades active/inactive by
+  blending them with opacity, so the titlebar was briefly translucent every
+  time focus moved. `Animation=0`. Konsole is opaque and the decoration's
+  `X-KDE-PluginInfo-blur` flag is gone as well — both were wrong regardless.
 
 ## Rejected
 
