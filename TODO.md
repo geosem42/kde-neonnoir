@@ -7,8 +7,6 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [x] Background matches the theme instead of a lighter grey slab
 - [x] Avatar is a cyan-to-magenta disc with the account initial (`--desktop` only;
       writes ~/.face, backed up, restored by uninstall)
-- [ ] No subtitle under the name (design: `resolute · Plasma 6.6.6`)
-- [ ] Brightness and power belong in the header, not a footer strip
 - [x] Search field no longer swells on hover; focus ring drawn over it, not around
 - [x] Sidebar categories use our outline glyphs
 - [x] Compact list with a subtitle per row instead of a grid of tiles
@@ -114,5 +112,9 @@ Kept here so they are not re-attempted.
 - Lock screen layout: loaded from the Plasma shell package, not the theme.
 - ` — Konsole` suffix on the window title: KMainWindow appends the application
   name; Konsole exposes no key for it.
-- Brightness and power in the launcher header: Plasma 6 Kickoff's footer is
-  fixed, with no configuration for it.
+- Launcher header layout — the `hostname · Plasma 6.6.6` subtitle, the search
+  field on its own row, brightness and power in the header instead of the
+  footer. Plasma 6.6 compiles the whole Kickoff UI into
+  `org.kde.plasma.kickoff.so` as a QML module; `Header.qml`, `Footer.qml` and
+  `LeaveButtons.qml` exist only as bytecode, with no file on disk to override
+  and no config key for any of it. Only a fork of the applet would do it.
