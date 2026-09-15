@@ -1,7 +1,7 @@
 [General]
 ActiveTextColor=217,223,229
 InactiveTextColor=134,141,148
-Animation=120
+Animation=0
 TitleAlignment=Left
 TitleVerticalAlignment=Center
 

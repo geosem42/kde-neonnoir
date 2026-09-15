@@ -221,10 +221,16 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
     # ── theme rc ──────────────────────────────────────────────────────────────
     def dec(tok): 
         h = T[tok].lstrip('#'); r,g,b = (int(h[i:i+2],16) for i in (0,2,4)); return f'{r},{g},{b}'
+    # Animation=0: no cross-fade. Aurorae animates the active/inactive
+    # titlebar by blending the two states with opacity, so for the length of
+    # the fade the titlebar is partly transparent and the window behind shows
+    # through it. Minimising a window hands focus to the one below, whose
+    # titlebar then fades — which is how a third window's toolbar icons
+    # appeared inside a titlebar two layers up.
     (au / f'{THEME_ID}rc').write_text(f'''[General]
 ActiveTextColor={dec('text.normal')}
 InactiveTextColor={dec('text.title.inactive')}
-Animation=120
+Animation=0
 TitleAlignment=Left
 TitleVerticalAlignment=Center
 
