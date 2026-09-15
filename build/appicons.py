@@ -38,6 +38,19 @@ GLYPHS = {
               '<path d="M19.1 3.6a1.9 1.9 0 0 1 2.7 2.7l-6.2 6.2-3.5.8.8-3.5z"/>',
 
     # Browser: globe.
+    # Browsers. The artboard draws Firefox as a plain globe, which is right when
+    # one browser is on the panel and useless when three are: Firefox, Chrome and
+    # Chromium became the same button. Function cannot separate them — they do the
+    # same job — so these trace each brand's silhouette instead, and the globe
+    # stays for browsers we do not single out.
+    'browser-flame': '<path d="M12 3.2c2.6 2.4 4.6 5.2 4.6 8.2a4.6 4.6 0 1 1-9.2 0'
+                     'c0-1.6.7-3 1.8-4.1 0 1.6.9 2.6 2 2.6 1.3 0 2.1-1 2.1-2.4 '
+                     '0-1.5-.6-3-1.3-4.3z"/>',
+    'browser-spokes': '<circle cx="12" cy="12" r="8.6"/>'
+                      '<circle cx="12" cy="12" r="3.4"/>'
+                      '<path d="M12 8.6V3.4M14.94 13.7l4.5 2.6M9.06 13.7l-4.5 2.6"/>',
+    'browser-ring': '<circle cx="12" cy="12" r="8.6"/>'
+                    '<circle cx="12" cy="12" r="3.4"/>',
     'globe': '<circle cx="12" cy="12" r="9"/>'
              '<ellipse cx="12" cy="12" rx="3.7" ry="9"/>'
              '<path d="M3.3 9.2h17.4M3.3 14.8h17.4"/>',
@@ -424,10 +437,10 @@ MAP = {
     'org.kde.kate': 'editor',             'kate': 'editor',
     'org.kde.kwrite': 'editor',           'kwrite': 'editor',
     'accessories-text-editor': 'editor',  'text-editor': 'editor',
-    'firefox': 'globe',                   'firefox_firefox': 'globe',
-    'firefox-esr': 'globe',               'web-browser': 'globe',
-    'chromium': 'globe',                  'chromium-browser': 'globe',
-    'google-chrome': 'globe',             'internet-web-browser': 'globe',
+    'firefox': 'browser-flame',           'firefox_firefox': 'browser-flame',
+    'firefox-esr': 'browser-flame',       'web-browser': 'globe',
+    'chromium': 'browser-ring',           'chromium-browser': 'browser-ring',
+    'google-chrome': 'browser-spokes',    'internet-web-browser': 'globe',
     'code': 'code',                       'vscode': 'code',
     'visual-studio-code': 'code',         'code-oss': 'code',
     'systemsettings': 'sliders',          'preferences-system': 'sliders',

@@ -97,6 +97,11 @@ application's toolbar so no mixed-style list results.
 
 ## Fixed after testing
 
+- Firefox, Chrome and Chromium were the same button. The artboard draws Firefox
+  as a globe, which is right for one browser on a panel and useless for three,
+  and function cannot separate them — they do the same job. Each now traces its
+  own silhouette: a flame, a spoked wheel, a ring in a ring. The globe stays for
+  browsers we do not single out.
 - Context menu was wide with blank swatches: the places sweep had collapsed all
   eleven `folder-<colour>` variants onto one grey outline. Colour is the content
   in Dolphin's folder-colour row, so those names are excluded from both the

@@ -46,10 +46,13 @@ RULES = [
     (r'^(baloo|sharedlib|kjournaldbrowser)$', 'drive'),
 
     # ── Browsers and the web ──────────────────────────────────────────────────
+    (r'^(firefox.*|librewolf|waterfox|tor-browser|zen-browser|'
+     r'.*\.firefox.*)$', 'browser-flame'),
+    (r'^(google-chrome.*|.*\.chrome|chrome)$', 'browser-spokes'),
+    (r'^chrome-', 'browser-spokes'),      # Chrome's per-site app shortcuts
+    (r'^chromium.*$', 'browser-ring'),
     (r'^(falkon|konqueror|qupzilla|rekonq|internet-web-browser|web-browser|'
-     r'firefox.*|chromium.*|.*\.chrome|google-chrome.*|brave.*|opera.*|vivaldi.*|'
-     r'epiphany|midori|librewolf|waterfox|tor-browser|zen-browser)$', 'globe'),
-    (r'^chrome-', 'globe'),               # Chrome's per-site app shortcuts
+     r'brave.*|opera.*|vivaldi.*|epiphany|midori)$', 'globe'),
     (r'^(plasma-browser-integration|kubuntu-web-link|puremaps|marble|'
      r'.*insomnia|postman|bruno|httpie)$', 'globe'),
 
