@@ -221,13 +221,20 @@ def build(T, DIST, THEME_ID):
              ('minimized', N, N, T['text.faint']),
              ('attention', N, N, T['status.neutral']),
              ('progress', T['accent.cyan.ghost'], N, None),
-             ('group-expander', N, hair, None),
              ('focus', raised, N, cy))
     for edge, side in (('', 'bottom'), ('north-', 'top'),
                        ('east-', 'right'), ('west-', 'left')):
         for p, fill, border, bar in tasks:
             s.frame(edge + p, fill, border, r=R_MED, margin=4,
                     bar=bar, bar_side=side)
+        # The badge Plasma stamps on a task that owns more than one window —
+        # the only cue that an app has several instances, since every task
+        # draws the same indicator bar whatever its window count. It was an
+        # invisible transparent rect, so the cue was simply missing. A solid
+        # accent disc: the radius is half the tile, so every slice is round and
+        # it reads as a dot at the 12-14px Plasma stamps it at.
+        s.frame(edge + 'group-expander', cy, T['surface.void'],
+                r=5, bw=2, K=10, margin=0)
     files['widgets/tasks.svg'] = s
 
     s = Sheet()
