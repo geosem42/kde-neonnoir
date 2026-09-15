@@ -10,11 +10,18 @@ Everything is derived from `design/palette.json`. `build/generate.py`
 contrast-asserts every foreground/background pair a user actually reads, so an
 illegible combination fails the build instead of shipping.
 
-## Screenshots
+## Screenshot
 
-*Design renders, not live captures.*
+![Neon Noir on Kubuntu 26.04](screenshots/01-desktop.png)
 
-![Desktop](design/png/01-desktop.png)
+Live capture. Kate, Dolphin and Konsole on the theme's own source; the clock and
+system card are the shipped desktop widgets.
+
+<details>
+<summary>Design artboards</summary>
+
+These are the renders the theme is built against, not captures. Where the two
+disagree, `TODO.md` records which won and why.
 
 | | |
 |---|---|
@@ -22,6 +29,8 @@ illegible combination fails the build instead of shipping.
 | ![Shell surfaces](design/png/04-shell-surfaces.png) | ![Control library](design/png/05-control-library.png) |
 | ![Terminal and editor](design/png/06-terminal-editor.png) | ![Boot chain](design/png/07-boot-chain.png) |
 | ![Type and icons](design/png/08-type-icons.png) | ![What ships](design/png/09-what-ships.png) |
+
+</details>
 
 ## Install
 
