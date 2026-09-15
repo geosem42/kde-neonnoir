@@ -143,25 +143,6 @@ elif [ -f "$vp" ]; then
   run rm -f "$vp"; ok "view properties removed"
 else skip "no view properties to restore"; fi
 
-say "Application icon overrides"
-# Only the files we wrote: each carries X-NeonNoir-IconOverride. Anything of
-# yours that we replaced was copied aside at install time and goes back.
-nn_removed=0
-for f in "$SHARE/applications"/*.desktop; do
-  [ -f "$f" ] || continue
-  grep -q '^X-NeonNoir-IconOverride=' "$f" || continue
-  base="${f##*/}"
-  if [ -f "$BACKUP/applications/$base" ]; then
-    run cp "$BACKUP/applications/$base" "$f"; ok "$base restored"
-  else
-    run rm -f "$f"; ok "$base removed"
-  fi
-  nn_removed=$((nn_removed + 1))
-done
-[ "$nn_removed" = 0 ] && skip "no overrides present"
-command -v update-desktop-database >/dev/null \
-  && run update-desktop-database "$SHARE/applications" 2>/dev/null || true
-
 say "Removing installed files"
 for p in "$SHARE/color-schemes/$THEME_ID.colors" \
          "$SHARE/konsole/$THEME_ID.colorscheme" \

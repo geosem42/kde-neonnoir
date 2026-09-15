@@ -8,27 +8,12 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [x] Avatar is a cyan-to-magenta disc with the account initial (`--desktop` only;
       writes ~/.face, backed up, restored by uninstall)
 - [x] Search field no longer swells on hover; focus ring drawn over it, not around
-- [x] Sidebar categories use our outline glyphs
 - [x] Compact list with a subtitle per row instead of a grid of tiles
 - [x] Selected row is a teal fill with a 2px cyan leading edge (also fixes KRunner)
 
 ## KRunner
 
 - [x] Checked: ships with plasma-workspace, already on the theme
-- [x] Third-party result icons were vendor logos. `appicons.MAP` covered ~100
-      curated names; every other installed app fell through. The `apps` and
-      `preferences` contexts are now swept by pattern like the actions and
-      places, plus a list of common third-party names breeze does not ship —
-      805 app names, nothing falling through to the neutral mark. Both the bare
-      and `-symbolic` spellings are written: breeze ships 14 names only as
-      `-symbolic` (vlc, wine, kgpg, virt-manager…) while their .desktop files
-      ask for the plain one
-
-## Tray
-
-- [x] Clipboard, vault, night-colour, disks & devices, KDE Connect, input
-      method and display configuration showed filled Breeze glyphs — they use
-      app/action names, so the status sweep never reached them
 
 ## Konsole
 
@@ -56,7 +41,6 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 ## Kate
 
 - [x] Compared against artboard 06
-- [x] Kate and Konsole shared a `>_`-in-a-box glyph. Kate is now a page and pencil
 - [x] Menubar and url nav bar hidden. katerc's `Show Menu Bar` is NOT enough —
       KXmlGui restores the menubar from `[MainWindow<n> Settings] MenuBar` in the
       session file, and that wins. Both are written; sessions are backed up
@@ -66,14 +50,12 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Dolphin
 
-- [x] File icons are grey line art — all 517 mimetype names swept by pattern
-- [x] Sidebar place icons are our outline glyphs — all 231 names swept by
-      pattern, small sizes only so folders in the file view stay cyan and filled
 - [x] Details list for every folder, sorted column header in cyan, Size and
       Modified columns — the artboard's layout. `GlobalViewProps=true` plus a
       written `view_properties/global/.directory`; ViewMode=1 is Details
       (0 is Icons, 2 is Compact)
-- [x] No folder thumbnails: the artboard's files carry our glyphs, not previews
+- [x] No folder thumbnails, so files carry their own type icon rather than a
+      preview
 - [x] No expander arrows on folders (`ExpandableFolders=false`)
 - [x] Flat rows. The zebra stripe was one step off the ground, which reads as
       banding at Dolphin's row height; the artboard's list is flat, so
@@ -90,7 +72,6 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [ ] Sidebar section headers are plain grey; design is cyan caps
 - [ ] Address bar is a bare breadcrumb; design is a bordered pill with a
       separate search pill beside it
-- [x] Focus outline around the file view is the popup grey #454F58, not an accent
 
 ## Other apps
 
@@ -113,21 +94,18 @@ Ctrl+M shows the menubar, Ctrl+N makes a new document, Ctrl+Shift+I opens the
 command bar, which reaches every action the menubar had. Read off the running
 instance over D-Bus, not from documentation.
 
-## Icon set coverage
+## Reverted
 
-Swept by pattern, so a whole context changes at once and styles never mix:
-apps, categories, places, mimetypes, status/devices/actions/preferences for the
-tray. ~1,100 distinct names.
-
-`actions/` is swept too: 1,833 names across the generic freedesktop families
-(edit-, document-, go-, view-, zoom-, format-, media-, window-, dialog-,
-system-, list-, tab-). Only 13 fall through to the neutral placeholder.
-
-Left on Breeze on purpose: application-specific toolsets — gnumeric, labplot,
-kdenlive, KTorrent, digiKam's batch queue, the vector-editor node and path
-tools. Giving a node-editing tool a generic outline does not restyle it, it
-makes it unidentifiable, and those icons only ever appear inside their own
-application's toolbar so no mixed-style list results.
+- The whole outline icon set — ~6,150 files across apps, categories, places,
+  mimetypes, actions and the tray. It matched the artboards and it was the wrong
+  call: an icon is something you recognise before you read it, and replacing a
+  set the user already knows costs that recognition everywhere at once. Breeze's
+  shapes are back; the theme now recolours folders and nothing else. The glyph
+  pool and its pattern sweeps are in the history if they are ever wanted back.
+- The `.desktop` icon overrides that went with it. They pointed absolute-path
+  entries at names only our theme shipped, so once the glyphs went those names
+  resolved to nothing. Firefox, Chromium, Thunderbird and the rest have their
+  own logos again.
 
 ## Fixed after testing
 

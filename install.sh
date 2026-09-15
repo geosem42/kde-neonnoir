@@ -410,62 +410,6 @@ if [ "$DESKTOP" = 1 ]; then
     fi
   done
 
-  # Desktop entries whose Icon= is an absolute path. An icon theme is only ever
-  # consulted for icons asked for BY NAME, so `Icon=/snap/firefox/current/
-  # default256.png` reaches past every theme installed and hands back the
-  # vendor logo — which is why Firefox, Chromium and Thunderbird kept theirs
-  # while everything around them went grey.
-  #
-  # The only fix is a desktop entry of our own. ~/.local/share/applications
-  # comes first in XDG_DATA_DIRS, so a file of the same name replaces the
-  # system one wholesale; we copy it and rewrite Icon= to a name our theme
-  # ships. The copy freezes Exec= as it is today, so a package that changes its
-  # command line later would need this re-run — the trade for an icon that
-  # matches. Each override carries X-NeonNoir-IconOverride so uninstall can
-  # tell ours from yours, and anything already there is backed up first.
-  say "Application icons with absolute paths"
-  run mkdir -p "$SHARE/applications" "$BACKUP/applications"
-  nn_overrides=0
-  for dir in /usr/share/applications \
-             /var/lib/snapd/desktop/applications \
-             /var/lib/flatpak/exports/share/applications; do
-    [ -d "$dir" ] || continue
-    for f in "$dir"/*.desktop; do
-      [ -f "$f" ] || continue
-      grep -q '^Icon=/' "$f" || continue
-      base="${f##*/}"; stem="${base%.desktop}"
-      lower="$(printf '%s' "$stem" | tr '[:upper:]' '[:lower:]')"
-      name=""
-      for cand in "$stem" "${stem%%_*}" "$lower" "${lower%%_*}"; do
-        [ -n "$cand" ] || continue
-        if [ -f "$SHARE/icons/$THEME_ID/apps/scalable/$cand.svg" ]; then
-          name="$cand"; break
-        fi
-      done
-      [ -n "$name" ] || name="applications-other"
-      out="$SHARE/applications/$base"
-      # Yours, not ours: back it up once, then replace it.
-      if [ -f "$out" ] && ! grep -q '^X-NeonNoir-IconOverride=' "$out" \
-         && [ ! -e "$BACKUP/applications/$base" ]; then
-        run cp "$out" "$BACKUP/applications/$base"
-      fi
-      if [ "$DRY" = 1 ]; then
-        printf '   %swould:%s %s -> Icon=%s\n' "$c_dim" "$c_0" "$base" "$name"
-      else
-        # Every Icon= line, not just the first: a [Desktop Action] group carries
-        # its own, and those show in the launcher's right-click menu.
-        sed -e "s|^Icon=.*|Icon=$name|" \
-            -e "s|^\[Desktop Entry\]|[Desktop Entry]\nX-NeonNoir-IconOverride=true|" \
-            "$f" > "$out"
-      fi
-      nn_overrides=$((nn_overrides + 1))
-    done
-  done
-  if [ "$nn_overrides" = 0 ]; then skip "no absolute-path icons found"
-  else ok "$nn_overrides entries"; fi
-  [ "$DRY" = 1 ] || command -v update-desktop-database >/dev/null \
-    && run update-desktop-database "$SHARE/applications" 2>/dev/null || true
-
   # Dolphin's view. The artboard's file manager is a details list with no
   # expander arrows, no thumbnails and one set of properties for every folder;
   # Dolphin defaults to an icon grid with per-folder properties. None of that is
