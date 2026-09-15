@@ -1,0 +1,174 @@
+# Neon Noir — Plymouth boot splash (script module).
+#
+# The same lockup the KSplash stage draws — hexagon mark, wordmark, one
+# progress rule — so the handover from boot to session start has no seam.
+#
+# Every asset is a PNG baked at build time. That is deliberate: the Ubuntu
+# initramfs hook copies only the Ubuntu font family into the initrd, so text
+# drawn with Image.Text and a theme font would silently be substituted at boot.
+# The only text drawn here is the password prompt, in the font that is present.
+#
+# Colours in the script module are three floats 0.0-1.0, not 0xRRGGBB — an
+# integer would come out white.
+
+Window.SetBackgroundTopColor(0.0235, 0.0431, 0.0667);
+Window.SetBackgroundBottomColor(0.0235, 0.0431, 0.0667);
+
+global.w = Window.GetWidth();
+global.h = Window.GetHeight();
+global.u = Math.Int(Math.Min(global.w, global.h) / 90);
+if (global.u < 8)
+    global.u = 8;
+
+global.ground = Sprite(Image("background.png").Scale(global.w, global.h));
+global.ground.SetPosition(Window.GetX(), Window.GetY(), -100);
+
+# ── lockup geometry, mirroring Splash.qml ────────────────────────────────────
+global.mark_px = global.u * 19;
+global.gap     = global.u * 3;
+global.word_w  = global.u * 20;
+
+global.word_src = Image("wordmark.png");
+global.word_h = Math.Int(global.word_w * global.word_src.GetHeight()
+                         / global.word_src.GetWidth());
+global.bar_w = global.u * 28;
+global.bar_h = 2;
+
+global.total_h = global.mark_px + global.gap + global.word_h + global.gap + global.bar_h;
+global.top = Window.GetY() + Math.Int((global.h - global.total_h) / 2);
+global.cx  = Window.GetX() + Math.Int(global.w / 2);
+
+global.mark = Sprite(Image("mark.png").Scale(global.mark_px, global.mark_px));
+global.mark.SetPosition(global.cx - Math.Int(global.mark_px / 2), global.top, 1);
+
+global.word = Sprite(global.word_src.Scale(global.word_w, global.word_h));
+global.word.SetPosition(global.cx - Math.Int(global.word_w / 2),
+                        global.top + global.mark_px + global.gap, 1);
+
+global.bar_y = global.top + global.mark_px + global.gap + global.word_h + global.gap;
+global.bar_x = global.cx - Math.Int(global.bar_w / 2);
+
+global.track = Sprite(Image("bar-track.png").Scale(global.bar_w, global.bar_h));
+global.track.SetPosition(global.bar_x, global.bar_y, 1);
+
+global.fill_src = Image("bar-fill.png");
+global.fill = Sprite();
+global.fill.SetPosition(global.bar_x, global.bar_y, 2);
+global.fill.SetOpacity(0);
+global.fill_w = 0;
+
+# ── boot progress ────────────────────────────────────────────────────────────
+# No bare "return;" anywhere in this file: none of the shipped script themes on
+# this box use one, and there is no way to test the parser without a spare VT.
+fun set_progress(fraction) {
+    if (fraction < 0)
+        fraction = 0;
+    if (fraction > 1)
+        fraction = 1;
+    want = Math.Int(global.bar_w * fraction);
+    if (want < 1) {
+        global.fill.SetOpacity(0);
+        global.fill_w = 0;
+    } else {
+        # Rescaling allocates a new image, so only do it when the bar moved.
+        if (want != global.fill_w) {
+            global.fill_w = want;
+            global.fill.SetImage(global.fill_src.Scale(want, global.bar_h));
+        }
+        global.fill.SetOpacity(1);
+    }
+}
+
+fun boot_progress_cb(time, progress) {
+    set_progress(progress);
+}
+Plymouth.SetBootProgressFunction(boot_progress_cb);
+
+# ── messages ─────────────────────────────────────────────────────────────────
+global.message = NULL;
+
+fun message_cb(text) {
+    if (!text) {
+        global.message = NULL;
+    } else {
+        img = Image.Text(text, 0.6314, 0.6627, 0.6902, 1, "Ubuntu 11", "center");
+        global.message = Sprite(img);
+        global.message.SetPosition(global.cx - Math.Int(img.GetWidth() / 2),
+                                   global.bar_y + global.u * 4, 3);
+    }
+}
+Plymouth.SetDisplayMessageFunction(message_cb);
+
+fun hide_message_cb(text) {
+    global.message = NULL;
+}
+Plymouth.SetHideMessageFunction(hide_message_cb);
+
+# status arrives as colon-separated fields, e.g. "fsck:sda1:40". Nothing is
+# drawn from it; the bar already says how far along the boot is.
+global.last_status = "";
+fun status_cb(status) {
+    global.last_status = status;
+}
+Plymouth.SetUpdateStatusFunction(status_cb);
+
+# ── password prompt (LUKS) ───────────────────────────────────────────────────
+global.prompt = NULL;
+global.bullets = [];
+global.bullet_img = Image("bullet.png");
+
+fun clear_bullets() {
+    for (i = 0; global.bullets[i]; i++)
+        global.bullets[i].SetOpacity(0);
+}
+
+fun display_password_cb(prompt_text, count) {
+    global.fill.SetOpacity(0);
+    if (!global.prompt) {
+        img = Image.Text(prompt_text, 0.8510, 0.8745, 0.8980, 1, "Ubuntu 12", "center");
+        global.prompt = Sprite(img);
+        global.prompt.SetPosition(global.cx - Math.Int(img.GetWidth() / 2),
+                                  global.bar_y + global.u * 3, 3);
+    }
+    global.prompt.SetOpacity(1);
+
+    bw = global.bullet_img.GetWidth();
+    step = bw + Math.Int(global.u / 2);
+    row_w = count * step;
+    y = global.bar_y + global.u * 8;
+    for (i = 0; global.bullets[i] || i < count; i++) {
+        if (!global.bullets[i]) {
+            global.bullets[i] = Sprite(global.bullet_img);
+            global.bullets[i].SetZ(3);
+        }
+        global.bullets[i].SetX(global.cx - Math.Int(row_w / 2) + i * step);
+        global.bullets[i].SetY(y);
+        global.bullets[i].SetOpacity(0);
+        if (i < count)
+            global.bullets[i].SetOpacity(1);
+    }
+}
+Plymouth.SetDisplayPasswordFunction(display_password_cb);
+
+fun display_normal_cb() {
+    if (global.prompt)
+        global.prompt.SetOpacity(0);
+    clear_bullets();
+    if (global.fill_w > 0)
+        global.fill.SetOpacity(1);
+}
+Plymouth.SetDisplayNormalFunction(display_normal_cb);
+
+# ── refresh ──────────────────────────────────────────────────────────────────
+# Without a refresh function Plymouth does not reliably repaint, even if
+# nothing in it does any work.
+global.ticks = 0;
+fun refresh_cb() {
+    global.ticks++;
+}
+Plymouth.SetRefreshFunction(refresh_cb);
+
+fun quit_cb() {
+    set_progress(1);
+}
+Plymouth.SetQuitFunction(quit_cb);

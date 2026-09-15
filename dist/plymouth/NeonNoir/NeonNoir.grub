@@ -1,0 +1,6 @@
+if background_color 6,11,17; then
+  clear
+fi
+
+color_normal=light-gray/black
+color_highlight=black/light-cyan

@@ -190,6 +190,35 @@ if [ "$SYSTEM" = 1 ]; then
   else
     skip "SDDM theme not built"
   fi
+
+  # Plymouth. plymouth-set-default-theme does not exist on Ubuntu 26.04 — the
+  # theme is selected through update-alternatives, and the splash boots from
+  # the initrd copy, so update-initramfs is what actually applies it.
+  if [ -d "$DIST/plymouth/$THEME_ID" ]; then
+    P="/usr/share/plymouth/themes/$THEME_ID"
+    srun rm -rf "$P"
+    srun cp -aT "$DIST/plymouth/$THEME_ID" "$P"
+    srun chown -R root:root "$P"
+    srun chmod -R a+rX "$P"
+    ok "$P"
+    # The .grub slave keeps /usr/share/plymouth/themes/default.grub from
+    # dangling, which is what /etc/grub.d/05_debian_theme inlines.
+    srun update-alternatives --install /usr/share/plymouth/themes/default.plymouth \
+         default.plymouth "$P/$THEME_ID.plymouth" 200 \
+         --slave /usr/share/plymouth/themes/default.grub default.plymouth.grub \
+         "$P/$THEME_ID.grub"
+    srun update-alternatives --set default.plymouth "$P/$THEME_ID.plymouth"
+    ok "registered as the default boot splash"
+    say "Rebuilding the initramfs (this takes a moment)"
+    srun update-initramfs -u
+    ok "initramfs rebuilt"
+    if [ -f /boot/grub/grub.cfg ]; then
+      srun update-grub
+      ok "GRUB colours updated"
+    fi
+  else
+    skip "Plymouth theme not built"
+  fi
 fi
 
 # ── apply ──────────────────────────────────────────────────────────────────────

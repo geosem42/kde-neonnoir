@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Neon Noir
+Description=Neon noir boot splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/NeonNoir
+ScriptFile=/usr/share/plymouth/themes/NeonNoir/NeonNoir.script

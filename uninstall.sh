@@ -83,10 +83,21 @@ if [ -d "$SHARE/wallpapers/$THEME_ID" ]; then
 else skip "wallpaper absent"; fi
 if [ "$SYSTEM" = 1 ]; then
   say "Removing system components (sudo)"
+  P="/usr/share/plymouth/themes/$THEME_ID"
+  if [ -e "$P/$THEME_ID.plymouth" ]; then
+    srun update-alternatives --remove default.plymouth "$P/$THEME_ID.plymouth"
+    # Back to automatic, which picks the highest-priority packaged theme again.
+    srun update-alternatives --auto default.plymouth
+    ok "boot splash deregistered"
+  fi
   for p in "/usr/share/sddm/themes/$THEME_ID" "/usr/share/icons/$THEME_ID-cursors" \
-           /etc/sddm.conf.d/zz-neon-noir.conf; do
+           /etc/sddm.conf.d/zz-neon-noir.conf "$P"; do
     if [ -e "$p" ]; then srun rm -rf "$p"; ok "$p"; else skip "$p absent"; fi
   done
+  say "Rebuilding the initramfs (this takes a moment)"
+  srun update-initramfs -u
+  [ -f /boot/grub/grub.cfg ] && srun update-grub
+  ok "boot image restored"
 fi
 
 if command -v qdbus6 >/dev/null; then
