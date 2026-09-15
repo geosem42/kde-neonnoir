@@ -264,7 +264,11 @@ PaddingRight=0
             'ServiceTypes': ['aurorae'],
             'License': 'LGPL', 'Version': '1.0',
             'EnabledByDefault': True,
-            'X-KDE-PluginInfo-blur': True,
+            # No blur flag. It tells KWin the decoration is translucent and to
+            # blur the backdrop beneath it; this titlebar is fully opaque, so
+            # the only thing that produced was a blurred sample of the windows
+            # behind showing through during another window's minimise or
+            # maximise animation.
         },
     }, indent=2) + '\n')
     (au / 'metadata.desktop').write_text(f'''[Desktop Entry]

@@ -15,7 +15,6 @@
     ],
     "License": "LGPL",
     "Version": "1.0",
-    "EnabledByDefault": true,
-    "X-KDE-PluginInfo-blur": true
+    "EnabledByDefault": true
   }
 }
