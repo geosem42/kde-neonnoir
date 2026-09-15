@@ -78,11 +78,6 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       to the hamburger. A KXmlGui override in `kxmlgui5` — still kxmlgui5 under
       KF6, verified, not kxmlgui6 — whose `version` must exceed Dolphin's or the
       file is silently discarded
-- [ ] Path renders as bare breadcrumb text, not the artboard's bordered pill.
-      Not reachable: Dolphin calls `KUrlNavigator::setBackgroundEnabled(false)`
-      whenever the navigator is in the toolbar, and offers no setting for it.
-      Pulling `url_navigators` out of the toolbar DOES restore the frame, but
-      puts the path on a second row — tried, and one bar was preferred
 - [ ] Dolphin rewrites `view_properties/global/.directory` on exit, so
       installing while it is open loses the details view. Same trap as Kate's
       session file and Konsole's rc — install.sh should refuse or warn
@@ -156,6 +151,15 @@ Kept here so they are not re-attempted.
 - Lock screen layout: loaded from the Plasma shell package, not the theme.
 - ` — Konsole` suffix on the window title: KMainWindow appends the application
   name; Konsole exposes no key for it.
+- A background behind Dolphin's path, on one toolbar row. Dolphin calls
+  `KUrlNavigator::setBackgroundEnabled(false)` whenever the navigator lives in
+  the toolbar and exposes no setting for it. Kvantum cannot reach the breadcrumb
+  either — Dolphin paints those buttons itself, flat, and a fill on `toolbtn`
+  changed nothing. There is no persistent "editable location bar" setting that
+  would give a real framed line edit on the same row; `setUrlEditable` exists in
+  the API but only Ctrl+L reaches it. Pulling `url_navigators` out of the
+  toolbar DOES restore the frame, on a second row — built, shown, and one bar
+  was preferred.
 - Launcher header layout — the `hostname · Plasma 6.6.6` subtitle, the search
   field on its own row, brightness and power in the header instead of the
   footer. Plasma 6.6 compiles the whole Kickoff UI into
