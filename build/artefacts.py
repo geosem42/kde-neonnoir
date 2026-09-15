@@ -255,6 +255,13 @@ BlinkingCursorEnabled=true
         add(f'{ver}/settings.ini', 'Settings', 'gtk-cursor-theme-size', '24')
         add(f'{ver}/settings.ini', 'Settings', 'gtk-icon-theme-name', THEME_ID)
 
+    # No menubar setting for Kate. The artboard draws it without one, and
+    # Konsole and Dolphin already ship that way, but Kate keeps window state in
+    # its SESSION file ([MainWindow0] in anonymous.katesession) and rewrites it
+    # on exit, so katerc's [MainWindow] MenuBar is simply ignored. Editing a
+    # file the app owns and overwrites is the wrong kind of change for a theme;
+    # Ctrl+M does it in one keystroke.
+
     c = DIST / 'config' / 'settings.tsv'
     c.parent.mkdir(parents=True, exist_ok=True)
     c.write_text(''.join('\t'.join(r) + '\n' for r in S))

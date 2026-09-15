@@ -49,6 +49,24 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     if not dirs:
         return ['  ! no folder icons found — icon theme skipped']
 
+    # A directory in a file manager is drawn from the MIME type, not the place:
+    # Dolphin asks for `inode-directory`, which breeze keeps in mimetypes/ as a
+    # SYMLINK back into its own places/folder.svg. A theme that recolours only
+    # places/ therefore changes nothing in the file view — the lookup resolves
+    # inside the parent theme and never sees our copy.
+    mime_dirs, n_mime = [], 0
+    for d in dirs:
+        size = d.split('/')[1]
+        folder = dst / d / 'folder.svg'
+        if not folder.is_file():
+            continue
+        mdir = dst / 'mimetypes' / size
+        mdir.mkdir(parents=True, exist_ok=True)
+        (mdir / 'inode-directory.svg').write_text(
+            folder.read_text(encoding='utf-8'), encoding='utf-8')
+        mime_dirs.append(f'mimetypes/{size}')
+        n_mime += 1
+
     # Outline app glyphs. One scalable directory rather than a copy per size:
     # they are pure vector, and a Scalable entry with a wide Min/Max range wins
     # the lookup at every size a panel or menu asks for.
@@ -74,11 +92,24 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     lines = ['[Icon Theme]', f'Name={THEME_NAME}',
              'Comment=Neon Noir — cyan folders and outline glyphs',
              'Inherits=breeze-dark,breeze,hicolor',
-             f'Directories={",".join(dirs + scalable)}', '']
-    for d in dirs:
-        size = d.split('/')[1]
-        lines += [f'[{d}]', f'Size={size}', 'Context=Places',
-                  'Type=Fixed' if size.isdigit() else 'Type=Scalable', '']
+             # Breeze's SVGs carry a `current-color-scheme` stylesheet that
+             # KIconLoader rewrites at load time. Ours are baked from the
+             # palette already, so opting out keeps the colours we generated.
+             'FollowsColorScheme=false',
+             f'Directories={",".join(dirs + mime_dirs + scalable)}', '']
+    # A "16@2x" directory is size 16 at scale 2, NOT a size called "16@2x".
+    # Writing the literal name into Size= makes the entry unparseable, and an
+    # icon theme with a bad directory entry is skipped in favour of its parent
+    # — which is why every folder stayed Breeze blue despite being recoloured
+    # on disk.
+    for d in dirs + mime_dirs:
+        name = d.split('/')[1]
+        size, _, scale = name.partition('@')
+        ctx = 'MimeTypes' if d.startswith('mimetypes/') else 'Places'
+        lines += [f'[{d}]', f'Size={size}', f'Context={ctx}', 'Type=Fixed']
+        if scale:
+            lines.append(f'Scale={scale.rstrip("x")}')
+        lines.append('')
     CONTEXT = {'apps': 'Applications', 'status': 'Status',
                'devices': 'Devices', 'actions': 'Actions',
                'preferences': 'Preferences'}
@@ -88,4 +119,6 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     (dst / 'index.theme').write_text('\n'.join(lines))
     return [f'icons/{THEME_ID}/  ({n_files} folder icons, {n_recoloured} recoloured, '
             f'{len(glyphs)} app glyphs, {len(status)} tray glyphs, '
-            f'{len(dirs) + len(scalable)} dirs; inherits breeze-dark)']
+            f'{n_mime} inode-directory, '
+            f'{len(dirs) + len(mime_dirs) + len(scalable)} dirs; '
+            f'inherits breeze-dark)']

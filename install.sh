@@ -56,7 +56,8 @@ say "Backing up current settings"
 run mkdir -p "$BACKUP" "$BACKUP/gtk-3.0" "$BACKUP/gtk-4.0" "$BACKUP/Kvantum" \
              "$BACKUP/fontconfig" "$BACKUP/firefox" "$BACKUP/xsettingsd" \
              "$BACKUP/kdedefaults"
-for f in kdeglobals kwinrc plasmarc breezerc konsolerc kcminputrc ksplashrc \
+for f in kdeglobals kwinrc plasmarc breezerc konsolerc katerc dolphinrc \
+         kcminputrc ksplashrc \
          kscreenlockerrc plasmashellrc plasma-org.kde.plasma.desktop-appletsrc \
          gtkrc gtkrc-2.0 Trolltech.conf; do
   if [ -f "$CONF/$f" ]; then
