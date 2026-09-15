@@ -39,8 +39,9 @@ Rectangle {{
         if (stage >= 2) {{
             content.opacity = 1;
         }}
-        if (stage >= 6) {{
-            content.opacity = 0;
+        if (stage >= 5) {{
+            creep.stop();
+            fill.width = track.width;
         }}
     }}
 
@@ -97,12 +98,24 @@ Rectangle {{
                     color: "{rule}"
                     opacity: 0.55
                 }}
+                // NOT driven by `stage`. ksplashqml's stage is the count of
+                // DISTINCT stage names it has been sent, and on this session
+                // only two ever arrive ('initial' from ksplashqml itself and
+                // 'startPlasma' from plasma_session) — a bar keyed to stage/5
+                // would stall at 40% and never fill. Time-based with a
+                // decelerating curve instead, snapped full on the way out.
                 Rectangle {{
+                    id: fill
                     height: parent.height
                     color: "{cyan}"
-                    width: parent.width * Math.min(1, Math.max(0, (root.stage - 1) / 5))
-                    Behavior on width {{
-                        NumberAnimation {{ duration: 320; easing.type: Easing.OutCubic }}
+                    width: 0
+                    NumberAnimation on width {{
+                        id: creep
+                        from: 0
+                        to: track.width
+                        duration: 9000
+                        easing.type: Easing.OutCubic
+                        running: true
                     }}
                 }}
             }}
@@ -143,12 +156,14 @@ def ground_svg(T, w, h):
 '''
 
 def build(T, DIST, THEME_ID, THEME_NAME, PKG_ID, widget_style='Breeze'):
-    import brand
+    import brand, shutil
     out = []
     root = DIST / 'look-and-feel' / PKG_ID
+    # Replace the package wholesale so a directory this build no longer emits
+    # (contents/layouts/ in particular) cannot survive in dist.
+    shutil.rmtree(root, ignore_errors=True)
     (root / 'contents' / 'splash' / 'images').mkdir(parents=True, exist_ok=True)
     (root / 'contents' / 'previews').mkdir(parents=True, exist_ok=True)
-    (root / 'contents' / 'layouts').mkdir(parents=True, exist_ok=True)
 
     (root / 'metadata.json').write_text(json.dumps({
         'KPackageStructure': 'Plasma/LookAndFeel',
@@ -194,19 +209,17 @@ theme=__aurorae__svg__{THEME_ID}
 library=org.kde.kwin.aurorae
 theme=__aurorae__svg__{THEME_ID}
 
-[KSplash]
+[ksplashrc][KSplash]
 Theme={PKG_ID}
+Engine=KSplashQML
 ''')
     out.append(f'look-and-feel/{PKG_ID}/contents/defaults')
 
-    # Only read when the user explicitly asks for a layout reset.
-    (root / 'contents' / 'layouts' / 'org.kde.plasma.desktop-layout.js').write_text(
-        'loadTemplate("org.kde.plasma.desktop.defaultPanel")\n\n'
-        'var desktops = desktopsForActivity(currentActivity());\n'
-        'for (var i = 0; i < desktops.length; i++) {\n'
-        "    desktops[i].wallpaperPlugin = 'org.kde.image';\n"
-        '}\n')
-    out.append(f'look-and-feel/{PKG_ID}/contents/layouts/org.kde.plasma.desktop-layout.js')
+    # No contents/layouts/ on purpose. KLookAndFeelManager::packageContents()
+    # sets the DesktopLayout flag purely from that directory existing, and that
+    # flag is what --resetLayout and the KCM's "Desktop and window layout"
+    # checkbox act on — the one thing that would delete the user's panels,
+    # docks and widgets. Without the directory the theme cannot do it at all.
 
     splash = root / 'contents' / 'splash'
     (splash / 'Splash.qml').write_text(SPLASH_QML.format(

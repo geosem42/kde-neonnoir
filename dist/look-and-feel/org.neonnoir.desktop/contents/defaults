@@ -24,5 +24,6 @@ theme=__aurorae__svg__NeonNoir
 library=org.kde.kwin.aurorae
 theme=__aurorae__svg__NeonNoir
 
-[KSplash]
+[ksplashrc][KSplash]
 Theme=org.neonnoir.desktop
+Engine=KSplashQML

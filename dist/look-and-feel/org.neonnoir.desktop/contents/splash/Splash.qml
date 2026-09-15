@@ -20,8 +20,9 @@ Rectangle {
         if (stage >= 2) {
             content.opacity = 1;
         }
-        if (stage >= 6) {
-            content.opacity = 0;
+        if (stage >= 5) {
+            creep.stop();
+            fill.width = track.width;
         }
     }
 
@@ -78,12 +79,24 @@ Rectangle {
                     color: "#454F58"
                     opacity: 0.55
                 }
+                // NOT driven by `stage`. ksplashqml's stage is the count of
+                // DISTINCT stage names it has been sent, and on this session
+                // only two ever arrive ('initial' from ksplashqml itself and
+                // 'startPlasma' from plasma_session) — a bar keyed to stage/5
+                // would stall at 40% and never fill. Time-based with a
+                // decelerating curve instead, snapped full on the way out.
                 Rectangle {
+                    id: fill
                     height: parent.height
                     color: "#36D7D7"
-                    width: parent.width * Math.min(1, Math.max(0, (root.stage - 1) / 5))
-                    Behavior on width {
-                        NumberAnimation { duration: 320; easing.type: Easing.OutCubic }
+                    width: 0
+                    NumberAnimation on width {
+                        id: creep
+                        from: 0
+                        to: track.width
+                        duration: 9000
+                        easing.type: Easing.OutCubic
+                        running: true
                     }
                 }
             }
