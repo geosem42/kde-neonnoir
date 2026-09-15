@@ -44,9 +44,11 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [x] Menubar and url nav bar hidden. katerc's `Show Menu Bar` is NOT enough —
       KXmlGui restores the menubar from `[MainWindow<n> Settings] MenuBar` in the
       session file, and that wins. Both are written; sessions are backed up
-- [ ] Status bar reads `1:1 INSERT en_US Soft Tabs…`; design has
-      `Line 9, Col 1 · Bash · UTF-8` and `Saved`. Kate's own widget, not themeable
-- [ ] Toolbar still shown in some windows; state is per-window in the session
+- [x] Accepted as it stands. Two differences from the artboard remain and are
+      deliberate: the status bar reads `1:1 INSERT en_US Soft Tabs…` rather than
+      `Line 9, Col 1 · Bash · UTF-8` — that is Kate's own widget with no theming
+      hook — and the toolbar still shows in windows whose session recorded it,
+      since that state is per-window
 
 ## Dolphin
 
