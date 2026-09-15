@@ -23,7 +23,10 @@ if (!has("org.kde.plasma.digitalclock")) {
     var clock = d.addWidget("org.kde.plasma.digitalclock", 48, 40, 320, 130);
     clock.currentConfigGroup = ["Appearance"];
     clock.writeConfig("showDate", true);
-    clock.writeConfig("use24hFormat", 1);
+    // 2, not 1. The key is a tri-state: 0 forces 12-hour, 1 means "follow the
+    // locale" — which is what left this clock at 9:12 PM while the panel
+    // clock, already set to 2, read 21:12.
+    clock.writeConfig("use24hFormat", 2);
     clock.writeConfig("dateFormat", "custom");
     clock.writeConfig("customDateFormat", "ddd d MMM");
     clock.writeConfig("autoFontAndSize", false);

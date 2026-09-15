@@ -572,11 +572,26 @@ if [ "$APPLY" = 1 ]; then
     ok "plasmashell restarted"
   fi
 
-  if [ -d "$SHARE/icons/$THEME_ID" ]; then
-    run kwriteconfig6 --file kdeglobals --group Icons --key Theme "$THEME_ID"
+  # Written AFTER plasmashell has settled, then read back. plasmashell holds
+  # kdeglobals in memory and rewrites it as it starts, so a write issued in the
+  # seconds after the restart above is silently reverted — which is how the
+  # icon theme ended up back on breeze-dark with the cyan folders installed but
+  # never shown.
+  if [ -d "$SHARE/icons/$THEME_ID" ] && [ "$DRY" = 0 ]; then
+    for attempt in 1 2 3; do
+      kwriteconfig6 --file kdeglobals --group Icons --key Theme "$THEME_ID"
+      sleep 1
+      [ "$(kreadconfig6 --file kdeglobals --group Icons --key Theme)" = "$THEME_ID" ] && break
+    done
     command -v gtk-update-icon-cache >/dev/null && \
-      run gtk-update-icon-cache -qtf "$SHARE/icons/$THEME_ID" 2>/dev/null || true
-    ok "icon theme"
+      gtk-update-icon-cache -qtf "$SHARE/icons/$THEME_ID" 2>/dev/null || true
+    if [ "$(kreadconfig6 --file kdeglobals --group Icons --key Theme)" = "$THEME_ID" ]; then
+      ok "icon theme"
+    else
+      warn "icon theme did not stick — set it in System Settings > Icons"
+    fi
+  elif [ -d "$SHARE/icons/$THEME_ID" ]; then
+    printf '   %swould:%s set the icon theme to %s\n' "$c_dim" "$c_0" "$THEME_ID"
   fi
 
   # plasma-apply-cursortheme refuses outright when the named theme is already

@@ -14,6 +14,11 @@ __nn_git() {
     printf ' \001\033[95m\002%s\001\033[93m\002%s\001\033[0m\002' "$b" "$d"
 }
 
+# The window title is the directory and nothing else. Distributions set this
+# to user@host:dir from /etc/bash.bashrc, which puts an account name and a
+# machine name in every titlebar and every screenshot of one.
+__nn_title='\[\033]0;\w\007\]'
+
 # A blank line before each prompt, as the artboard spaces its commands.
-PS1='\n\[\033[96m\]\w\[\033[0m\]$(__nn_git) \[\033[96m\]\342\235\257\[\033[0m\] '
+PS1="${__nn_title}"'\n\[\033[96m\]\w\[\033[0m\]$(__nn_git) \[\033[96m\]\342\235\257\[\033[0m\] '
 PS2='\[\033[96m\]\342\200\246\[\033[0m\] '

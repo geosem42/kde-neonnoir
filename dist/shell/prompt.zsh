@@ -13,8 +13,14 @@ __nn_precmd() {
         NN_GIT=""
     fi
 }
+# The window title is the directory and nothing else. /etc/zsh/zshrc sets it to
+# user@host:dir, which puts an account name and a machine name in every
+# titlebar and every screenshot of one. This hook is added after that one, so
+# it runs last and wins.
+__nn_title() { print -Pn '\e]0;%~\a' }
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd __nn_precmd
+add-zsh-hook precmd __nn_title
 
 # PROMPT_SUBST expands ${NN_GIT} first, then the %F escapes inside it. Setting
 # the branch in a precmd rather than a $(...) inside PROMPT keeps the prompt

@@ -137,6 +137,11 @@ instance over D-Bus, not from documentation.
 
 ## Fixed after testing
 
+- The icon theme silently reverted to breeze-dark: `--apply` wrote the key
+  immediately after restarting plasmashell, which holds kdeglobals in memory and
+  rewrites it as it starts. The cyan folders were installed and simply never
+  shown. The write now happens after plasmashell settles, is read back, and
+  retries up to three times before warning.
 - Firefox, Chrome and Chromium were the same button. The artboard draws Firefox
   as a globe, which is right for one browser on a panel and useless for three,
   and function cannot separate them — they do the same job. Each now traces its
