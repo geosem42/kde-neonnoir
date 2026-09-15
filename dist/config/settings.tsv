@@ -34,6 +34,8 @@ kdeglobals	Icons	Theme	NeonNoir
 plasmarc	Theme	name	NeonNoir
 kcminputrc	Mouse	cursorTheme	NeonNoir-cursors
 kcminputrc	Mouse	cursorSize	24
+kdeglobals	KDE	widgetStyle	kvantum
+Kvantum/kvantum.kvconfig	General	theme	NeonNoir
 ksplashrc	KSplash	Engine	KSplashQML
 ksplashrc	KSplash	Theme	org.neonnoir.desktop
 kscreenlockerrc	Greeter	WallpaperPlugin	org.kde.image

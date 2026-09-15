@@ -44,7 +44,7 @@ run()  { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s\n' "$c_dim" "$c_0" "$*
 
 # ── back up anything we are about to edit, once ────────────────────────────────
 say "Backing up current settings"
-run mkdir -p "$BACKUP" "$BACKUP/gtk-3.0" "$BACKUP/gtk-4.0"
+run mkdir -p "$BACKUP" "$BACKUP/gtk-3.0" "$BACKUP/gtk-4.0" "$BACKUP/Kvantum"
 for f in kdeglobals kwinrc plasmarc breezerc konsolerc kcminputrc ksplashrc \
          kscreenlockerrc plasmashellrc plasma-org.kde.plasma.desktop-appletsrc; do
   if [ -f "$CONF/$f" ]; then
@@ -52,6 +52,11 @@ for f in kdeglobals kwinrc plasmarc breezerc konsolerc kcminputrc ksplashrc \
     else run cp "$CONF/$f" "$BACKUP/$f"; ok "$f"; fi
   fi
 done
+if [ -f "$CONF/Kvantum/kvantum.kvconfig" ]; then
+  if [ -e "$BACKUP/Kvantum/kvantum.kvconfig" ]; then skip "Kvantum/kvantum.kvconfig already backed up"
+  else run cp "$CONF/Kvantum/kvantum.kvconfig" "$BACKUP/Kvantum/kvantum.kvconfig"
+       ok "Kvantum/kvantum.kvconfig"; fi
+fi
 for g in gtk-3.0 gtk-4.0; do
   for f in gtk.css settings.ini; do
     if [ -f "$CONF/$g/$f" ]; then
@@ -118,6 +123,9 @@ install_tree "$DIST/icons/$THEME_ID" "$SHARE/icons/$THEME_ID"
 
 say "Cursor theme"
 install_tree "$DIST/cursors/$THEME_ID-cursors" "$ICONS/$THEME_ID-cursors"
+
+say "Widget style"
+install_tree "$DIST/kvantum/$THEME_ID" "$CONF/Kvantum/$THEME_ID"
 
 say "Global theme package"
 install_tree "$DIST/look-and-feel/$PKG_ID" "$SHARE/plasma/look-and-feel/$PKG_ID"
@@ -205,6 +213,7 @@ if [ "$APPLY" = 1 ]; then
     run qdbus6 org.kde.KWin /KWin reconfigure >/dev/null 2>&1 || true
     ok "KWin reconfigured"
   fi
+  warn "Kvantum has no file watcher: Qt apps must be restarted to pick up the widget style"
   warn "GTK apps and already-open Qt apps need a restart to pick up the new look"
 else
   say "Not applied"

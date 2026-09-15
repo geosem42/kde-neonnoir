@@ -222,6 +222,12 @@ BlinkingCursorEnabled=true
     # Pointer. 24 is the nominal size, which the theme renders as a 32px image.
     add('kcminputrc', 'Mouse', 'cursorTheme', THEME_ID + '-cursors')
     add('kcminputrc', 'Mouse', 'cursorSize', '24')
+    # Widget style. The style plugin registers exactly two keys, 'kvantum' and
+    # 'kvantum-dark'; only 'kvantum' is verified to load the named theme.
+    # The selection file needs a plain [General] group — [%General] there loads
+    # the built-in default theme instead, silently.
+    add('kdeglobals', 'KDE', 'widgetStyle', 'kvantum')
+    add('Kvantum/kvantum.kvconfig', 'General', 'theme', THEME_ID)
     # Splash. The kcfg default for this key is 'org.kde.breeze.desktop', so the
     # value is a look-and-feel package id, not a display name
     # (/usr/share/config.kcfg/splashscreensettings.kcfg).
