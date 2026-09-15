@@ -10,7 +10,7 @@ breeze-dark via Inherits.
 """
 import re, shutil, pathlib
 
-import actionicons, appicons, mimeicons, placeicons, statusicons
+import actionicons, appicons, appsweep, mimeicons, placeicons, statusicons
 
 SRC_BLUE = re.compile(r'#3daee9', re.I)
 
@@ -96,7 +96,12 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     # the lookup at every size a panel or menu asks for.
     apps = dst / 'apps' / 'scalable'
     apps.mkdir(parents=True, exist_ok=True)
-    glyphs = appicons.svgs(app_glyph_hex)
+    # The pattern sweep first, then the curated MAP over the top of it. MAP
+    # names the applications the design calls out and stays authoritative; the
+    # sweep is what stops every other installed app from falling through to its
+    # vendor logo in the launcher list and in KRunner's results.
+    glyphs = appsweep.svgs(app_glyph_hex, src)
+    glyphs.update(appicons.svgs(app_glyph_hex))
     for name, svg in sorted(glyphs.items()):
         (apps / f'{name}.svg').write_text(svg, encoding='utf-8')
 

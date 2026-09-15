@@ -15,7 +15,14 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 ## KRunner
 
 - [x] Checked: ships with plasma-workspace, already on the theme
-- [ ] Third-party result icons are vendor logos
+- [x] Third-party result icons were vendor logos. `appicons.MAP` covered ~100
+      curated names; every other installed app fell through. The `apps` and
+      `preferences` contexts are now swept by pattern like the actions and
+      places, plus a list of common third-party names breeze does not ship —
+      805 app names, nothing falling through to the neutral mark. Both the bare
+      and `-symbolic` spellings are written: breeze ships 14 names only as
+      `-symbolic` (vlc, wine, kgpg, virt-manager…) while their .desktop files
+      ask for the plain one
 
 ## Tray
 
