@@ -61,21 +61,13 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
     EDG = 2      # accent edge thickness, px
     BW  = 4      # side/bottom border slice width in SVG units
 
-    # The window's top hairline runs cyan across most of the width and turns
-    # magenta at the right end. It is one gradient spread over three slices:
-    # the corners are fixed-size so they take the end colours flat, and the
-    # stretched middle carries the blend. objectBoundingBox units mean the
-    # blend stretches with the element, so it spans the window at any width.
-    EDGE_GRAD = (f'<linearGradient id="edge" x1="0" y1="0" x2="1" y2="0">'
-                 f'<stop offset="0" stop-color="{CY}"/>'
-                 f'<stop offset="0.55" stop-color="{CY}"/>'
-                 f'<stop offset="1" stop-color="{MG}"/>'
-                 f'</linearGradient>')
-
+    # The window's top hairline is solid cyan across the full width. The
+    # artboards fade it to magenta at the right end; that was tried and
+    # rejected.
     def titlebar_slice(x, y, w, kind, active):
         """kind: 'left' | 'mid' | 'right'."""
         fill = TB if active else TBI
-        edge = {'left': CY, 'mid': 'url(#edge)', 'right': MG}[kind]
+        edge = CY
         p = []
         if kind == 'left':
             p.append(f'<path d="M{x},{y+TH} L{x},{y+R} Q{x},{y} {x+R},{y} '
@@ -101,8 +93,7 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
     def decoration_svg():
         W, H = 320, 200
         s = [f'<?xml version="1.0" encoding="UTF-8"?>',
-             f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">',
-             f'  <defs>{EDGE_GRAD}</defs>']
+             f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">']
         for active, oy, pre in ((True, 0, 'decoration'), (False, 100, 'decoration-inactive')):
             fill  = TB if active else TBI
             bord  = BORD if active else BORDI

@@ -38,6 +38,10 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [ ] Pinned icons can be dragged out of order
 - [ ] Firefox keeps its snap logo — `Icon=` is an absolute path, unreachable from an icon theme
 
+## Rejected
+
+- Cyan-to-magenta gradient on the window top hairline. Solid cyan instead.
+
 ## Known dead ends
 
 Kept here so they are not re-attempted.

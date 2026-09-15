@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200">
-  <defs><linearGradient id="edge" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#36D7D7"/><stop offset="0.55" stop-color="#36D7D7"/><stop offset="1" stop-color="#F346EB"/></linearGradient></defs>
   <g id="decoration-topleft">
     <path d="M0,40 L0,10 Q0,0 10,0 L24,0 L24,40 Z" fill="#1B242E"/>
     <path d="M0,10 Q0,0 10,0 L24,0 L24,2 L10,2 Q2,2 2,10 Z" fill="#36D7D7"/>
   </g>
   <g id="decoration-top">
     <rect x="30" y="0" width="40" height="40" fill="#1B242E"/>
-    <rect x="30" y="0" width="40" height="2" fill="url(#edge)"/>
+    <rect x="30" y="0" width="40" height="2" fill="#36D7D7"/>
   </g>
   <g id="decoration-topright">
     <path d="M76,0 L90,0 Q100,0 100,10 L100,40 L76,40 Z" fill="#1B242E"/>
-    <path d="M76,0 L90,0 Q100,0 100,10 L98,10 Q98,2 90,2 L76,2 Z" fill="#F346EB"/>
+    <path d="M76,0 L90,0 Q100,0 100,10 L98,10 Q98,2 90,2 L76,2 Z" fill="#36D7D7"/>
   </g>
   <g id="decoration-left"><rect x="0" y="50" width="4" height="20" fill="#293037"/></g>
   <g id="decoration-center"><rect x="10" y="50" width="40" height="20" fill="#1B242E"/></g>
