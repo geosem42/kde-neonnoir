@@ -255,12 +255,14 @@ BlinkingCursorEnabled=true
         add(f'{ver}/settings.ini', 'Settings', 'gtk-cursor-theme-size', '24')
         add(f'{ver}/settings.ini', 'Settings', 'gtk-icon-theme-name', THEME_ID)
 
-    # No menubar setting for Kate. The artboard draws it without one, and
-    # Konsole and Dolphin already ship that way, but Kate keeps window state in
-    # its SESSION file ([MainWindow0] in anonymous.katesession) and rewrites it
-    # on exit, so katerc's [MainWindow] MenuBar is simply ignored. Editing a
-    # file the app owns and overwrites is the wrong kind of change for a theme;
-    # Ctrl+M does it in one keystroke.
+    # Kate chrome. The artboard shows the editor with neither a menubar nor the
+    # url nav bar, matching Konsole and Dolphin, which already ship that way.
+    # These are Kate's own keys in katerc [General] — NOT the KXmlGui
+    # [MainWindow] MenuBar key, which Kate ignores. Ctrl+M brings the menubar
+    # back. The toolbar is deliberately left alone: its state lives in the
+    # session file, which Kate owns and rewrites on exit.
+    add('katerc', 'General', 'Show Menu Bar', 'false')
+    add('katerc', 'General', 'Show Url Nav Bar', 'false')
 
     c = DIST / 'config' / 'settings.tsv'
     c.parent.mkdir(parents=True, exist_ok=True)

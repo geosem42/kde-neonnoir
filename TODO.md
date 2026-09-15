@@ -30,8 +30,14 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Kate
 
-- [ ] Menubar is visible; design has none. Lives in Kate's session file, not katerc
-- [ ] Compare the tab bar against artboard 06
+- [x] Compared against artboard 06
+- [x] Kate and Konsole shared a `>_`-in-a-box glyph. Kate is now a page and pencil
+- [x] Menubar and url nav bar hidden. katerc's `Show Menu Bar` is NOT enough —
+      KXmlGui restores the menubar from `[MainWindow<n> Settings] MenuBar` in the
+      session file, and that wins. Both are written; sessions are backed up
+- [ ] Status bar reads `1:1 INSERT en_US Soft Tabs…`; design has
+      `Line 9, Col 1 · Bash · UTF-8` and `Saved`. Kate's own widget, not themeable
+- [ ] Toolbar still shown in some windows; state is per-window in the session
 
 ## Dolphin
 

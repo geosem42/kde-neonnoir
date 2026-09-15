@@ -361,6 +361,27 @@ if [ "$DESKTOP" = 1 ]; then
     fi
   fi
 
+  # Kate's menubar. katerc's "Show Menu Bar" is not enough on its own: KXmlGui
+  # restores the menubar from the WINDOW state in Kate's session file, and that
+  # wins. Verified over D-Bus — options_show_menubar stays true until the
+  # session key is set. Kate rewrites the session on exit, so a running Kate
+  # would undo this.
+  say "Kate chrome"
+  if pgrep -x kate >/dev/null 2>&1; then
+    warn "Kate is running — close it and re-run to hide its menubar"
+  else
+    for ks in "$SHARE/kate/anonymous.katesession" "$SHARE"/kate/sessions/*.katesession; do
+      [ -f "$ks" ] || continue
+      name="$(basename "$ks")"
+      [ -e "$BACKUP/kate/$name" ] || { run mkdir -p "$BACKUP/kate"; run cp "$ks" "$BACKUP/kate/$name"; }
+      # Every window the session remembers, not just the first.
+      for g in $(grep -oE '^\[MainWindow[0-9]+ Settings\]$' "$ks" | tr -d '[]'); do
+        run kwriteconfig6 --file "$ks" --group "$g" --key MenuBar Disabled
+      done
+      ok "$name"
+    done
+  fi
+
   # Shell prompt. User data like the account picture: the artboard's terminal
   # shows a cyan path, a magenta branch and a caret, none of which a terminal
   # theme can set — the prompt belongs to the shell.

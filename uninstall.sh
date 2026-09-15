@@ -22,10 +22,11 @@ for a in "$@"; do case "$a" in
   --system)  SYSTEM=1 ;;
 esac; done
 c_ok=$'\033[38;2;109;201;125m'; c_ac=$'\033[38;2;54;215;215m'
-c_dim=$'\033[38;2;161;169;176m'; c_0=$'\033[0m'
+c_dim=$'\033[38;2;161;169;176m'; c_wn=$'\033[38;2;225;165;54m'; c_0=$'\033[0m'
 say()  { printf '%s::%s %s\n' "$c_ac" "$c_0" "$*"; }
 ok()   { printf '   %s✔%s %s\n' "$c_ok" "$c_0" "$*"; }
 skip() { printf '   %s·%s %s\n' "$c_dim" "$c_0" "$*"; }
+warn() { printf '   %s!%s %s\n' "$c_wn" "$c_0" "$*"; }
 run()  { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s\n' "$c_dim" "$c_0" "$*"; else "$@"; fi; }
 SUDO=""; [ "$(id -u)" != 0 ] && SUDO="sudo"
 srun() { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s %s\n' "$c_dim" "$c_0" "$SUDO" "$*"
@@ -39,6 +40,21 @@ fi
 if command -v plasma-apply-cursortheme >/dev/null; then
   run plasma-apply-cursortheme "$FALLBACK_CURSOR" >/dev/null 2>&1 \
     || skip "could not switch the pointer back automatically"
+fi
+
+say "Kate chrome"
+if [ -d "$BACKUP/kate" ]; then
+  if pgrep -x kate >/dev/null 2>&1; then
+    warn "Kate is running — close it and re-run to restore its menubar"
+  else
+    for f in "$BACKUP"/kate/*.katesession; do
+      [ -f "$f" ] || continue
+      n="$(basename "$f")"
+      if [ "$n" = "anonymous.katesession" ]; then d="$SHARE/kate/$n"
+      else d="$SHARE/kate/sessions/$n"; fi
+      [ -f "$d" ] && { run cp "$f" "$d"; ok "$n"; }
+    done
+  fi
 fi
 
 say "Shell prompt"

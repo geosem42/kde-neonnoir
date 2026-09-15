@@ -28,10 +28,14 @@ GLYPHS = {
     'terminal': '<rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.2"/>'
                 '<path d="M7 10l2.6 2.2L7 14.4"/><path d="M12.4 15h4.4"/>',
 
-    # Kate: screen with a prompt and a base rule.
-    'editor': '<rect x="3.6" y="4.8" width="16.8" height="11.4" rx="1.6"/>'
-              '<path d="M8.3 9.3l2.1 1.8-2.1 1.8"/>'
-              '<path d="M3 19.2h18"/>',
+    # Kate: a page being written on. The artboard draws it as a screen with a
+    # prompt inside, but at panel size that is the terminal glyph with a base
+    # rule — the two were indistinguishable. The pencil is what separates an
+    # editor from a terminal, and the ruled page from a plain document.
+    'editor': '<path d="M16.4 3.4H6.6a1.9 1.9 0 0 0-1.9 1.9v13.4a1.9 1.9 0 0 0 1.9 1.9'
+              'h9.2a1.9 1.9 0 0 0 1.9-1.9v-6.1"/>'
+              '<path d="M8.4 9h4M8.4 12.6h3M8.4 16.2h4.6"/>'
+              '<path d="M19.1 3.6a1.9 1.9 0 0 1 2.7 2.7l-6.2 6.2-3.5.8.8-3.5z"/>',
 
     # Browser: globe.
     'globe': '<circle cx="12" cy="12" r="9"/>'

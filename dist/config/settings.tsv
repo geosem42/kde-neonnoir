@@ -46,3 +46,5 @@ gtk-3.0/settings.ini	Settings	gtk-icon-theme-name	NeonNoir
 gtk-4.0/settings.ini	Settings	gtk-cursor-theme-name	NeonNoir-cursors
 gtk-4.0/settings.ini	Settings	gtk-cursor-theme-size	24
 gtk-4.0/settings.ini	Settings	gtk-icon-theme-name	NeonNoir
+katerc	General	Show Menu Bar	false
+katerc	General	Show Url Nav Bar	false
