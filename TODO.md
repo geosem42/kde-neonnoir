@@ -21,7 +21,11 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Konsole
 
-- [ ] Compare against artboard 06 and list what differs
+- [x] Compared against artboard 06. Chrome already matches: titlebar, line icon,
+      JetBrains Mono, #0D131A ground, 10px margin, cyan block cursor, no
+      menubar/tab bar/scrollbar
+- [ ] Shell prompt is default bash. Design: cyan path, magenta branch, `❯`,
+      blank line between commands. That is PS1 in ~/.bashrc — user data
 
 ## Kate
 
@@ -52,3 +56,7 @@ Kept here so they are not re-attempted.
 - `TUE 15 SEP` in the clock: Qt date formats have no uppercase.
 - Tray expander chevron: Plasma always draws one when anything is hidden.
 - Lock screen layout: loaded from the Plasma shell package, not the theme.
+- ` — Konsole` suffix on the window title: KMainWindow appends the application
+  name; Konsole exposes no key for it.
+- Brightness and power in the launcher header: Plasma 6 Kickoff's footer is
+  fixed, with no configuration for it.
