@@ -154,6 +154,9 @@ VS Code is the one on this machine. A raster pass could catch those.
 
 ## Fixed after testing
 
+- The Konsole profile hardcoded `Command=/bin/bash`, so every tab it opened ran
+  bash whatever the user's login shell was — and with it, none of the zsh prompt
+  this theme ships. Dropping the key makes Konsole fall back to the login shell.
 - The icon theme silently reverted to breeze-dark: `--apply` wrote the key
   immediately after restarting plasmashell, which holds kdeglobals in memory and
   rewrites it as it starts. The cyan folders were installed and simply never

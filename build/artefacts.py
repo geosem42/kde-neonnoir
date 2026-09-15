@@ -106,7 +106,9 @@ Font={qfont(MONO, 11)}
 UseFontLineChararacters=false
 
 [General]
-Command=/bin/bash
+# No Command key. Konsole falls back to the user's login shell when this is
+# absent; setting it pinned every tab to bash, so anyone whose shell is zsh or
+# fish got bash instead — and none of the prompt this theme ships for them.
 Name={THEME_NAME}
 Parent=FALLBACK/
 TerminalCenter=false

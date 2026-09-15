@@ -4,7 +4,9 @@ Font=JetBrains Mono,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 UseFontLineChararacters=false
 
 [General]
-Command=/bin/bash
+# No Command key. Konsole falls back to the user's login shell when this is
+# absent; setting it pinned every tab to bash, so anyone whose shell is zsh or
+# fish got bash instead — and none of the prompt this theme ships for them.
 Name=Neon Noir
 Parent=FALLBACK/
 TerminalCenter=false
