@@ -79,9 +79,11 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       to the hamburger. A KXmlGui override in `kxmlgui5` — still kxmlgui5 under
       KF6, verified, not kxmlgui6 — whose `version` must exceed Dolphin's or the
       file is silently discarded
-- [ ] Dolphin rewrites `view_properties/global/.directory` on exit, so
-      installing while it is open loses the details view. Same trap as Kate's
-      session file and Konsole's rc — install.sh should refuse or warn
+- [x] install.sh now refuses to run while Dolphin, Kate or Konsole are open.
+      All three hold their config in memory and write it back on exit, silently
+      undoing what was just installed — Dolphin to `view_properties/global/
+      .directory`, Kate to its session file, Konsole to konsolerc. Each cost a
+      debugging round. `--force` overrides with a warning
 
 ## Other apps
 
@@ -95,9 +97,6 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       and into the task order. Sorting stays Manual so the order can still be
       dragged. The old launcher loop pinned `firefox` AND `firefox_firefox` when
       both existed, giving the browser two slots
-- [ ] Plasma 6 has no lock for the task order — running windows keep a
-      remembered position, so the pinned order only shows once those apps are
-      closed or the session restarts
 - [x] Firefox, Chromium, Thunderbird, Android Studio, JDownloader and micro kept
       their vendor logos: their `Icon=` is an absolute path, and an icon theme is
       only consulted for icons asked for by name. `--desktop` now writes a copy of
@@ -160,6 +159,11 @@ Kept here so they are not re-attempted.
 - Lock screen layout: loaded from the Plasma shell package, not the theme.
 - ` — Konsole` suffix on the window title: KMainWindow appends the application
   name; Konsole exposes no key for it.
+- Locking the taskbar order. Plasma 6 has no lock for it: pinned slots hold
+  once set and only a deliberate drag moves them, but a running window keeps a
+  remembered position, so the pinned order only shows once that app is closed or
+  the session restarts. The only true lock is making the whole applet immutable,
+  which also blocks unpinning and configuring it.
 - Cyan caps for Dolphin's sidebar section headers. The colour is reachable but
   not separable: KFilePlacesView draws PLACES/REMOTE/DEVICES from Kvantum's
   `window.text.color` at about 63% alpha — proved by probing it to magenta,

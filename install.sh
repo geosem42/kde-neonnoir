@@ -6,6 +6,7 @@
 #   ./install.sh --dry-run    show what would happen, touch nothing
 #   ./install.sh --system     also install the root-owned pieces (SDDM, Plymouth)
 #   ./install.sh --desktop    also place the clock, system card and media widget
+#   ./install.sh --force      install even while Dolphin, Kate or Konsole are open
 #
 # Idempotent: re-running is a no-op. Every config file this script edits is copied
 # to $BACKUP first, and only the FIRST time, so the backup always holds your
@@ -29,12 +30,13 @@ BACKUP="$CONF/neon-noir-backup"
 # installed there is invisible to both the KCM and the compositor.
 ICONS="$HOME/.icons"
 
-DRY=0; APPLY=0; SYSTEM=0; DESKTOP=0
+DRY=0; APPLY=0; SYSTEM=0; DESKTOP=0; FORCE=0
 for a in "$@"; do case "$a" in
   --dry-run) DRY=1 ;;
   --apply)   APPLY=1 ;;
   --system)  SYSTEM=1 ;;
   --desktop) DESKTOP=1 ;;
+  --force)   FORCE=1 ;;
   -h|--help) sed -n '2,13p' "$0" | sed 's/^# \?//'; exit 0 ;;
   *) echo "unknown option: $a" >&2; exit 2 ;;
 esac; done
@@ -52,6 +54,28 @@ srun() { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s %s\n' "$c_dim" "$c_0" 
          else ${SUDO:+$SUDO} "$@"; fi; }
 
 [ -d "$DIST" ] || { echo "dist/ missing — run: python3 build/generate.py" >&2; exit 1; }
+
+# KDE apps hold their config in memory and write it back on exit, so anything
+# running now will overwrite what we are about to set the moment it closes —
+# silently. Dolphin does it to view_properties/global/.directory, Kate to its
+# session file, Konsole to konsolerc. Each of those has cost a debugging round
+# already, so refuse rather than write something that will be undone.
+running=""
+for app in dolphin kate konsole; do
+  pgrep -x "$app" >/dev/null 2>&1 && running="${running:+$running, }$app"
+done
+if [ -n "$running" ] && [ "$DRY" = 0 ]; then
+  if [ "$FORCE" = 1 ]; then
+    warn "$running running — their settings will be overwritten when they close"
+  else
+    printf '\n%s !%s These are running: %s%s%s\n' "$c_wn" "$c_0" "$c_ac" "$running" "$c_0"
+    printf '   %sThey rewrite their own config on exit and would undo this install.%s\n' \
+           "$c_dim" "$c_0"
+    printf '   %sClose them and re-run, or pass --force to install anyway.%s\n\n' \
+           "$c_dim" "$c_0"
+    exit 1
+  fi
+fi
 
 # ── back up anything we are about to edit, once ────────────────────────────────
 say "Backing up current settings"
