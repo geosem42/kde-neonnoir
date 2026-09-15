@@ -47,7 +47,7 @@ if [ -d "$BACKUP" ]; then
     [ -f "$f" ] || continue
     b="$(basename "$f")"
     case "$b" in MANIFEST|PREVIOUS_SCHEME|PREVIOUS_CURSOR) continue ;;
-                 gtkrc-2.0) run cp "$f" "$HOME/.gtkrc-2.0"; ok ".gtkrc-2.0"; continue ;; esac
+                 home-gtkrc-2.0) run cp "$f" "$HOME/.gtkrc-2.0"; ok "~/.gtkrc-2.0"; continue ;; esac
     run cp "$f" "$CONF/$b"; ok "$b"
   done
   if [ -f "$BACKUP/fontconfig/fonts.conf" ]; then

@@ -403,7 +403,7 @@ if [ "$APPLY" = 1 ]; then
   # GTK2 has its own file and nothing in Plasma syncs the cursor into it, so
   # GTK2 apps keep the old pointer until this is patched directly.
   if [ -f "$HOME/.gtkrc-2.0" ]; then
-    [ -e "$BACKUP/gtkrc-2.0" ] || run cp "$HOME/.gtkrc-2.0" "$BACKUP/gtkrc-2.0"
+    [ -e "$BACKUP/home-gtkrc-2.0" ] || run cp "$HOME/.gtkrc-2.0" "$BACKUP/home-gtkrc-2.0"
     run sed -i -E "s|^gtk-cursor-theme-name=.*|gtk-cursor-theme-name=\"$THEME_ID-cursors\"|;
                    s|^gtk-cursor-theme-size=.*|gtk-cursor-theme-size=24|" "$HOME/.gtkrc-2.0"
     ok "~/.gtkrc-2.0 pointer"
