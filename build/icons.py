@@ -37,7 +37,14 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
                 text = real.read_text(encoding='utf-8')
             except Exception:
                 continue
-            new, hits = SRC_BLUE.subn(folder_hex, text)
+            # A colour variant is left exactly as Breeze drew it. Recolouring
+            # its accent turned `folder-blue` cyan, so the blue swatch in
+            # Dolphin's folder-colour row was neither blue nor distinct from
+            # the cyan one next to it.
+            if placeicons.COLOUR_VARIANT.match(svg.stem):
+                new, hits = text, 0
+            else:
+                new, hits = SRC_BLUE.subn(folder_hex, text)
             if not made:
                 outdir.mkdir(parents=True, exist_ok=True); made = True
             (outdir / svg.name).write_text(new, encoding='utf-8')

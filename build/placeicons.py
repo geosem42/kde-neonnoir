@@ -15,6 +15,15 @@ import re
 
 from appicons import GLYPHS, STROKE, VIEWBOX, _wrap
 
+# Folder COLOUR variants are left alone. Dolphin's context menu shows them as a
+# row of swatches where the colour is the whole content — replacing all eleven
+# with one grey outline made them identical, and the undifferentiated row set
+# the menu's minimum width. Breeze's own are coloured at every size
+# (folder-red is #da4453 at 22px), so inheriting is right here.
+COLOUR_VARIANT = re.compile(
+    r'^folder-(black|blue|brown|cyan|green|grey|magenta|orange|red|violet|'
+    r'yellow)(-|$)')
+
 # Order matters: the first pattern that matches wins.
 RULES = [
     # Named user directories.
@@ -63,6 +72,8 @@ FALLBACK = 'folder'
 def _glyph_for(name):
     stem = re.sub(r'-(symbolic|rtl)$', '', name)
     stem = re.sub(r'-(symbolic|rtl)$', '', stem)
+    if COLOUR_VARIANT.match(stem):
+        return None
     for pattern, glyph in RULES:
         if re.search(pattern, stem):
             return glyph
@@ -77,4 +88,9 @@ def svgs(stroke_hex, breeze_root, size=24):
     names = set()
     for svg in (breeze_root / 'places').rglob('*.svg'):
         names.add(svg.stem)
-    return {n: _wrap(GLYPHS[_glyph_for(n)], stroke_hex, size) for n in sorted(names)}
+    out = {}
+    for n in sorted(names):
+        g = _glyph_for(n)
+        if g:
+            out[n] = _wrap(GLYPHS[g], stroke_hex, size)
+    return out
