@@ -11,7 +11,12 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [ ] Search field has no cyan border when focused
 - [ ] Sidebar categories use Breeze icons, not our outline glyphs
 - [ ] Grid of apps; design is a compact list with a category subtitle per row
-- [ ] Selected row is a grey pill; design is a teal fill with a 2px cyan leading edge
+- [x] Selected row is a teal fill with a 2px cyan leading edge (also fixes KRunner)
+
+## KRunner
+
+- [x] Checked: ships with plasma-workspace, already on the theme
+- [ ] Third-party result icons are vendor logos
 
 ## Konsole
 

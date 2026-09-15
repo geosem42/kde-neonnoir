@@ -43,7 +43,7 @@ def _corner(r, bw, fill, border, fx, fy):
 BAR_T, BAR_GAP = 2, 3
 
 
-def _edge(r, bw, fill, border, side, K=24, bar=None):
+def _edge(r, bw, fill, border, side, K=24, bar=None, gap=None):
     w, h = (K, r) if side in ('top', 'bottom') else (r, K)
     parts = [f'<rect x="0" y="0" width="{w}" height="{h}" fill="#000" fill-opacity="0"/>']
     if fill:
@@ -53,11 +53,12 @@ def _edge(r, bw, fill, border, side, K=24, bar=None):
                            'left': (0, 0, bw, h), 'right': (w - bw, 0, bw, h)}[side]
         parts.append(f'<rect x="{bx}" y="{by}" width="{bw_}" height="{bh}" fill="{border}"/>')
     if bar:
+        g = BAR_GAP if gap is None else gap
         bx, by, bw_, bh = {
-            'top':    (0, BAR_GAP, w, BAR_T),
-            'bottom': (0, h - BAR_GAP - BAR_T, w, BAR_T),
-            'left':   (BAR_GAP, 0, BAR_T, h),
-            'right':  (w - BAR_GAP - BAR_T, 0, BAR_T, h),
+            'top':    (0, g, w, BAR_T),
+            'bottom': (0, h - g - BAR_T, w, BAR_T),
+            'left':   (g, 0, BAR_T, h),
+            'right':  (w - g - BAR_T, 0, BAR_T, h),
         }[side]
         parts.append(f'<rect x="{bx}" y="{by}" width="{bw_}" height="{bh}" fill="{bar}"/>')
     return ''.join(parts), (w, h)
@@ -74,7 +75,7 @@ class Sheet:
         self.items.append((eid, body, w, h))
 
     def frame(self, prefix, fill, border, r=R_MED, bw=BW, margin=None, K=24,
-              bar=None, bar_side='bottom'):
+              bar=None, bar_side='bottom', bar_gap=None):
         p = (prefix + '-') if prefix else ''
         for name, (fx, fy) in (('topleft', (0, 0)), ('topright', (1, 0)),
                                ('bottomleft', (0, 1)), ('bottomright', (1, 1))):
@@ -82,7 +83,7 @@ class Sheet:
             self.add(p + name, body, s, s)
         for side in ('top', 'bottom', 'left', 'right'):
             body, (w, h) = _edge(r, bw, fill, border, side, K,
-                                 bar if side == bar_side else None)
+                                 bar if side == bar_side else None, bar_gap)
             self.add(p + side, body, w, h)
         self.add(p + 'center',
                  f'<rect x="0" y="0" width="{K}" height="{K}" '
@@ -156,17 +157,26 @@ def build(T, DIST, THEME_ID):
     s.frame('', raised, hair, r=R_MED, margin=R_MED)
     files['widgets/background.svg'] = s
 
-    # List rows — the launcher result row, cyan-filled when selected.
+    # List rows. The artboard marks the current row with a solid deep-cyan fill
+    # and a 2px cyan leading edge — not a grey pill.
+    #
+    # `hover` carries it too, not a lighter wash: the launcher and KRunner both
+    # drive the CURRENT row through hover rather than selected, so a subtler
+    # hover state means keyboard navigation shows almost nothing. These two
+    # files only reach Plasma's own surfaces — launcher, KRunner, notifications,
+    # tray popups — where pointing at a row and landing on it are the same
+    # thing. Qt applications take their rows from Kvantum instead.
     s = Sheet()
-    for p, fill, border in (('normal', N, N), ('hover', hov, N),
-                            ('pressed', sel, cy), ('section', N, N)):
-        s.frame(p, fill, border, r=R_MED, margin=4)
+    for p, fill, bar in (('normal', N, None), ('hover', sel, cy),
+                         ('pressed', sel, cy), ('section', N, None)):
+        s.frame(p, fill, N, r=R_MED, margin=4, bar=bar, bar_side='left', bar_gap=0)
     s.plain('separator', f'<rect x="0" y="0" width="24" height="1" fill="{hair}"/>', 24, 1)
     files['widgets/listitem.svg'] = s
 
     s = Sheet()
-    for p, fill in (('normal', N), ('hover', hov), ('selected', sel), ('selected+hover', sel)):
-        s.frame(p, fill, cy if fill is sel else N, r=R_SMALL)
+    for p, fill, bar in (('normal', N, None), ('hover', sel, cy),
+                         ('selected', sel, cy), ('selected+hover', sel, cy)):
+        s.frame(p, fill, N, r=R_SMALL, bar=bar, bar_side='left', bar_gap=0)
     files['widgets/viewitem.svg'] = s
 
     # Text entry: hairline at rest, cyan when focused.
