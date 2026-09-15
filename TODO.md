@@ -84,6 +84,17 @@ tools. Giving a node-editing tool a generic outline does not restyle it, it
 makes it unidentifiable, and those icons only ever appear inside their own
 application's toolbar so no mixed-style list results.
 
+## Fixed after testing
+
+- Context menu was wide with blank swatches: the places sweep had collapsed all
+  eleven `folder-<colour>` variants onto one grey outline. Colour is the content
+  in Dolphin's folder-colour row, so those names are excluded from both the
+  sweep and the folder recolour.
+- Icons in Fixed-size directories were written at 24px regardless of the size
+  the directory declares, so a 16px request returned a 24px icon.
+- Konsole shipped at `Opacity=0.95` with blur, so the window stack behind
+  ghosted through it during minimise/maximise. Now opaque.
+
 ## Rejected
 
 - Cyan-to-magenta gradient on the window top hairline. Solid cyan instead.

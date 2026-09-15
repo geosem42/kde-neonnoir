@@ -140,7 +140,11 @@ def konsole_file():
                      ('ForegroundIntense',ANSI['brwhite'])):
         L += [f'[{grp}]', f'Color={dec(tok)}', '']
     need('text.normal', 'surface.view', 7.0, 'Konsole foreground')
-    L += ['[General]', f'Description={THEME_NAME}', 'Opacity=0.95', 'Blur=true',
+    # Opaque. A 0.95 terminal lets the whole window stack behind it show
+    # through, and KWin's blur region lags a minimise or maximise animation, so
+    # icons from windows two layers down ghost across the terminal. The
+    # artboard's terminal is solid; nothing in the design asks for this.
+    L += ['[General]', f'Description={THEME_NAME}', 'Opacity=1', 'Blur=false',
           'ColorRandomization=false', 'Wallpaper=', '']
     return '\n'.join(L)
 

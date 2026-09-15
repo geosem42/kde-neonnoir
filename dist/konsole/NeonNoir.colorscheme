@@ -92,7 +92,7 @@ Color=231,236,240
 
 [General]
 Description=Neon Noir
-Opacity=0.95
-Blur=true
+Opacity=1
+Blur=false
 ColorRandomization=false
 Wallpaper=
