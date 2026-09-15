@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
 <!--
-  Dolphin's toolbar, cut down to what the artboard draws: back, forward, up,
-  search, menu. The point is not the buttons, it is the location bar.
+  Dolphin's toolbar, cut to what the artboard draws: back, forward, up, the
+  path, search, menu — all on one row, icon only. The view-mode switcher and
+  Split view stay reachable from the hamburger menu.
 
-  Dolphin embeds the URL navigator IN the toolbar and calls
-  KUrlNavigator::setBackgroundEnabled(false) while it lives there, which is why
-  the path renders as bare text with no frame. There is no setting for it — the
-  Status & Location bars page offers only "show full path" and "make editable".
-  Taking `url_navigators` out of the toolbar is what puts the navigator in its
-  own row and lets it paint its background again.
+  The path renders as bare breadcrumb text with no frame, and that is not
+  something a theme can change: Dolphin calls
+  KUrlNavigator::setBackgroundEnabled(false) whenever the navigator lives in the
+  toolbar, and the Status & Location bars page offers no setting for it. Pulling
+  `url_navigators` out of this list puts it on its own row and it paints a frame
+  again — a deliberate trade that was made and rejected, one bar wins.
 
   version must exceed Dolphin's own or KXmlGui discards this file. The local
   path is still kxmlgui5 under KF6, not kxmlgui6 — verified, not assumed.
@@ -20,7 +21,7 @@
   <Action name="go_back"/>
   <Action name="go_forward"/>
   <Action name="go_up"/>
-  <Separator/>
+  <Action name="url_navigators"/>
   <Action name="toggle_search"/>
   <Action name="hamburger_menu"/>
  </ToolBar>

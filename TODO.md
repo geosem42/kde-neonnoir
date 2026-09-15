@@ -73,14 +73,16 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       the tab-bar strip — the artboard has no tabs, so there is nothing to match
       there
 - [ ] Sidebar section headers are plain grey; design is cyan caps
-- [x] Address bar has its frame back. Dolphin embeds the URL navigator IN the
-      toolbar and calls `KUrlNavigator::setBackgroundEnabled(false)` while it
-      lives there, which is why the path was bare text; there is no setting for
-      it. A KXmlGui override that drops `url_navigators` from the toolbar puts
-      the navigator on its own row and lets it paint again. The user copy still
-      goes in `kxmlgui5` under KF6, not `kxmlgui6` — verified — and its
-      `version` must exceed Dolphin's or the file is discarded. It is full-width
-      rather than an inset pill: Dolphin gives that row no side margins
+- [x] Toolbar cut to the artboard's row: back, forward, up, path, then search
+      and the menu at the right end, icon only. View-mode and Split view moved
+      to the hamburger. A KXmlGui override in `kxmlgui5` — still kxmlgui5 under
+      KF6, verified, not kxmlgui6 — whose `version` must exceed Dolphin's or the
+      file is silently discarded
+- [ ] Path renders as bare breadcrumb text, not the artboard's bordered pill.
+      Not reachable: Dolphin calls `KUrlNavigator::setBackgroundEnabled(false)`
+      whenever the navigator is in the toolbar, and offers no setting for it.
+      Pulling `url_navigators` out of the toolbar DOES restore the frame, but
+      puts the path on a second row — tried, and one bar was preferred
 - [ ] Dolphin rewrites `view_properties/global/.directory` on exit, so
       installing while it is open loses the details view. Same trap as Kate's
       session file and Konsole's rc — install.sh should refuse or warn
