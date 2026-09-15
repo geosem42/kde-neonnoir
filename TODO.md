@@ -65,7 +65,13 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 ## Taskbar
 
 - [ ] Pinned icons can be dragged out of order
-- [ ] Firefox keeps its snap logo — `Icon=` is an absolute path, unreachable from an icon theme
+- [x] Firefox, Chromium, Thunderbird, Android Studio, JDownloader and micro kept
+      their vendor logos: their `Icon=` is an absolute path, and an icon theme is
+      only consulted for icons asked for by name. `--desktop` now writes a copy of
+      each entry into ~/.local/share/applications with `Icon=` rewritten to a name
+      we ship. The copy freezes `Exec=` as it stands, so a package that changes its
+      command line later needs a re-run. Each carries `X-NeonNoir-IconOverride`;
+      anything of yours that was replaced is backed up and restored by uninstall
 
 ## Kate without a menubar
 

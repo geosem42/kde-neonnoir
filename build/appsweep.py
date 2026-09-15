@@ -39,6 +39,8 @@ RULES = [
      r'gitkraken|smartgit|sourcetree)$', 'nodes'),
     (r'^(umbrello|dia|drawio|.*draw\.io.*)$', 'dividers'),
     (r'^(okteta|hexedit|ghex)$', 'code'),
+    (r'^(python.*|.*jupyter.*|.*ipython.*|.*rstudio.*)$', 'code'),
+    (r'^(.*snapcraft.*|.*flatpak.*|.*appimage.*)$', 'archive'),
     (r'^(kuiviewer|cuttlefish|kirigami-gallery|iconexplorer|ikona|'
      r'symboleditor)$', 'palette'),
     (r'^(baloo|sharedlib|kjournaldbrowser)$', 'drive'),
@@ -246,6 +248,8 @@ EXTRA = [
     'conky', 'conky-logomark-violet', 'org.kde.qrca', 'qrca',
     'org.gnome.SoundRecorder', 'com.stremio.Stremio', 'stremio',
     'org.telegram.desktop', 'com.rtosta.zapzap',
+    'jdownloader', 'jdownloader2', 'hplj1020', 'python3', 'python3.14',
+    'io.snapcraft.SessionAgent',
     'system-search', 'chrome-app-list', 'emblem-system-symbolic',
     'internet-web-browser-symbolic', 'kubuntu-web-link',
     'kubuntu-manage-software', 'tools-report-bug', 'apport',
