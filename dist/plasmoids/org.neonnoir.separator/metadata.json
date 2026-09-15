@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Id": "org.neonnoir.separator",
+        "Name": "Neon Noir Separator",
+        "Description": "A hairline rule between panel sections",
+        "Icon": "draw-line",
+        "Category": "Utilities",
+        "Authors": [
+            {
+                "Name": "George",
+                "Email": "geosem042@gmail.com"
+            }
+        ],
+        "License": "GPL-3.0-or-later",
+        "Version": "1.0",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ]
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

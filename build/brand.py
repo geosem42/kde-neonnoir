@@ -114,6 +114,36 @@ def dither(path, amount=1.0):
     Image.fromarray(a.astype('uint8')).save(path, optimize=True)
 
 
+def launcher_svg(T, size=48):
+    """The panel launcher: the hexagon inside its own framed button.
+
+    Kickoff draws nothing behind its icon, so the design's bordered square has
+    to be part of the icon itself. Drawn edge-to-edge on the viewBox and sized
+    by the panel, which is why there is no padding here.
+    """
+    s = size
+    inset = s * 0.0417          # 2/48 — keeps the 1px frame fully inside the box
+    r = s * 0.2083              # 10/48
+    cx = cy = s / 2
+    R = s * 0.2292              # 11/48, the hexagon's circumradius
+    pts = []
+    for i in range(6):
+        import math
+        a = math.radians(60 * i - 90)
+        pts.append(f'{cx + R * math.cos(a):.2f} {cy + R * math.sin(a):.2f}')
+    hexpath = 'M ' + ' L '.join(pts) + ' Z'
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" '
+        f'viewBox="0 0 {s} {s}">'
+        f'<rect x="{inset:.2f}" y="{inset:.2f}" width="{s - 2 * inset:.2f}" '
+        f'height="{s - 2 * inset:.2f}" rx="{r:.2f}" fill="{T["accent.cyan.ghost"]}" '
+        f'stroke="{T["accent.cyan.deep"]}" stroke-width="{s / 48:.2f}"/>'
+        f'<path d="{hexpath}" fill="none" stroke="{T["accent.cyan"]}" '
+        f'stroke-width="{s * 0.0417:.2f}" stroke-linejoin="round"/>'
+        f'</svg>\n'
+    )
+
+
 def build(T, DIST, THEME_ID, THEME_NAME):
     out = []
     d = DIST / 'brand'
@@ -121,6 +151,9 @@ def build(T, DIST, THEME_ID, THEME_NAME):
 
     (d / 'mark.svg').write_text(mark_svg(T, 256))
     out.append('brand/mark.svg')
+
+    (d / 'launcher.svg').write_text(launcher_svg(T, 48))
+    out.append('brand/launcher.svg')
     for size in (96, 128, 192, 256, 384):
         png(mark_svg(T, size), d / f'mark-{size}.png', size, size)
     out.append('brand/mark-*.png  (5 sizes)')

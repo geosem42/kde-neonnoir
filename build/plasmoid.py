@@ -36,6 +36,38 @@ PlasmoidItem {
 '''
 
 
+def _metadata(pid, name, desc, icon, category, form_factors):
+    return json.dumps({
+        'KPackageStructure': 'Plasma/Applet',
+        'KPlugin': {
+            'Id': pid,
+            'Name': name,
+            'Description': desc,
+            'Icon': icon,
+            'Category': category,
+            'Authors': [{'Name': 'George', 'Email': 'geosem042@gmail.com'}],
+            'License': 'GPL-3.0-or-later',
+            'Version': '1.0',
+            'EnabledByDefault': True,
+            'FormFactors': form_factors,
+        },
+        'X-Plasma-API-Minimum-Version': '6.0',
+    }, indent=4) + '\n'
+
+
+def build_separator(T, DIST, THEME_NAME, SEPARATOR_ID, template_dir):
+    root = DIST / 'plasmoids' / SEPARATOR_ID
+    ui = root / 'contents' / 'ui'
+    ui.mkdir(parents=True, exist_ok=True)
+    qml = (template_dir / 'plasmoid-Separator.qml').read_text()
+    (ui / 'main.qml').write_text(qml.replace('@RULE@', T['border.float']))
+    (root / 'metadata.json').write_text(_metadata(
+        SEPARATOR_ID, f'{THEME_NAME} Separator',
+        'A hairline rule between panel sections', 'draw-line',
+        'Utilities', ['desktop']))
+    return [f'plasmoids/{SEPARATOR_ID}/  (metadata.json, main.qml)']
+
+
 def build(T, DIST, THEME_ID, THEME_NAME, PLASMOID_ID, template_dir):
     out = []
     root = DIST / 'plasmoids' / PLASMOID_ID
@@ -55,21 +87,9 @@ def build(T, DIST, THEME_ID, THEME_NAME, PLASMOID_ID, template_dir):
     (ui / 'SystemCard.qml').write_text(card)
     (ui / 'main.qml').write_text(MAIN_QML)
 
-    (root / 'metadata.json').write_text(json.dumps({
-        'KPackageStructure': 'Plasma/Applet',
-        'KPlugin': {
-            'Id': PLASMOID_ID,
-            'Name': f'{THEME_NAME} System',
-            'Description': 'CPU, memory and network in the Neon Noir language',
-            'Icon': 'utilities-system-monitor',
-            'Category': 'System Information',
-            'Authors': [{'Name': 'George', 'Email': 'geosem042@gmail.com'}],
-            'License': 'GPL-3.0-or-later',
-            'Version': '1.0',
-            'EnabledByDefault': True,
-            'FormFactors': ['desktop'],
-        },
-        'X-Plasma-API-Minimum-Version': '6.0',
-    }, indent=4) + '\n')
+    (root / 'metadata.json').write_text(_metadata(
+        PLASMOID_ID, f'{THEME_NAME} System',
+        'CPU, memory and network in the Neon Noir language',
+        'utilities-system-monitor', 'System Information', ['desktop']))
     out.append(f'plasmoids/{PLASMOID_ID}/  (metadata.json, main.qml, SystemCard.qml)')
     return out

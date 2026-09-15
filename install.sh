@@ -16,6 +16,7 @@ THEME_ID="NeonNoir"
 THEME_NAME="Neon Noir"
 PKG_ID="org.neonnoir.desktop"
 APPLET_ID="org.neonnoir.sysmon"
+SEPARATOR_ID="org.neonnoir.separator"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST="$HERE/dist"
 SHARE="${XDG_DATA_HOME:-$HOME/.local/share}"
@@ -166,8 +167,9 @@ install_tree "$DIST/cursors/$THEME_ID-cursors" "$ICONS/$THEME_ID-cursors"
 say "Widget style"
 install_tree "$DIST/kvantum/$THEME_ID" "$CONF/Kvantum/$THEME_ID"
 
-say "System widget"
+say "Panel widgets"
 install_tree "$DIST/plasmoids/$APPLET_ID" "$SHARE/plasma/plasmoids/$APPLET_ID"
+install_tree "$DIST/plasmoids/$SEPARATOR_ID" "$SHARE/plasma/plasmoids/$SEPARATOR_ID"
 
 say "Global theme package"
 install_tree "$DIST/look-and-feel/$PKG_ID" "$SHARE/plasma/look-and-feel/$PKG_ID"
@@ -327,11 +329,30 @@ fi
 if [ "$DESKTOP" = 1 ]; then
   say "Panel and desktop widgets"
   if [ -f "$DIST/config/panel-layout.js" ] && command -v qdbus6 >/dev/null; then
-    install -Dm644 "$DIST/brand/mark.svg" "$SHARE/icons/neon-noir-mark.svg" 2>/dev/null || true
+    # The framed-hexagon variant, not brand/mark.svg: kickoff draws no button
+    # behind its icon, so the design's border has to be inside the SVG.
+    install -Dm644 "$DIST/brand/launcher.svg" "$SHARE/icons/neon-noir-launcher.svg" 2>/dev/null || true
     if [ "$DRY" = 1 ]; then
       printf '   %swould:%s reshape the panel (48px, floating, hexagon launcher)\n' "$c_dim" "$c_0"
     else
-      pj="$(sed "s|@MARK@|$SHARE/icons/neon-noir-mark.svg|" "$DIST/config/panel-layout.js")"
+      # The artboard's pinned apps, in its order, keeping only the ones whose
+      # .desktop file exists: a launcher pointing at a missing file still takes
+      # a slot and draws a blank page icon.
+      launchers=""
+      for cand in org.kde.dolphin org.kde.konsole \
+                  firefox firefox_firefox firefox-esr \
+                  org.kde.kate; do
+        for dir in /usr/share/applications "$SHARE/applications" \
+                   /var/lib/snapd/desktop/applications \
+                   /var/lib/flatpak/exports/share/applications; do
+          if [ -f "$dir/$cand.desktop" ]; then
+            launchers="${launchers:+$launchers,}applications:$cand.desktop"
+            break
+          fi
+        done
+      done
+      pj="$(sed -e "s|@MARK@|$SHARE/icons/neon-noir-launcher.svg|" \
+                -e "s|@LAUNCHERS@|$launchers|" "$DIST/config/panel-layout.js")"
       r="$(qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "$pj" 2>&1 | tail -1)"
       ok "${r:-no response from plasmashell}"
     fi
