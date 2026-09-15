@@ -45,9 +45,13 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       Konsole's user stylesheet, the only hook it offers — no Qt style reaches
       that bar, Kvantum included. The path must be written as a `file://` URL:
       Konsole declares the key as a Url and silently ignores a bare path
-- [x] Active tab carries the accent: cyan label on the terminal ground. Tab
-      padding is asymmetric — the close button is laid out inside the right
-      padding, so a symmetric inset leaves it touching the rule between tabs
+- [x] Active tab carries the accent as a teal fill, the same selection colour
+      the list rows use
+- [x] Per-tab close button sat 4px from the tab's right EDGE, not its content
+      rect, so neither QSS padding nor a margin on `::close-button` moved it —
+      measured, not guessed. `CloseTabButton=OnTabBar` puts one button at the
+      end of the bar instead, which is what the artboard shows and keeps the
+      affordance
 
 ## Kate
 

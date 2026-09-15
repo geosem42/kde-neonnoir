@@ -592,6 +592,12 @@ if [ "$APPLY" = 1 ]; then
     run kwriteconfig6 --file konsolerc --group TabBar --key ExpandTabWidth false
     run kwriteconfig6 --file konsolerc --group TabBar --key TabBarVisibility ShowTabBarWhenNeeded
     run kwriteconfig6 --file konsolerc --group TabBar --key TabBarPosition Top
+    # OnTabBar, not OnEachTab. The artboard's tabs carry a label and nothing
+    # else, and Konsole's per-tab close button sits 4px from the tab's right
+    # EDGE — not its content rect — so no amount of QSS padding or margin
+    # moves it off the rule between tabs. Moving it to the end of the bar is
+    # the only way to get a clean tab, and it keeps the affordance.
+    run kwriteconfig6 --file konsolerc --group TabBar --key CloseTabButton OnTabBar
     run kwriteconfig6 --file konsolerc --group TabBar --key TabBarUseUserStyleSheet true
     # file:// and not a bare path: Konsole declares this key as a Url, so a
     # plain path is read back as an empty URL and the stylesheet is silently
