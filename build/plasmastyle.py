@@ -181,11 +181,15 @@ def build(T, DIST, THEME_ID):
 
     # Text entry: hairline at rest, cyan when focused.
     s = Sheet()
+    # Only `base` carries the content inset. TextFieldFocus.qml anchors the
+    # hover/focus overlay with NEGATIVE margins equal to that prefix's own
+    # margins, so a 6px margin on `hover` paints the overlay 6px outside the
+    # field on every side — which is the field appearing to swell on hover.
+    # Breeze sets these to 0.001: small enough to add nothing, non-zero so the
+    # element still has bounds KSvg can measure.
     for p, fill, border, m in (('base', view, hair, 6),
-                               ('hover', view, T['decoration.hover'], 6),
-                               ('focus', view, cy, 6),
-                               # The focus ring sits ON the field, so it needs
-                               # almost no margin of its own. Breeze uses 2.
+                               ('hover', view, T['decoration.hover'], 0.001),
+                               ('focus', view, cy, 0.001),
                                ('focusframe', N, cy, 2)):
         s.frame(p, fill, border, r=R_MED, margin=m)
     # Presence alone is the signal: with this element Plasma paints the focus
