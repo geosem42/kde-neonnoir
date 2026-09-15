@@ -17,6 +17,7 @@ DIST = ROOT / 'dist'
 THEME_ID   = 'NeonNoir'
 PKG_ID     = 'org.neonnoir.desktop'
 APPLET_ID  = 'org.neonnoir.sysmon'
+SEPARATOR_ID = 'org.neonnoir.separator'
 THEME_NAME = 'Neon Noir'
 
 # ---------- colour helpers ----------
@@ -201,7 +202,7 @@ def main():
     # A folder is a large filled shape: the full-strength UI accent is far too
     # loud across 500 icons, so match Breeze's own folder lightness instead.
     folder_hex = T['accent.cyan.folder']
-    for line in icons.build(T, DIST, THEME_ID, THEME_NAME, folder_hex):
+    for line in icons.build(T, DIST, THEME_ID, THEME_NAME, folder_hex, T['text.dim']):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     for line in decoration.build(T, DIST, THEME_ID, THEME_NAME, colors_file()):
         print(f'  wrote dist/{line}')
@@ -224,6 +225,9 @@ def main():
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     for line in plasmoid.build(T, DIST, THEME_ID, THEME_NAME, APPLET_ID,
                                ROOT / 'build' / 'templates'):
+        print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
+    for line in plasmoid.build_separator(T, DIST, THEME_NAME, SEPARATOR_ID,
+                                         ROOT / 'build' / 'templates'):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     for line in apps.build(T, ANSI, DIST, THEME_ID, THEME_NAME,
                            artefacts.UI_FONT, artefacts.MONO_FONT,
