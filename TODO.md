@@ -87,7 +87,15 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Taskbar
 
-- [ ] Pinned icons can be dragged out of order
+- [x] Pinned apps are Konsole, Dolphin, Firefox in that order, one slot each.
+      `separateLaunchers=false` is what keeps a pinned icon in its slot once the
+      app starts — with it on, launching moves the button out of the pinned run
+      and into the task order. Sorting stays Manual so the order can still be
+      dragged. The old launcher loop pinned `firefox` AND `firefox_firefox` when
+      both existed, giving the browser two slots
+- [ ] Plasma 6 has no lock for the task order — running windows keep a
+      remembered position, so the pinned order only shows once those apps are
+      closed or the session restarts
 - [x] Firefox, Chromium, Thunderbird, Android Studio, JDownloader and micro kept
       their vendor logos: their `Icon=` is an absolute path, and an icon theme is
       only consulted for icons asked for by name. `--desktop` now writes a copy of

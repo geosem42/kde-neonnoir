@@ -67,6 +67,12 @@ function configure(w) {
         w.writeConfig("maxStripes", 1);
         w.writeConfig("forceStripes", true);
         w.writeConfig("groupingStrategy", 1);
+        // Manual, so a pinned icon can still be dragged into place, and
+        // separateLaunchers off so it KEEPS that place once the app is running.
+        // With separateLaunchers on, starting a pinned app moves its button out
+        // of the pinned run and into the task order.
+        w.writeConfig("sortingStrategy", 1);
+        w.writeConfig("separateLaunchers", false);
         w.writeConfig("iconSpacing", 2);
         w.writeConfig("indicateAudioStreams", false);
         w.writeConfig("fill", true);

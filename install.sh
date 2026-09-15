@@ -342,19 +342,26 @@ if [ "$DESKTOP" = 1 ]; then
       # The artboard's pinned apps, in its order, keeping only the ones whose
       # .desktop file exists: a launcher pointing at a missing file still takes
       # a slot and draws a blank page icon.
+      # One slot per app, in this order. Each group is a list of spellings for
+      # the SAME app and only the first that exists is pinned — the old flat
+      # loop pinned `firefox` AND `firefox_firefox` when both were present,
+      # giving the browser two slots.
       launchers=""
-      for cand in org.kde.dolphin org.kde.konsole \
-                  firefox firefox_firefox firefox-esr \
-                  org.kde.kate; do
-        for dir in /usr/share/applications "$SHARE/applications" \
-                   /var/lib/snapd/desktop/applications \
-                   /var/lib/flatpak/exports/share/applications; do
-          if [ -f "$dir/$cand.desktop" ]; then
-            launchers="${launchers:+$launchers,}applications:$cand.desktop"
-            break
-          fi
+      pin() {
+        for cand in "$@"; do
+          for dir in /usr/share/applications "$SHARE/applications" \
+                     /var/lib/snapd/desktop/applications \
+                     /var/lib/flatpak/exports/share/applications; do
+            if [ -f "$dir/$cand.desktop" ]; then
+              launchers="${launchers:+$launchers,}applications:$cand.desktop"
+              return
+            fi
+          done
         done
-      done
+      }
+      pin org.kde.konsole konsole
+      pin org.kde.dolphin dolphin
+      pin firefox_firefox firefox firefox-esr
       pj="$(sed -e "s|@MARK@|$SHARE/icons/neon-noir-launcher.svg|" \
                 -e "s|@LAUNCHERS@|$launchers|" "$DIST/config/panel-layout.js")"
       r="$(qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "$pj" 2>&1 | tail -1)"
