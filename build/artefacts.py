@@ -73,11 +73,15 @@ def build(T, ANSI, DIST, THEME_ID, THEME_NAME, need, PKG_ID):
     (wp / '3840x2160.svg').write_text(svg)
     out.append(f'wallpapers/{THEME_ID}/contents/images/3840x2160.svg')
     try:
-        import cairosvg
+        import cairosvg, sys as _sys
+        _sys.path.insert(0, str(DIST.parent / 'build'))
+        import brand
         for w, h in ((3840, 2160), (1920, 1080)):
             cairosvg.svg2png(bytestring=wallpaper_svg(w, h).encode(),
                              write_to=str(wp / f'{w}x{h}.png'),
                              output_width=w, output_height=h)
+            # A near-black gradient steps visibly in 8-bit; dither hides the rings.
+            brand.dither(wp / f'{w}x{h}.png')
             out.append(f'wallpapers/{THEME_ID}/contents/images/{w}x{h}.png')
     except Exception as e:                              # pragma: no cover
         out.append(f'  ! PNG render skipped: {e}')

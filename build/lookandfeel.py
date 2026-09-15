@@ -142,20 +142,6 @@ def ground_svg(T, w, h):
 </svg>
 '''
 
-def dither(path, amount=1):
-    """Break up banding in a near-black gradient.
-
-    At these lightnesses an 8-bit ramp steps visibly; a fixed-seed +/-1 LSB of
-    noise hides the rings. Seeded so the build stays byte-reproducible.
-    """
-    import numpy as np
-    from PIL import Image
-    a = np.asarray(Image.open(path).convert('RGB'), dtype=np.int16)
-    rng = np.random.default_rng(20260916)
-    a = np.clip(a + rng.integers(-amount, amount + 1, a.shape, dtype=np.int16), 0, 255)
-    Image.fromarray(a.astype('uint8')).save(path)
-
-
 def build(T, DIST, THEME_ID, THEME_NAME, PKG_ID, widget_style='Breeze'):
     import brand
     out = []
@@ -228,7 +214,7 @@ Theme={PKG_ID}
         rule=T['border.float'], font='IBM Plex Sans', wordmark='NEON NOIR'))
     brand.png(brand.mark_svg(T, 384), splash / 'images' / 'mark.png', 384, 384)
     brand.png(ground_svg(T, 1920, 1080), splash / 'images' / 'ground.png', 1920, 1080)
-    dither(splash / 'images' / 'ground.png')
+    brand.dither(splash / 'images' / 'ground.png')
     out.append(f'look-and-feel/{PKG_ID}/contents/splash/  (Splash.qml, mark, ground)')
 
     prev = root / 'contents' / 'previews'

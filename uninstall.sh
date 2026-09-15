@@ -2,6 +2,7 @@
 # Neon Noir — remove the theme and restore the settings saved at first install.
 #   ./uninstall.sh            restore and remove
 #   ./uninstall.sh --dry-run  show what would happen
+#   ./uninstall.sh --system   also remove the root-owned pieces (SDDM, Plymouth)
 set -euo pipefail
 
 THEME_ID="NeonNoir"
@@ -14,13 +15,20 @@ BACKUP="$CONF/neon-noir-backup"
 FALLBACK="$(cat "$BACKUP/PREVIOUS_SCHEME" 2>/dev/null || echo BreezeDark)"
 FALLBACK_CURSOR="$(cat "$BACKUP/PREVIOUS_CURSOR" 2>/dev/null || echo breeze_cursors)"
 
-DRY=0; [ "${1:-}" = "--dry-run" ] && DRY=1
+DRY=0; SYSTEM=0
+for a in "$@"; do case "$a" in
+  --dry-run) DRY=1 ;;
+  --system)  SYSTEM=1 ;;
+esac; done
 c_ok=$'\033[38;2;109;201;125m'; c_ac=$'\033[38;2;54;215;215m'
 c_dim=$'\033[38;2;161;169;176m'; c_0=$'\033[0m'
 say()  { printf '%s::%s %s\n' "$c_ac" "$c_0" "$*"; }
 ok()   { printf '   %s✔%s %s\n' "$c_ok" "$c_0" "$*"; }
 skip() { printf '   %s·%s %s\n' "$c_dim" "$c_0" "$*"; }
 run()  { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s\n' "$c_dim" "$c_0" "$*"; else "$@"; fi; }
+SUDO=""; [ "$(id -u)" != 0 ] && SUDO="sudo"
+srun() { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s %s\n' "$c_dim" "$c_0" "$SUDO" "$*"
+         else ${SUDO:+$SUDO} "$@"; fi; }
 
 say "Switching back to $FALLBACK"
 if command -v plasma-apply-colorscheme >/dev/null; then
@@ -73,6 +81,14 @@ done
 if [ -d "$SHARE/wallpapers/$THEME_ID" ]; then
   run rm -rf "$SHARE/wallpapers/$THEME_ID"; ok "~/.local/share/wallpapers/$THEME_ID"
 else skip "wallpaper absent"; fi
+if [ "$SYSTEM" = 1 ]; then
+  say "Removing system components (sudo)"
+  for p in "/usr/share/sddm/themes/$THEME_ID" "/usr/share/icons/$THEME_ID-cursors" \
+           /etc/sddm.conf.d/zz-neon-noir.conf; do
+    if [ -e "$p" ]; then srun rm -rf "$p"; ok "$p"; else skip "$p absent"; fi
+  done
+fi
+
 if command -v qdbus6 >/dev/null; then
   run qdbus6 org.kde.KWin /KWin reconfigure >/dev/null 2>&1 || true; ok "KWin reconfigured"
 fi

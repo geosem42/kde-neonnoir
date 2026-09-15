@@ -80,6 +80,40 @@ def wordmark_png(path, text, size, colour, tracking=0.34, weight=FONT_MEDIUM):
     return img.size
 
 
+# An 8x8 Bayer matrix, not random noise. Both hide the banding equally well,
+# but random noise is incompressible: it tripled the PNG sizes here, while an
+# ordered pattern is periodic and costs almost nothing.
+_BAYER8 = None
+
+
+def _bayer(n=8):
+    import numpy as np
+    m = np.array([[0]])
+    while m.shape[0] < n:
+        k = m.shape[0]
+        m = np.block([[4 * m, 4 * m + 2], [4 * m + 3, 4 * m + 1]])
+    return m / (n * n)
+
+
+def dither(path, amount=1.0):
+    """Break up banding in a near-black gradient.
+
+    At these lightnesses an 8-bit ramp steps visibly. Adding a sub-LSB ordered
+    pattern before the value is stored moves the step boundary around so the
+    rings dissolve. Deterministic, so the build stays reproducible.
+    """
+    import numpy as np
+    from PIL import Image
+    global _BAYER8
+    if _BAYER8 is None:
+        _BAYER8 = _bayer(8)
+    a = np.asarray(Image.open(path).convert('RGB'), dtype=np.float32)
+    h, w, _ = a.shape
+    tile = np.tile(_BAYER8, (h // 8 + 1, w // 8 + 1))[:h, :w] - 0.5
+    a = np.clip(a + (tile * 2.0 * amount)[..., None], 0, 255)
+    Image.fromarray(a.astype('uint8')).save(path, optimize=True)
+
+
 def build(T, DIST, THEME_ID, THEME_NAME):
     out = []
     d = DIST / 'brand'

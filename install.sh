@@ -39,6 +39,10 @@ ok()   { printf '   %s✔%s %s\n' "$c_ok" "$c_0" "$*"; }
 warn() { printf '   %s!%s %s\n' "$c_wn" "$c_0" "$*"; }
 skip() { printf '   %s·%s %s\n' "$c_dim" "$c_0" "$*"; }
 run()  { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s\n' "$c_dim" "$c_0" "$*"; else "$@"; fi; }
+SUDO=""; [ "$(id -u)" != 0 ] && SUDO="sudo"
+# Same as run(), but for the two components that cannot live in $HOME.
+srun() { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s %s\n' "$c_dim" "$c_0" "$SUDO" "$*"
+         else ${SUDO:+$SUDO} "$@"; fi; }
 
 [ -d "$DIST" ] || { echo "dist/ missing — run: python3 build/generate.py" >&2; exit 1; }
 
@@ -152,8 +156,40 @@ if [ -f "$DIST/config/settings.tsv" ]; then
 else skip "no settings.tsv"; fi
 
 if [ "$SYSTEM" = 1 ]; then
-  say "System components"
-  warn "SDDM and Plymouth are not built yet — skipping"
+  say "System components (sudo)"
+  # The greeter runs as the unprivileged 'sddm' user and reads only
+  # /usr/share/sddm/themes, so this part cannot live in $HOME.
+  if [ -d "$DIST/sddm/$THEME_ID" ]; then
+    srun rm -rf "/usr/share/sddm/themes/$THEME_ID"
+    srun cp -aT "$DIST/sddm/$THEME_ID" "/usr/share/sddm/themes/$THEME_ID"
+    srun chown -R root:root "/usr/share/sddm/themes/$THEME_ID"
+    srun chmod -R a+rX "/usr/share/sddm/themes/$THEME_ID"
+    ok "/usr/share/sddm/themes/$THEME_ID"
+
+    # The pointer has to be system-wide too, for the same reason.
+    if [ -d "$DIST/cursors/$THEME_ID-cursors" ]; then
+      srun rm -rf "/usr/share/icons/$THEME_ID-cursors"
+      srun cp -aT "$DIST/cursors/$THEME_ID-cursors" "/usr/share/icons/$THEME_ID-cursors"
+      srun chmod -R a+rX "/usr/share/icons/$THEME_ID-cursors"
+      ok "/usr/share/icons/$THEME_ID-cursors"
+    fi
+
+    # A NEW drop-in: 10-wayland.conf, 20-kubuntu.conf and kubuntu_settings.conf
+    # all belong to kubuntu-settings-desktop and an upgrade can rewrite them.
+    # Digits sort before letters, so zz- is unambiguously last.
+    tmp="$(mktemp)"
+    { echo "[Theme]"
+      echo "Current=$THEME_ID"
+      echo "CursorTheme=$THEME_ID-cursors"
+      echo "CursorSize=24"
+      echo "Font=IBM Plex Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"; } > "$tmp"
+    srun install -Dm644 "$tmp" /etc/sddm.conf.d/zz-neon-noir.conf
+    rm -f "$tmp"
+    ok "/etc/sddm.conf.d/zz-neon-noir.conf"
+    warn "the login screen changes at the next reboot or 'sudo systemctl restart sddm'"
+  else
+    skip "SDDM theme not built"
+  fi
 fi
 
 # ── apply ──────────────────────────────────────────────────────────────────────
