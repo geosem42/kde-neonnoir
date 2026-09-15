@@ -231,10 +231,14 @@ def build(T, DIST, THEME_ID):
         # the only cue that an app has several instances, since every task
         # draws the same indicator bar whatever its window count. It was an
         # invisible transparent rect, so the cue was simply missing. A solid
-        # accent disc: the radius is half the tile, so every slice is round and
-        # it reads as a dot at the 12-14px Plasma stamps it at.
-        s.frame(edge + 'group-expander', cy, T['surface.void'],
-                r=5, bw=2, K=10, margin=0)
+        # Magenta, not cyan: an active task's bar is already cyan, so a cyan
+        # badge vanished into it and the cue disappeared exactly when the app
+        # was in front. Magenta is the theme's other accent and reads on both
+        # the grey bar and the cyan one. The radius is half the tile so every
+        # slice is round; Plasma centres it on the panel's bottom edge, so only
+        # the top half is ever visible.
+        s.frame(edge + 'group-expander', T['accent.magenta'],
+                T['surface.void'], r=5, bw=2, K=10, margin=0)
     files['widgets/tasks.svg'] = s
 
     s = Sheet()

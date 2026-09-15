@@ -91,14 +91,15 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Taskbar
 
-- [x] An app with more than one window now carries a badge on its indicator: a
-      cyan block in the middle of the grey bar, or a dark notch breaking the bar
-      when that task is active. Every task drew the same bar whatever its window
-      count, so there was no cue at all. Plasma stamps this from the Plasma
-      style's `group-expander` element in `widgets/tasks.svg` — ours was drawing
-      a transparent rect, so the cue existed but was invisible. Plasma anchors
-      the badge centred on the panel's bottom edge, so roughly half of it is
-      always clipped; a full circle is not reachable there
+- [x] An app with more than one window carries a magenta block in the middle of
+      its indicator bar. Every task drew the same bar whatever its window count,
+      so there was no cue at all. Plasma stamps this from the Plasma style's
+      `group-expander` element in `widgets/tasks.svg` — ours was a transparent
+      rect, so the cue was rendered all along and simply invisible. Magenta, not
+      cyan: an active task's bar is already cyan, so a cyan badge vanished into
+      it exactly when the app was in front. Plasma centres the badge on the
+      panel's bottom edge and clips the lower half, so a full circle is not
+      reachable — it reads as a block set into the bar
 
 - [x] Pinned apps are Konsole, Dolphin, Firefox in that order, one slot each.
       `separateLaunchers=false` is what keeps a pinned icon in its slot once the
