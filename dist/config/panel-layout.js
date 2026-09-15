@@ -11,9 +11,9 @@
 var TARGET = [
     "org.kde.plasma.kickoff",
     "org.neonnoir.separator",
-    // Icons-AND-TEXT. org.kde.plasma.icontasks is the icons-only variant and is
-    // what the default Kubuntu panel ships; the design has labels.
-    "org.kde.plasma.taskmanager",
+    // Icons only. The artboard labels each task, but a label as wide as a
+    // window title crowds the bar, so this deliberately departs from it.
+    "org.kde.plasma.icontasks",
     "org.kde.plasma.systemtray",
     "org.neonnoir.separator",
     "org.kde.plasma.digitalclock"
@@ -54,7 +54,7 @@ function configure(w) {
         w.writeConfig("menuLabel", "");
         w.reloadConfig();
 
-    } else if (w.type === "org.kde.plasma.taskmanager") {
+    } else if (w.type === "org.kde.plasma.icontasks") {
         w.currentConfigGroup = ["General"];
         w.writeConfig("launchers", LAUNCHERS);
         w.writeConfig("showOnlyCurrentDesktop", false);
@@ -63,7 +63,7 @@ function configure(w) {
         w.writeConfig("maxStripes", 1);
         w.writeConfig("forceStripes", true);
         w.writeConfig("groupingStrategy", 1);
-        w.writeConfig("iconSpacing", 1);
+        w.writeConfig("iconSpacing", 2);
         w.writeConfig("indicateAudioStreams", false);
         w.writeConfig("fill", true);
         w.reloadConfig();
