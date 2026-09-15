@@ -242,16 +242,17 @@ def build(T, DIST, THEME_ID):
         # half, so a border along the top would eat most of the few pixels that
         # survive, and a cyan dot on the active task's cyan bar would merge
         # into it again.
-        gap, dot, GW, GK = T['surface.void'], cy, 3, 10
+        gap, dot = T['surface.void'], cy
+        GW, GH, DW = 2, 3, 5      # gap width, slice height, dot width
         for e in ('topleft', 'bottomleft', 'left'):
             s.add(f'{edge}group-expander-{e}',
-                  f'<rect x="0" y="0" width="{GW}" height="{GK}" fill="{gap}"/>', GW, GK)
+                  f'<rect x="0" y="0" width="{GW}" height="{GH}" fill="{gap}"/>', GW, GH)
         for e in ('topright', 'bottomright', 'right'):
             s.add(f'{edge}group-expander-{e}',
-                  f'<rect x="0" y="0" width="{GW}" height="{GK}" fill="{gap}"/>', GW, GK)
+                  f'<rect x="0" y="0" width="{GW}" height="{GH}" fill="{gap}"/>', GW, GH)
         for e in ('top', 'bottom', 'center'):
             s.add(f'{edge}group-expander-{e}',
-                  f'<rect x="0" y="0" width="{GK}" height="{GK}" fill="{dot}"/>', GK, GK)
+                  f'<rect x="0" y="0" width="{DW}" height="{GH}" fill="{dot}"/>', DW, GH)
     files['widgets/tasks.svg'] = s
 
     s = Sheet()

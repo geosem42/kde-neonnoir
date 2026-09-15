@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="767" height="282" viewBox="0 0 767 282">
+<svg xmlns="http://www.w3.org/2000/svg" width="764" height="264" viewBox="0 0 764 264">
 <g id="normal-topleft" transform="translate(8 8)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
 <g id="normal-topright" transform="translate(23 8)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
 <g id="normal-bottomleft" transform="translate(38 8)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
@@ -78,274 +78,274 @@
 <g id="focus-hint-bottom-margin" transform="translate(629 40)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
 <g id="focus-hint-left-margin" transform="translate(641 40)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
 <g id="focus-hint-right-margin" transform="translate(653 40)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="group-expander-topleft" transform="translate(665 40)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="group-expander-bottomleft" transform="translate(676 40)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="group-expander-left" transform="translate(687 40)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="group-expander-topright" transform="translate(698 40)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="group-expander-bottomright" transform="translate(709 40)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="group-expander-right" transform="translate(720 40)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="group-expander-top" transform="translate(731 40)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="group-expander-bottom" transform="translate(749 40)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="group-expander-center" transform="translate(8 72)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="north-normal-topleft" transform="translate(26 72)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-normal-topright" transform="translate(41 72)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-normal-bottomleft" transform="translate(56 72)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-normal-bottomright" transform="translate(71 72)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-normal-top" transform="translate(86 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="3" width="24" height="2" fill="#636A71"/></g>
-<g id="north-normal-bottom" transform="translate(118 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="north-normal-left" transform="translate(150 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="north-normal-right" transform="translate(165 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="north-normal-center" transform="translate(180 72)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="north-normal-hint-top-margin" transform="translate(212 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-normal-hint-bottom-margin" transform="translate(224 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-normal-hint-left-margin" transform="translate(236 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-normal-hint-right-margin" transform="translate(248 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-hover-topleft" transform="translate(260 72)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="north-hover-topright" transform="translate(275 72)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="north-hover-bottomleft" transform="translate(290 72)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="north-hover-bottomright" transform="translate(305 72)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="north-hover-top" transform="translate(320 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/><rect x="0" y="3" width="24" height="2" fill="#636A71"/></g>
-<g id="north-hover-bottom" transform="translate(352 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
-<g id="north-hover-left" transform="translate(384 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/></g>
-<g id="north-hover-right" transform="translate(399 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/></g>
-<g id="north-hover-center" transform="translate(414 72)"><rect x="0" y="0" width="24" height="24" fill="#3A434E"/></g>
-<g id="north-hover-hint-top-margin" transform="translate(446 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-hover-hint-bottom-margin" transform="translate(458 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-hover-hint-left-margin" transform="translate(470 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-hover-hint-right-margin" transform="translate(482 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-minimized-topleft" transform="translate(494 72)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-minimized-topright" transform="translate(509 72)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-minimized-bottomleft" transform="translate(524 72)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-minimized-bottomright" transform="translate(539 72)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-minimized-top" transform="translate(554 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="3" width="24" height="2" fill="#4B5056"/></g>
-<g id="north-minimized-bottom" transform="translate(586 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="north-minimized-left" transform="translate(618 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="north-minimized-right" transform="translate(633 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="north-minimized-center" transform="translate(648 72)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="north-minimized-hint-top-margin" transform="translate(680 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-minimized-hint-bottom-margin" transform="translate(692 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-minimized-hint-left-margin" transform="translate(704 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-minimized-hint-right-margin" transform="translate(716 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-attention-topleft" transform="translate(728 72)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-attention-topright" transform="translate(743 72)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-attention-bottomleft" transform="translate(8 104)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-attention-bottomright" transform="translate(23 104)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="north-attention-top" transform="translate(38 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="3" width="24" height="2" fill="#E1A536"/></g>
-<g id="north-attention-bottom" transform="translate(70 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="north-attention-left" transform="translate(102 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="north-attention-right" transform="translate(117 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="north-attention-center" transform="translate(132 104)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="north-attention-hint-top-margin" transform="translate(164 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-attention-hint-bottom-margin" transform="translate(176 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-attention-hint-left-margin" transform="translate(188 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-attention-hint-right-margin" transform="translate(200 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-progress-topleft" transform="translate(212 104)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="north-progress-topright" transform="translate(227 104)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="north-progress-bottomleft" transform="translate(242 104)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="north-progress-bottomright" transform="translate(257 104)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="north-progress-top" transform="translate(272 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
-<g id="north-progress-bottom" transform="translate(304 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
-<g id="north-progress-left" transform="translate(336 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
-<g id="north-progress-right" transform="translate(351 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
-<g id="north-progress-center" transform="translate(366 104)"><rect x="0" y="0" width="24" height="24" fill="#0D2B2B"/></g>
-<g id="north-progress-hint-top-margin" transform="translate(398 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-progress-hint-bottom-margin" transform="translate(410 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-progress-hint-left-margin" transform="translate(422 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-progress-hint-right-margin" transform="translate(434 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-focus-topleft" transform="translate(446 104)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="north-focus-topright" transform="translate(461 104)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="north-focus-bottomleft" transform="translate(476 104)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="north-focus-bottomright" transform="translate(491 104)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="north-focus-top" transform="translate(506 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/><rect x="0" y="3" width="24" height="2" fill="#36D7D7"/></g>
-<g id="north-focus-bottom" transform="translate(538 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
-<g id="north-focus-left" transform="translate(570 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/></g>
-<g id="north-focus-right" transform="translate(585 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/></g>
-<g id="north-focus-center" transform="translate(600 104)"><rect x="0" y="0" width="24" height="24" fill="#222B33"/></g>
-<g id="north-focus-hint-top-margin" transform="translate(632 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-focus-hint-bottom-margin" transform="translate(644 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-focus-hint-left-margin" transform="translate(656 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-focus-hint-right-margin" transform="translate(668 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="north-group-expander-topleft" transform="translate(680 104)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="north-group-expander-bottomleft" transform="translate(691 104)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="north-group-expander-left" transform="translate(702 104)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="north-group-expander-topright" transform="translate(713 104)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="north-group-expander-bottomright" transform="translate(724 104)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="north-group-expander-right" transform="translate(735 104)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="north-group-expander-top" transform="translate(746 104)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="north-group-expander-bottom" transform="translate(8 136)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="north-group-expander-center" transform="translate(26 136)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="east-normal-topleft" transform="translate(44 136)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-normal-topright" transform="translate(59 136)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-normal-bottomleft" transform="translate(74 136)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-normal-bottomright" transform="translate(89 136)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-normal-top" transform="translate(104 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="east-normal-bottom" transform="translate(136 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="east-normal-left" transform="translate(168 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="east-normal-right" transform="translate(183 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="2" y="0" width="2" height="24" fill="#636A71"/></g>
-<g id="east-normal-center" transform="translate(198 136)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="east-normal-hint-top-margin" transform="translate(230 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-normal-hint-bottom-margin" transform="translate(242 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-normal-hint-left-margin" transform="translate(254 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-normal-hint-right-margin" transform="translate(266 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-hover-topleft" transform="translate(278 136)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="east-hover-topright" transform="translate(293 136)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="east-hover-bottomleft" transform="translate(308 136)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="east-hover-bottomright" transform="translate(323 136)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="east-hover-top" transform="translate(338 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
-<g id="east-hover-bottom" transform="translate(370 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
-<g id="east-hover-left" transform="translate(402 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/></g>
-<g id="east-hover-right" transform="translate(417 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/><rect x="2" y="0" width="2" height="24" fill="#636A71"/></g>
-<g id="east-hover-center" transform="translate(432 136)"><rect x="0" y="0" width="24" height="24" fill="#3A434E"/></g>
-<g id="east-hover-hint-top-margin" transform="translate(464 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-hover-hint-bottom-margin" transform="translate(476 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-hover-hint-left-margin" transform="translate(488 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-hover-hint-right-margin" transform="translate(500 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-minimized-topleft" transform="translate(512 136)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-minimized-topright" transform="translate(527 136)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-minimized-bottomleft" transform="translate(542 136)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-minimized-bottomright" transform="translate(557 136)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-minimized-top" transform="translate(572 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="east-minimized-bottom" transform="translate(604 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="east-minimized-left" transform="translate(636 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="east-minimized-right" transform="translate(651 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="2" y="0" width="2" height="24" fill="#4B5056"/></g>
-<g id="east-minimized-center" transform="translate(666 136)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="east-minimized-hint-top-margin" transform="translate(698 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-minimized-hint-bottom-margin" transform="translate(710 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-minimized-hint-left-margin" transform="translate(722 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-minimized-hint-right-margin" transform="translate(734 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-attention-topleft" transform="translate(746 136)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-attention-topright" transform="translate(8 168)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-attention-bottomleft" transform="translate(23 168)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-attention-bottomright" transform="translate(38 168)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="east-attention-top" transform="translate(53 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="east-attention-bottom" transform="translate(85 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="east-attention-left" transform="translate(117 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="east-attention-right" transform="translate(132 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="2" y="0" width="2" height="24" fill="#E1A536"/></g>
-<g id="east-attention-center" transform="translate(147 168)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="east-attention-hint-top-margin" transform="translate(179 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-attention-hint-bottom-margin" transform="translate(191 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-attention-hint-left-margin" transform="translate(203 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-attention-hint-right-margin" transform="translate(215 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-progress-topleft" transform="translate(227 168)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="east-progress-topright" transform="translate(242 168)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="east-progress-bottomleft" transform="translate(257 168)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="east-progress-bottomright" transform="translate(272 168)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="east-progress-top" transform="translate(287 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
-<g id="east-progress-bottom" transform="translate(319 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
-<g id="east-progress-left" transform="translate(351 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
-<g id="east-progress-right" transform="translate(366 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
-<g id="east-progress-center" transform="translate(381 168)"><rect x="0" y="0" width="24" height="24" fill="#0D2B2B"/></g>
-<g id="east-progress-hint-top-margin" transform="translate(413 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-progress-hint-bottom-margin" transform="translate(425 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-progress-hint-left-margin" transform="translate(437 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-progress-hint-right-margin" transform="translate(449 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-focus-topleft" transform="translate(461 168)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="east-focus-topright" transform="translate(476 168)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="east-focus-bottomleft" transform="translate(491 168)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="east-focus-bottomright" transform="translate(506 168)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="east-focus-top" transform="translate(521 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
-<g id="east-focus-bottom" transform="translate(553 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
-<g id="east-focus-left" transform="translate(585 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/></g>
-<g id="east-focus-right" transform="translate(600 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/><rect x="2" y="0" width="2" height="24" fill="#36D7D7"/></g>
-<g id="east-focus-center" transform="translate(615 168)"><rect x="0" y="0" width="24" height="24" fill="#222B33"/></g>
-<g id="east-focus-hint-top-margin" transform="translate(647 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-focus-hint-bottom-margin" transform="translate(659 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-focus-hint-left-margin" transform="translate(671 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-focus-hint-right-margin" transform="translate(683 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="east-group-expander-topleft" transform="translate(695 168)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="east-group-expander-bottomleft" transform="translate(706 168)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="east-group-expander-left" transform="translate(717 168)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="east-group-expander-topright" transform="translate(728 168)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="east-group-expander-bottomright" transform="translate(739 168)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="east-group-expander-right" transform="translate(750 168)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="east-group-expander-top" transform="translate(8 200)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="east-group-expander-bottom" transform="translate(26 200)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="east-group-expander-center" transform="translate(44 200)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="west-normal-topleft" transform="translate(62 200)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-normal-topright" transform="translate(77 200)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-normal-bottomleft" transform="translate(92 200)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-normal-bottomright" transform="translate(107 200)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-normal-top" transform="translate(122 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="west-normal-bottom" transform="translate(154 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="west-normal-left" transform="translate(186 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="3" y="0" width="2" height="24" fill="#636A71"/></g>
-<g id="west-normal-right" transform="translate(201 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="west-normal-center" transform="translate(216 200)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="west-normal-hint-top-margin" transform="translate(248 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-normal-hint-bottom-margin" transform="translate(260 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-normal-hint-left-margin" transform="translate(272 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-normal-hint-right-margin" transform="translate(284 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-hover-topleft" transform="translate(296 200)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="west-hover-topright" transform="translate(311 200)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="west-hover-bottomleft" transform="translate(326 200)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="west-hover-bottomright" transform="translate(341 200)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
-<g id="west-hover-top" transform="translate(356 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
-<g id="west-hover-bottom" transform="translate(388 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
-<g id="west-hover-left" transform="translate(420 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/><rect x="3" y="0" width="2" height="24" fill="#636A71"/></g>
-<g id="west-hover-right" transform="translate(435 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/></g>
-<g id="west-hover-center" transform="translate(450 200)"><rect x="0" y="0" width="24" height="24" fill="#3A434E"/></g>
-<g id="west-hover-hint-top-margin" transform="translate(482 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-hover-hint-bottom-margin" transform="translate(494 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-hover-hint-left-margin" transform="translate(506 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-hover-hint-right-margin" transform="translate(518 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-minimized-topleft" transform="translate(530 200)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-minimized-topright" transform="translate(545 200)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-minimized-bottomleft" transform="translate(560 200)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-minimized-bottomright" transform="translate(575 200)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-minimized-top" transform="translate(590 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="west-minimized-bottom" transform="translate(622 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="west-minimized-left" transform="translate(654 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="3" y="0" width="2" height="24" fill="#4B5056"/></g>
-<g id="west-minimized-right" transform="translate(669 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="west-minimized-center" transform="translate(684 200)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="west-minimized-hint-top-margin" transform="translate(716 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-minimized-hint-bottom-margin" transform="translate(728 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-minimized-hint-left-margin" transform="translate(740 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-minimized-hint-right-margin" transform="translate(752 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-attention-topleft" transform="translate(8 232)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-attention-topright" transform="translate(23 232)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-attention-bottomleft" transform="translate(38 232)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-attention-bottomright" transform="translate(53 232)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
-<g id="west-attention-top" transform="translate(68 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="west-attention-bottom" transform="translate(100 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
-<g id="west-attention-left" transform="translate(132 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="3" y="0" width="2" height="24" fill="#E1A536"/></g>
-<g id="west-attention-right" transform="translate(147 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="west-attention-center" transform="translate(162 232)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
-<g id="west-attention-hint-top-margin" transform="translate(194 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-attention-hint-bottom-margin" transform="translate(206 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-attention-hint-left-margin" transform="translate(218 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-attention-hint-right-margin" transform="translate(230 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-progress-topleft" transform="translate(242 232)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="west-progress-topright" transform="translate(257 232)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="west-progress-bottomleft" transform="translate(272 232)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="west-progress-bottomright" transform="translate(287 232)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
-<g id="west-progress-top" transform="translate(302 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
-<g id="west-progress-bottom" transform="translate(334 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
-<g id="west-progress-left" transform="translate(366 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
-<g id="west-progress-right" transform="translate(381 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
-<g id="west-progress-center" transform="translate(396 232)"><rect x="0" y="0" width="24" height="24" fill="#0D2B2B"/></g>
-<g id="west-progress-hint-top-margin" transform="translate(428 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-progress-hint-bottom-margin" transform="translate(440 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-progress-hint-left-margin" transform="translate(452 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-progress-hint-right-margin" transform="translate(464 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-focus-topleft" transform="translate(476 232)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="west-focus-topright" transform="translate(491 232)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="west-focus-bottomleft" transform="translate(506 232)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="west-focus-bottomright" transform="translate(521 232)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
-<g id="west-focus-top" transform="translate(536 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
-<g id="west-focus-bottom" transform="translate(568 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
-<g id="west-focus-left" transform="translate(600 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/><rect x="3" y="0" width="2" height="24" fill="#36D7D7"/></g>
-<g id="west-focus-right" transform="translate(615 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/></g>
-<g id="west-focus-center" transform="translate(630 232)"><rect x="0" y="0" width="24" height="24" fill="#222B33"/></g>
-<g id="west-focus-hint-top-margin" transform="translate(662 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-focus-hint-bottom-margin" transform="translate(674 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-focus-hint-left-margin" transform="translate(686 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-focus-hint-right-margin" transform="translate(698 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
-<g id="west-group-expander-topleft" transform="translate(710 232)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="west-group-expander-bottomleft" transform="translate(721 232)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="west-group-expander-left" transform="translate(732 232)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="west-group-expander-topright" transform="translate(743 232)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="west-group-expander-bottomright" transform="translate(754 232)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="west-group-expander-right" transform="translate(8 264)"><rect x="0" y="0" width="3" height="10" fill="#060B11"/></g>
-<g id="west-group-expander-top" transform="translate(19 264)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="west-group-expander-bottom" transform="translate(37 264)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
-<g id="west-group-expander-center" transform="translate(55 264)"><rect x="0" y="0" width="10" height="10" fill="#36D7D7"/></g>
+<g id="group-expander-topleft" transform="translate(665 40)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="group-expander-bottomleft" transform="translate(675 40)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="group-expander-left" transform="translate(685 40)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="group-expander-topright" transform="translate(695 40)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="group-expander-bottomright" transform="translate(705 40)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="group-expander-right" transform="translate(715 40)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="group-expander-top" transform="translate(725 40)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="group-expander-bottom" transform="translate(738 40)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="group-expander-center" transform="translate(751 40)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="north-normal-topleft" transform="translate(8 72)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-normal-topright" transform="translate(23 72)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-normal-bottomleft" transform="translate(38 72)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-normal-bottomright" transform="translate(53 72)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-normal-top" transform="translate(68 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="3" width="24" height="2" fill="#636A71"/></g>
+<g id="north-normal-bottom" transform="translate(100 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="north-normal-left" transform="translate(132 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="north-normal-right" transform="translate(147 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="north-normal-center" transform="translate(162 72)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="north-normal-hint-top-margin" transform="translate(194 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-normal-hint-bottom-margin" transform="translate(206 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-normal-hint-left-margin" transform="translate(218 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-normal-hint-right-margin" transform="translate(230 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-hover-topleft" transform="translate(242 72)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="north-hover-topright" transform="translate(257 72)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="north-hover-bottomleft" transform="translate(272 72)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="north-hover-bottomright" transform="translate(287 72)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="north-hover-top" transform="translate(302 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/><rect x="0" y="3" width="24" height="2" fill="#636A71"/></g>
+<g id="north-hover-bottom" transform="translate(334 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
+<g id="north-hover-left" transform="translate(366 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/></g>
+<g id="north-hover-right" transform="translate(381 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/></g>
+<g id="north-hover-center" transform="translate(396 72)"><rect x="0" y="0" width="24" height="24" fill="#3A434E"/></g>
+<g id="north-hover-hint-top-margin" transform="translate(428 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-hover-hint-bottom-margin" transform="translate(440 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-hover-hint-left-margin" transform="translate(452 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-hover-hint-right-margin" transform="translate(464 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-minimized-topleft" transform="translate(476 72)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-minimized-topright" transform="translate(491 72)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-minimized-bottomleft" transform="translate(506 72)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-minimized-bottomright" transform="translate(521 72)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-minimized-top" transform="translate(536 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="3" width="24" height="2" fill="#4B5056"/></g>
+<g id="north-minimized-bottom" transform="translate(568 72)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="north-minimized-left" transform="translate(600 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="north-minimized-right" transform="translate(615 72)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="north-minimized-center" transform="translate(630 72)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="north-minimized-hint-top-margin" transform="translate(662 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-minimized-hint-bottom-margin" transform="translate(674 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-minimized-hint-left-margin" transform="translate(686 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-minimized-hint-right-margin" transform="translate(698 72)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-attention-topleft" transform="translate(710 72)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-attention-topright" transform="translate(725 72)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-attention-bottomleft" transform="translate(740 72)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-attention-bottomright" transform="translate(8 104)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="north-attention-top" transform="translate(23 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="3" width="24" height="2" fill="#E1A536"/></g>
+<g id="north-attention-bottom" transform="translate(55 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="north-attention-left" transform="translate(87 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="north-attention-right" transform="translate(102 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="north-attention-center" transform="translate(117 104)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="north-attention-hint-top-margin" transform="translate(149 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-attention-hint-bottom-margin" transform="translate(161 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-attention-hint-left-margin" transform="translate(173 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-attention-hint-right-margin" transform="translate(185 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-progress-topleft" transform="translate(197 104)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="north-progress-topright" transform="translate(212 104)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="north-progress-bottomleft" transform="translate(227 104)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="north-progress-bottomright" transform="translate(242 104)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="north-progress-top" transform="translate(257 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
+<g id="north-progress-bottom" transform="translate(289 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
+<g id="north-progress-left" transform="translate(321 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
+<g id="north-progress-right" transform="translate(336 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
+<g id="north-progress-center" transform="translate(351 104)"><rect x="0" y="0" width="24" height="24" fill="#0D2B2B"/></g>
+<g id="north-progress-hint-top-margin" transform="translate(383 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-progress-hint-bottom-margin" transform="translate(395 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-progress-hint-left-margin" transform="translate(407 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-progress-hint-right-margin" transform="translate(419 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-focus-topleft" transform="translate(431 104)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="north-focus-topright" transform="translate(446 104)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="north-focus-bottomleft" transform="translate(461 104)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="north-focus-bottomright" transform="translate(476 104)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="north-focus-top" transform="translate(491 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/><rect x="0" y="3" width="24" height="2" fill="#36D7D7"/></g>
+<g id="north-focus-bottom" transform="translate(523 104)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
+<g id="north-focus-left" transform="translate(555 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/></g>
+<g id="north-focus-right" transform="translate(570 104)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/></g>
+<g id="north-focus-center" transform="translate(585 104)"><rect x="0" y="0" width="24" height="24" fill="#222B33"/></g>
+<g id="north-focus-hint-top-margin" transform="translate(617 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-focus-hint-bottom-margin" transform="translate(629 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-focus-hint-left-margin" transform="translate(641 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-focus-hint-right-margin" transform="translate(653 104)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="north-group-expander-topleft" transform="translate(665 104)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="north-group-expander-bottomleft" transform="translate(675 104)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="north-group-expander-left" transform="translate(685 104)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="north-group-expander-topright" transform="translate(695 104)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="north-group-expander-bottomright" transform="translate(705 104)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="north-group-expander-right" transform="translate(715 104)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="north-group-expander-top" transform="translate(725 104)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="north-group-expander-bottom" transform="translate(738 104)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="north-group-expander-center" transform="translate(751 104)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="east-normal-topleft" transform="translate(8 136)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-normal-topright" transform="translate(23 136)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-normal-bottomleft" transform="translate(38 136)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-normal-bottomright" transform="translate(53 136)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-normal-top" transform="translate(68 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="east-normal-bottom" transform="translate(100 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="east-normal-left" transform="translate(132 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="east-normal-right" transform="translate(147 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="2" y="0" width="2" height="24" fill="#636A71"/></g>
+<g id="east-normal-center" transform="translate(162 136)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="east-normal-hint-top-margin" transform="translate(194 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-normal-hint-bottom-margin" transform="translate(206 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-normal-hint-left-margin" transform="translate(218 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-normal-hint-right-margin" transform="translate(230 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-hover-topleft" transform="translate(242 136)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="east-hover-topright" transform="translate(257 136)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="east-hover-bottomleft" transform="translate(272 136)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="east-hover-bottomright" transform="translate(287 136)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="east-hover-top" transform="translate(302 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
+<g id="east-hover-bottom" transform="translate(334 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
+<g id="east-hover-left" transform="translate(366 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/></g>
+<g id="east-hover-right" transform="translate(381 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/><rect x="2" y="0" width="2" height="24" fill="#636A71"/></g>
+<g id="east-hover-center" transform="translate(396 136)"><rect x="0" y="0" width="24" height="24" fill="#3A434E"/></g>
+<g id="east-hover-hint-top-margin" transform="translate(428 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-hover-hint-bottom-margin" transform="translate(440 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-hover-hint-left-margin" transform="translate(452 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-hover-hint-right-margin" transform="translate(464 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-minimized-topleft" transform="translate(476 136)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-minimized-topright" transform="translate(491 136)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-minimized-bottomleft" transform="translate(506 136)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-minimized-bottomright" transform="translate(521 136)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-minimized-top" transform="translate(536 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="east-minimized-bottom" transform="translate(568 136)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="east-minimized-left" transform="translate(600 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="east-minimized-right" transform="translate(615 136)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="2" y="0" width="2" height="24" fill="#4B5056"/></g>
+<g id="east-minimized-center" transform="translate(630 136)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="east-minimized-hint-top-margin" transform="translate(662 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-minimized-hint-bottom-margin" transform="translate(674 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-minimized-hint-left-margin" transform="translate(686 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-minimized-hint-right-margin" transform="translate(698 136)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-attention-topleft" transform="translate(710 136)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-attention-topright" transform="translate(725 136)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-attention-bottomleft" transform="translate(740 136)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-attention-bottomright" transform="translate(8 168)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="east-attention-top" transform="translate(23 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="east-attention-bottom" transform="translate(55 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="east-attention-left" transform="translate(87 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="east-attention-right" transform="translate(102 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="2" y="0" width="2" height="24" fill="#E1A536"/></g>
+<g id="east-attention-center" transform="translate(117 168)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="east-attention-hint-top-margin" transform="translate(149 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-attention-hint-bottom-margin" transform="translate(161 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-attention-hint-left-margin" transform="translate(173 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-attention-hint-right-margin" transform="translate(185 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-progress-topleft" transform="translate(197 168)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="east-progress-topright" transform="translate(212 168)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="east-progress-bottomleft" transform="translate(227 168)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="east-progress-bottomright" transform="translate(242 168)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="east-progress-top" transform="translate(257 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
+<g id="east-progress-bottom" transform="translate(289 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
+<g id="east-progress-left" transform="translate(321 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
+<g id="east-progress-right" transform="translate(336 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
+<g id="east-progress-center" transform="translate(351 168)"><rect x="0" y="0" width="24" height="24" fill="#0D2B2B"/></g>
+<g id="east-progress-hint-top-margin" transform="translate(383 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-progress-hint-bottom-margin" transform="translate(395 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-progress-hint-left-margin" transform="translate(407 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-progress-hint-right-margin" transform="translate(419 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-focus-topleft" transform="translate(431 168)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="east-focus-topright" transform="translate(446 168)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="east-focus-bottomleft" transform="translate(461 168)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="east-focus-bottomright" transform="translate(476 168)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="east-focus-top" transform="translate(491 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
+<g id="east-focus-bottom" transform="translate(523 168)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
+<g id="east-focus-left" transform="translate(555 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/></g>
+<g id="east-focus-right" transform="translate(570 168)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/><rect x="2" y="0" width="2" height="24" fill="#36D7D7"/></g>
+<g id="east-focus-center" transform="translate(585 168)"><rect x="0" y="0" width="24" height="24" fill="#222B33"/></g>
+<g id="east-focus-hint-top-margin" transform="translate(617 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-focus-hint-bottom-margin" transform="translate(629 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-focus-hint-left-margin" transform="translate(641 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-focus-hint-right-margin" transform="translate(653 168)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="east-group-expander-topleft" transform="translate(665 168)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="east-group-expander-bottomleft" transform="translate(675 168)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="east-group-expander-left" transform="translate(685 168)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="east-group-expander-topright" transform="translate(695 168)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="east-group-expander-bottomright" transform="translate(705 168)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="east-group-expander-right" transform="translate(715 168)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="east-group-expander-top" transform="translate(725 168)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="east-group-expander-bottom" transform="translate(738 168)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="east-group-expander-center" transform="translate(751 168)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="west-normal-topleft" transform="translate(8 200)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-normal-topright" transform="translate(23 200)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-normal-bottomleft" transform="translate(38 200)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-normal-bottomright" transform="translate(53 200)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-normal-top" transform="translate(68 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="west-normal-bottom" transform="translate(100 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="west-normal-left" transform="translate(132 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="3" y="0" width="2" height="24" fill="#636A71"/></g>
+<g id="west-normal-right" transform="translate(147 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="west-normal-center" transform="translate(162 200)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="west-normal-hint-top-margin" transform="translate(194 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-normal-hint-bottom-margin" transform="translate(206 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-normal-hint-left-margin" transform="translate(218 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-normal-hint-right-margin" transform="translate(230 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-hover-topleft" transform="translate(242 200)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="west-hover-topright" transform="translate(257 200)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="west-hover-bottomleft" transform="translate(272 200)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="west-hover-bottomright" transform="translate(287 200)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#3A434E"/></g></g>
+<g id="west-hover-top" transform="translate(302 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
+<g id="west-hover-bottom" transform="translate(334 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#3A434E"/></g>
+<g id="west-hover-left" transform="translate(366 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/><rect x="3" y="0" width="2" height="24" fill="#636A71"/></g>
+<g id="west-hover-right" transform="translate(381 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#3A434E"/></g>
+<g id="west-hover-center" transform="translate(396 200)"><rect x="0" y="0" width="24" height="24" fill="#3A434E"/></g>
+<g id="west-hover-hint-top-margin" transform="translate(428 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-hover-hint-bottom-margin" transform="translate(440 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-hover-hint-left-margin" transform="translate(452 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-hover-hint-right-margin" transform="translate(464 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-minimized-topleft" transform="translate(476 200)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-minimized-topright" transform="translate(491 200)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-minimized-bottomleft" transform="translate(506 200)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-minimized-bottomright" transform="translate(521 200)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-minimized-top" transform="translate(536 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="west-minimized-bottom" transform="translate(568 200)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="west-minimized-left" transform="translate(600 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="3" y="0" width="2" height="24" fill="#4B5056"/></g>
+<g id="west-minimized-right" transform="translate(615 200)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="west-minimized-center" transform="translate(630 200)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="west-minimized-hint-top-margin" transform="translate(662 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-minimized-hint-bottom-margin" transform="translate(674 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-minimized-hint-left-margin" transform="translate(686 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-minimized-hint-right-margin" transform="translate(698 200)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-attention-topleft" transform="translate(710 200)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-attention-topright" transform="translate(725 200)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-attention-bottomleft" transform="translate(740 200)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-attention-bottomright" transform="translate(8 232)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/></g></g>
+<g id="west-attention-top" transform="translate(23 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="west-attention-bottom" transform="translate(55 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/></g>
+<g id="west-attention-left" transform="translate(87 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="3" y="0" width="2" height="24" fill="#E1A536"/></g>
+<g id="west-attention-right" transform="translate(102 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="west-attention-center" transform="translate(117 232)"><rect x="0" y="0" width="24" height="24" fill="#000" fill-opacity="0"/></g>
+<g id="west-attention-hint-top-margin" transform="translate(149 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-attention-hint-bottom-margin" transform="translate(161 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-attention-hint-left-margin" transform="translate(173 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-attention-hint-right-margin" transform="translate(185 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-progress-topleft" transform="translate(197 232)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="west-progress-topright" transform="translate(212 232)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="west-progress-bottomleft" transform="translate(227 232)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="west-progress-bottomright" transform="translate(242 232)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#0D2B2B"/></g></g>
+<g id="west-progress-top" transform="translate(257 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
+<g id="west-progress-bottom" transform="translate(289 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#0D2B2B"/></g>
+<g id="west-progress-left" transform="translate(321 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
+<g id="west-progress-right" transform="translate(336 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#0D2B2B"/></g>
+<g id="west-progress-center" transform="translate(351 232)"><rect x="0" y="0" width="24" height="24" fill="#0D2B2B"/></g>
+<g id="west-progress-hint-top-margin" transform="translate(383 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-progress-hint-bottom-margin" transform="translate(395 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-progress-hint-left-margin" transform="translate(407 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-progress-hint-right-margin" transform="translate(419 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-focus-topleft" transform="translate(431 232)"><g><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="west-focus-topright" transform="translate(446 232)"><g transform="translate(7 0) scale(-1 1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="west-focus-bottomleft" transform="translate(461 232)"><g transform="translate(0 7) scale(1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="west-focus-bottomright" transform="translate(476 232)"><g transform="translate(7 7) scale(-1 -1)"><rect x="0" y="0" width="7" height="7" fill="#000" fill-opacity="0"/><path d="M 1 7 A 6 6 0 0 1 7 1 L 7 7 Z" fill="#222B33"/></g></g>
+<g id="west-focus-top" transform="translate(491 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
+<g id="west-focus-bottom" transform="translate(523 232)"><rect x="0" y="0" width="24" height="7" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="24" height="7" fill="#222B33"/></g>
+<g id="west-focus-left" transform="translate(555 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/><rect x="3" y="0" width="2" height="24" fill="#36D7D7"/></g>
+<g id="west-focus-right" transform="translate(570 232)"><rect x="0" y="0" width="7" height="24" fill="#000" fill-opacity="0"/><rect x="0" y="0" width="7" height="24" fill="#222B33"/></g>
+<g id="west-focus-center" transform="translate(585 232)"><rect x="0" y="0" width="24" height="24" fill="#222B33"/></g>
+<g id="west-focus-hint-top-margin" transform="translate(617 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-focus-hint-bottom-margin" transform="translate(629 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-focus-hint-left-margin" transform="translate(641 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-focus-hint-right-margin" transform="translate(653 232)"><rect x="0" y="0" width="4" height="4" fill="#000" fill-opacity="0"/></g>
+<g id="west-group-expander-topleft" transform="translate(665 232)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="west-group-expander-bottomleft" transform="translate(675 232)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="west-group-expander-left" transform="translate(685 232)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="west-group-expander-topright" transform="translate(695 232)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="west-group-expander-bottomright" transform="translate(705 232)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="west-group-expander-right" transform="translate(715 232)"><rect x="0" y="0" width="2" height="3" fill="#060B11"/></g>
+<g id="west-group-expander-top" transform="translate(725 232)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="west-group-expander-bottom" transform="translate(738 232)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
+<g id="west-group-expander-center" transform="translate(751 232)"><rect x="0" y="0" width="5" height="3" fill="#36D7D7"/></g>
 </svg>

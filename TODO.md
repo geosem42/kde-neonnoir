@@ -95,12 +95,12 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       indicator bar. Every task drew the same bar whatever its window count, so
       there was no cue at all; Plasma stamps this from the Plasma style's
       `group-expander` element in `widgets/tasks.svg`, and ours was a
-      transparent rect — rendered all along and simply invisible. Built slice by
-      slice rather than with `frame()`, because the dark gap that separates the
-      dot from the bar has to be on the LEFT and RIGHT only: Plasma centres the
-      element on the panel's bottom edge and clips the lower half, so a border
-      along the top eats most of the pixels that survive, and without the side
-      gaps a cyan dot merges into the active task's cyan bar
+      transparent rect — rendered all along and simply invisible. 5x3, built
+      slice by slice rather than with `frame()`, whose corner radius forced it
+      several times larger. Plasma centres the element on the panel's bottom
+      edge and clips the lower half, which puts the dot just below the indicator
+      bar rather than inside it — so it stays legible against the active task's
+      cyan bar as well as a grey one
 
 - [x] Pinned apps are Konsole, Dolphin, Firefox in that order, one slot each.
       `separateLaunchers=false` is what keeps a pinned icon in its slot once the
