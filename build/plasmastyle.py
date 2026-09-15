@@ -37,7 +37,13 @@ def _corner(r, bw, fill, border, fx, fy):
     return f'<g{t}>{"".join(parts)}</g>', r
 
 
-def _edge(r, bw, fill, border, side, K=24):
+# The task indicator: 2px thick, held 3px clear of the button edge, exactly as
+# the artboard draws it. It lives only in the stretched edge element, never in
+# the corners, which is what insets it from the ends of the button.
+BAR_T, BAR_GAP = 2, 3
+
+
+def _edge(r, bw, fill, border, side, K=24, bar=None):
     w, h = (K, r) if side in ('top', 'bottom') else (r, K)
     parts = [f'<rect x="0" y="0" width="{w}" height="{h}" fill="#000" fill-opacity="0"/>']
     if fill:
@@ -46,6 +52,14 @@ def _edge(r, bw, fill, border, side, K=24):
         bx, by, bw_, bh = {'top': (0, 0, w, bw), 'bottom': (0, h - bw, w, bw),
                            'left': (0, 0, bw, h), 'right': (w - bw, 0, bw, h)}[side]
         parts.append(f'<rect x="{bx}" y="{by}" width="{bw_}" height="{bh}" fill="{border}"/>')
+    if bar:
+        bx, by, bw_, bh = {
+            'top':    (0, BAR_GAP, w, BAR_T),
+            'bottom': (0, h - BAR_GAP - BAR_T, w, BAR_T),
+            'left':   (BAR_GAP, 0, BAR_T, h),
+            'right':  (w - BAR_GAP - BAR_T, 0, BAR_T, h),
+        }[side]
+        parts.append(f'<rect x="{bx}" y="{by}" width="{bw_}" height="{bh}" fill="{bar}"/>')
     return ''.join(parts), (w, h)
 
 
@@ -59,14 +73,16 @@ class Sheet:
         self.ids.add(eid)
         self.items.append((eid, body, w, h))
 
-    def frame(self, prefix, fill, border, r=R_MED, bw=BW, margin=None, K=24):
+    def frame(self, prefix, fill, border, r=R_MED, bw=BW, margin=None, K=24,
+              bar=None, bar_side='bottom'):
         p = (prefix + '-') if prefix else ''
         for name, (fx, fy) in (('topleft', (0, 0)), ('topright', (1, 0)),
                                ('bottomleft', (0, 1)), ('bottomright', (1, 1))):
             body, s = _corner(r, bw, fill, border, fx, fy)
             self.add(p + name, body, s, s)
         for side in ('top', 'bottom', 'left', 'right'):
-            body, (w, h) = _edge(r, bw, fill, border, side, K)
+            body, (w, h) = _edge(r, bw, fill, border, side, K,
+                                 bar if side == bar_side else None)
             self.add(p + side, body, w, h)
         self.add(p + 'center',
                  f'<rect x="0" y="0" width="{K}" height="{K}" '
@@ -164,15 +180,27 @@ def build(T, DIST, THEME_ID):
         s.frame(p, fill, border, r=R_MED, margin=6)
     files['widgets/button.svg'] = s
 
-    # Task manager. The active task is the one place the accent appears here.
+    # Task manager. The artboard marks state with a RULE under the button, not
+    # with a border box: the active task gets a raised pill plus a cyan rule, a
+    # running task gets the rule alone, and a launcher gets nothing. A 2px
+    # accent border here is what made every open window look boxed in.
+    #
+    # The prefix names the panel edge, so the rule has to move with it: a top
+    # panel underlines along its own bottom edge visually, which in FrameSvg
+    # terms is the 'top' element for the 'north-' set.
     s = Sheet()
-    tasks = (('normal', N, N), ('hover', hov, N), ('minimized', N, N),
-             ('attention', T['status.neutral.ghost'], T['status.neutral']),
-             ('progress', T['accent.cyan.ghost'], N), ('group-expander', N, hair))
-    for edge in ('', 'north-', 'east-', 'west-'):
-        for p, fill, border in tasks:
-            s.frame(edge + p, fill, border, r=R_MED, margin=4)
-        s.frame(edge + 'focus', raised, cy, r=R_MED, bw=2, margin=4)
+    dim = T['text.disabled']
+    tasks = (('normal', N, N, dim), ('hover', hov, N, dim),
+             ('minimized', N, N, T['text.faint']),
+             ('attention', N, N, T['status.neutral']),
+             ('progress', T['accent.cyan.ghost'], N, None),
+             ('group-expander', N, hair, None),
+             ('focus', raised, N, cy))
+    for edge, side in (('', 'bottom'), ('north-', 'top'),
+                       ('east-', 'right'), ('west-', 'left')):
+        for p, fill, border, bar in tasks:
+            s.frame(edge + p, fill, border, r=R_MED, margin=4,
+                    bar=bar, bar_side=side)
     files['widgets/tasks.svg'] = s
 
     s = Sheet()
