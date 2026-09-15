@@ -21,7 +21,8 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Tray
 
-- [x] Clipboard, vault and night-colour showed filled Breeze glyphs — they use
+- [x] Clipboard, vault, night-colour, disks & devices, KDE Connect, input
+      method and display configuration showed filled Breeze glyphs — they use
       app/action names, so the status sweep never reached them
 
 ## Konsole
@@ -60,6 +61,12 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 - [ ] Pinned icons can be dragged out of order
 - [ ] Firefox keeps its snap logo — `Icon=` is an absolute path, unreachable from an icon theme
+
+## Kate without a menubar
+
+Ctrl+M shows the menubar, Ctrl+N makes a new document, Ctrl+Shift+I opens the
+command bar, which reaches every action the menubar had. Read off the running
+instance over D-Bus, not from documentation.
 
 ## Rejected
 

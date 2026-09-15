@@ -185,6 +185,28 @@ GLYPHS = {
 
     'moon': '<path d="M20.4 14.4A8.8 8.8 0 0 1 9.6 3.6a8.8 8.8 0 1 0 10.8 10.8z"/>',
 
+    'usb': '<rect x="8.2" y="8.6" width="7.6" height="12.2" rx="1.6"/>'
+           '<path d="M10 8.6V4.4a1.4 1.4 0 0 1 1.4-1.4h1.2a1.4 1.4 0 0 1 1.4 1.4v4.2"/>'
+           '<path d="M10.4 12.4h3.2M10.4 15.4h3.2"/>',
+
+    'phone': '<rect x="6.4" y="2.6" width="11.2" height="18.8" rx="2.4"/>'
+             '<path d="M10.6 5.4h2.8"/><path d="M12 18.2h.01"/>',
+
+    'keyboard': '<rect x="2.2" y="6" width="19.6" height="12" rx="2"/>'
+                '<path d="M6 9.4h.01M9.4 9.4h.01M12.8 9.4h.01M16.2 9.4h.01'
+                'M6 12.4h.01M9.4 12.4h.01M12.8 12.4h.01M16.2 12.4h.01'
+                'M19 9.4h.01M19 12.4h.01"/>'
+                '<path d="M8 15.2h8"/>',
+
+    # Two screens, so it is not the single monitor the Desktop place uses.
+    # They sit clear of each other rather than overlapping: an overlap needs a
+    # knockout filled with the surface colour, and these glyphs carry no fill
+    # so they read correctly on any ground.
+    'displays': '<rect x="2.2" y="4.2" width="12" height="9" rx="1.8"/>'
+                '<path d="M5.6 16.6h5.2M8.2 13.2v3.4"/>'
+                '<rect x="14.2" y="11" width="7.6" height="7.4" rx="1.6"/>'
+                '<path d="M16.2 20.8h3.6M18 18.4v2.4"/>',
+
     # ── file types ────────────────────────────────────────────────────────────
 
     'note': '<path d="M9.4 18V5.6l9.2-1.8v12.4"/>'
@@ -359,6 +381,21 @@ PLACES = {
 TRAY = {
     'klipper': 'clipboard',          'edit-paste': 'clipboard',
     'klipper-symbolic': 'clipboard',
+    'device-notifier': 'usb',        'drive-removable-media': 'usb',
+    'drive-removable-media-usb': 'usb',
+    'drive-removable-media-usb-pendrive': 'usb',
+    'media-removable': 'usb',        'drive-optical': 'usb',
+    'kdeconnect': 'phone',           'kdeconnect-tray': 'phone',
+    'smartphone': 'phone',           'phone': 'phone',
+    'input-keyboard': 'keyboard',    'input-keyboard-virtual': 'keyboard',
+    'input-keyboard-virtual-on': 'keyboard',
+    'input-keyboard-virtual-off': 'keyboard',
+    'input-keyboard-virtual-hide': 'keyboard',
+    'keyboard-layout': 'keyboard',   'input-method': 'keyboard',
+    'draw-text': 'keyboard',
+    'video-display': 'displays',     'preferences-desktop-display': 'displays',
+    'preferences-desktop-display-randr': 'displays',
+    'kscreen': 'displays',
     'plasmavault': 'lock',           'wallet-closed': 'lock',
     'wallet-open': 'lock',           'vault-closed': 'lock',
     'vault-open': 'lock',            'plasmavault-symbolic': 'lock',
