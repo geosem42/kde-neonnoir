@@ -231,14 +231,27 @@ def build(T, DIST, THEME_ID):
         # the only cue that an app has several instances, since every task
         # draws the same indicator bar whatever its window count. It was an
         # invisible transparent rect, so the cue was simply missing. A solid
-        # Magenta, not cyan: an active task's bar is already cyan, so a cyan
-        # badge vanished into it and the cue disappeared exactly when the app
-        # was in front. Magenta is the theme's other accent and reads on both
-        # the grey bar and the cyan one. The radius is half the tile so every
-        # slice is round; Plasma centres it on the panel's bottom edge, so only
-        # the top half is ever visible.
-        s.frame(edge + 'group-expander', T['accent.magenta'],
-                T['surface.void'], r=5, bw=2, K=10, margin=0)
+        # The badge Plasma stamps on a task that owns more than one window —
+        # the only cue that an app has several instances, since every task draws
+        # the same bar whatever its window count. Ours was a transparent rect,
+        # so the cue was rendered all along and simply invisible.
+        #
+        # Built slice by slice rather than with frame(): the gap that separates
+        # the dot from the bar has to be on the LEFT and RIGHT only. Plasma
+        # centres this element on the panel's bottom edge and clips the lower
+        # half, so a border along the top would eat most of the few pixels that
+        # survive, and a cyan dot on the active task's cyan bar would merge
+        # into it again.
+        gap, dot, GW, GK = T['surface.void'], cy, 3, 10
+        for e in ('topleft', 'bottomleft', 'left'):
+            s.add(f'{edge}group-expander-{e}',
+                  f'<rect x="0" y="0" width="{GW}" height="{GK}" fill="{gap}"/>', GW, GK)
+        for e in ('topright', 'bottomright', 'right'):
+            s.add(f'{edge}group-expander-{e}',
+                  f'<rect x="0" y="0" width="{GW}" height="{GK}" fill="{gap}"/>', GW, GK)
+        for e in ('top', 'bottom', 'center'):
+            s.add(f'{edge}group-expander-{e}',
+                  f'<rect x="0" y="0" width="{GK}" height="{GK}" fill="{dot}"/>', GK, GK)
     files['widgets/tasks.svg'] = s
 
     s = Sheet()
