@@ -135,6 +135,11 @@ install_file "$DIST/gtk/gtk-3.0.css" "$CONF/gtk-3.0/gtk.css"
 install_file "$DIST/gtk/gtk-4.0.css" "$CONF/gtk-4.0/gtk.css"
 
 say "Plasma style"
+# KSvg caches rendered elements per theme path; a reconfigure alone keeps
+# showing the old artwork.
+for c in "$HOME/.cache/ksvg-elements" "$HOME/.cache/plasma_theme_$THEME_ID.kcache"; do
+  [ -e "$c" ] && run rm -rf "$c"
+done
 install_tree "$DIST/desktoptheme/$THEME_ID" "$SHARE/plasma/desktoptheme/$THEME_ID"
 
 say "Window decoration"
@@ -347,6 +352,20 @@ if [ "$APPLY" = 1 ]; then
   if command -v plasma-apply-desktoptheme >/dev/null; then
     run plasma-apply-desktoptheme "$THEME_ID" >/dev/null 2>&1 \
       && ok "Plasma style" || warn "Plasma style could not be applied"
+  fi
+
+  # Select the global theme, so System Settings > Global Theme shows Neon Noir
+  # as the current one rather than leaving it on the distro default.
+  if command -v plasma-apply-lookandfeel >/dev/null; then
+    run plasma-apply-lookandfeel -a "$PKG_ID" >/dev/null 2>&1 \
+      && ok "global theme selected" || warn "global theme could not be selected"
+  fi
+
+  # plasmashell keeps the old SVGs in memory; nothing short of a restart picks
+  # up new desktoptheme artwork.
+  if systemctl --user --quiet is-active plasma-plasmashell.service 2>/dev/null; then
+    run systemctl --user restart plasma-plasmashell.service
+    ok "plasmashell restarted"
   fi
 
   if [ -d "$SHARE/icons/$THEME_ID" ]; then
