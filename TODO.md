@@ -8,7 +8,7 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [ ] Avatar is the Kubuntu logo; design has a magenta-to-indigo disc with an initial
 - [ ] No subtitle under the name (design: `resolute · Plasma 6.6.6`)
 - [ ] Brightness and power belong in the header, not a footer strip
-- [ ] Search field has no cyan border when focused
+- [x] Search field no longer swells on hover; focus ring drawn over it, not around
 - [ ] Sidebar categories use Breeze icons, not our outline glyphs
 - [ ] Grid of apps; design is a compact list with a category subtitle per row
 - [x] Selected row is a teal fill with a 2px cyan leading edge (also fixes KRunner)

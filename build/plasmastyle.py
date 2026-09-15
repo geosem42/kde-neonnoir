@@ -181,9 +181,18 @@ def build(T, DIST, THEME_ID):
 
     # Text entry: hairline at rest, cyan when focused.
     s = Sheet()
-    for p, fill, border in (('base', view, hair), ('hover', view, T['decoration.hover']),
-                            ('focus', view, cy), ('focusframe', N, cy)):
-        s.frame(p, fill, border, r=R_MED, margin=6)
+    for p, fill, border, m in (('base', view, hair, 6),
+                               ('hover', view, T['decoration.hover'], 6),
+                               ('focus', view, cy, 6),
+                               # The focus ring sits ON the field, so it needs
+                               # almost no margin of its own. Breeze uses 2.
+                               ('focusframe', N, cy, 2)):
+        s.frame(p, fill, border, r=R_MED, margin=m)
+    # Presence alone is the signal: with this element Plasma paints the focus
+    # frame OVER the field, without it the field grows to make room for a ring
+    # drawn outside — which is why the search box swelled on hover.
+    s.plain('hint-focus-over-base',
+            '<rect x="0" y="0" width="2" height="2" fill="#000" fill-opacity="0"/>', 2, 2)
     files['widgets/lineedit.svg'] = s
 
     s = Sheet()
