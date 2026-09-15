@@ -224,7 +224,8 @@ def main():
                                ROOT / 'build' / 'templates'):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     for line in apps.build(T, ANSI, DIST, THEME_ID, THEME_NAME,
-                           artefacts.UI_FONT, artefacts.MONO_FONT):
+                           artefacts.UI_FONT, artefacts.MONO_FONT,
+                           ROOT / 'build' / 'templates'):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
 
     if FAILURES:

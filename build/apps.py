@@ -303,8 +303,15 @@ VSCODE_PACKAGE = {
 }
 
 
-def build(T, ANSI, DIST, THEME_ID, THEME_NAME, UI_FONT, MONO_FONT):
+def build(T, ANSI, DIST, THEME_ID, THEME_NAME, UI_FONT, MONO_FONT, template_dir=None):
+    import shutil
     out = []
+
+    if template_dir is not None:
+        cfg = DIST / 'config'
+        cfg.mkdir(parents=True, exist_ok=True)
+        shutil.copy(template_dir / 'desktop-layout.js', cfg / 'desktop-layout.js')
+        out.append('config/desktop-layout.js')
 
     fc = DIST / 'fontconfig'
     fc.mkdir(parents=True, exist_ok=True)

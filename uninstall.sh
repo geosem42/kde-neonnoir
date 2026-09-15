@@ -74,6 +74,10 @@ if [ -d "$BACKUP" ]; then
 else skip "no backup directory — nothing to restore"; fi
 
 say "Firefox and VS Code"
+if [ -f "$BACKUP/vscode-settings.json" ]; then
+  run cp "$BACKUP/vscode-settings.json" "$CONF/Code/User/settings.json"
+  ok "VS Code settings.json restored"
+fi
 for d in "$HOME/.vscode/extensions/neon-noir-theme" "$HOME/.vscode-oss/extensions/neon-noir-theme"; do
   if [ -d "$d" ]; then run rm -rf "$d"; ok "${d/#$HOME/\~}"; fi
 done

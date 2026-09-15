@@ -5,6 +5,7 @@
 #   ./install.sh --apply      copy, then switch the live session to the theme
 #   ./install.sh --dry-run    show what would happen, touch nothing
 #   ./install.sh --system     also install the root-owned pieces (SDDM, Plymouth)
+#   ./install.sh --desktop    also place the clock, system card and media widget
 #
 # Idempotent: re-running is a no-op. Every config file this script edits is copied
 # to $BACKUP first, and only the FIRST time, so the backup always holds your
@@ -12,6 +13,7 @@
 set -euo pipefail
 
 THEME_ID="NeonNoir"
+THEME_NAME="Neon Noir"
 PKG_ID="org.neonnoir.desktop"
 APPLET_ID="org.neonnoir.sysmon"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -24,12 +26,13 @@ BACKUP="$CONF/neon-noir-backup"
 # installed there is invisible to both the KCM and the compositor.
 ICONS="$HOME/.icons"
 
-DRY=0; APPLY=0; SYSTEM=0
+DRY=0; APPLY=0; SYSTEM=0; DESKTOP=0
 for a in "$@"; do case "$a" in
   --dry-run) DRY=1 ;;
   --apply)   APPLY=1 ;;
   --system)  SYSTEM=1 ;;
-  -h|--help) sed -n '2,12p' "$0" | sed 's/^# \?//'; exit 0 ;;
+  --desktop) DESKTOP=1 ;;
+  -h|--help) sed -n '2,13p' "$0" | sed 's/^# \?//'; exit 0 ;;
   *) echo "unknown option: $a" >&2; exit 2 ;;
 esac; done
 
@@ -58,6 +61,11 @@ for f in kdeglobals kwinrc plasmarc breezerc konsolerc kcminputrc ksplashrc \
     else run cp "$CONF/$f" "$BACKUP/$f"; ok "$f"; fi
   fi
 done
+if [ -f "$CONF/Code/User/settings.json" ]; then
+  if [ -e "$BACKUP/vscode-settings.json" ]; then skip "VS Code settings already backed up"
+  else run cp "$CONF/Code/User/settings.json" "$BACKUP/vscode-settings.json"
+       ok "VS Code settings.json"; fi
+fi
 if [ -f "$CONF/fontconfig/fonts.conf" ]; then
   if [ -e "$BACKUP/fontconfig/fonts.conf" ]; then skip "fontconfig/fonts.conf already backed up"
   else run cp "$CONF/fontconfig/fonts.conf" "$BACKUP/fontconfig/fonts.conf"
@@ -161,6 +169,24 @@ for d in "$HOME/.vscode/extensions" "$HOME/.vscode-oss/extensions"; do
   vs_found=1
 done
 [ "$vs_found" = 1 ] || skip "no VS Code extensions directory"
+# Installing the extension does not select it — VS Code keeps whatever
+# workbench.colorTheme already says, so the setting is rewritten here. The file
+# is JSONC, so the value is patched textually rather than reparsed.
+if [ -f "$CONF/Code/User/settings.json" ] && [ "$DRY" = 0 ]; then
+  python3 - "$CONF/Code/User/settings.json" "$THEME_NAME" <<'PYEOF'
+import re, sys, pathlib
+p, name = pathlib.Path(sys.argv[1]), sys.argv[2]
+s = p.read_text()
+m = re.search(r'("workbench\.colorTheme"\s*:\s*")([^"]*)(")', s)
+if m and m.group(2) != name:
+    p.write_text(s[:m.start(2)] + name + s[m.end(2):])
+elif not m:
+    p.write_text(re.sub(r'^\s*\{', '{\n    "workbench.colorTheme": "%s",' % name, s, count=1))
+PYEOF
+  ok "VS Code colour theme selected (restart VS Code — new extensions are not hot-loaded)"
+elif [ "$DRY" = 1 ]; then
+  printf '   %swould:%s select the VS Code colour theme\n' "$c_dim" "$c_0"
+fi
 
 say "Firefox"
 # Both the deb and the snap keep profiles in their own tree; a real profile is
@@ -279,6 +305,21 @@ if [ "$SYSTEM" = 1 ]; then
   else
     skip "Plymouth theme not built"
   fi
+fi
+
+if [ "$DESKTOP" = 1 ]; then
+  say "Desktop widgets"
+  if [ -f "$DIST/config/desktop-layout.js" ] && command -v qdbus6 >/dev/null; then
+    if [ "$DRY" = 1 ]; then
+      printf '   %swould:%s place the clock, system card and media widget\n' "$c_dim" "$c_0"
+    else
+      # Through plasmashell's scripting API, not by editing the appletsrc:
+      # plasmashell holds that file in memory and rewrites it on exit.
+      r="$(qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
+           "$(cat "$DIST/config/desktop-layout.js")" 2>&1 | tail -1)"
+      ok "${r:-no response from plasmashell}"
+    fi
+  else skip "plasmashell scripting unavailable"; fi
 fi
 
 # ── apply ──────────────────────────────────────────────────────────────────────
