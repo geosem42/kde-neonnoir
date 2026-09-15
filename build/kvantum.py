@@ -19,6 +19,12 @@ import math
 
 R  = 7     # corner radius
 BW = 1     # border width
+
+# From the artboard's own spec line: "Primary controls 32 px · compact rows
+# 28-30 px · in-titlebar 24 px. 7 px radius, 1 px border throughout."
+H_PRIMARY = 32
+H_ROW     = 28
+V_PRIMARY = 5     # vertical frame slice; see framed() for why it is not R
 K  = 24    # nominal length of a stretched edge / interior in the artwork
 
 STATES = ('normal', 'focused', 'pressed', 'toggled', 'disabled')
@@ -215,11 +221,23 @@ def artwork(T):
 
     # base -> (radius, {state: (fill, border)}, extra kwargs)
     frames = {
+        # No filled-cyan primary button: Kvantum's only hook for a dialog's
+        # default button is `<element>-default-indicator`, a small corner mark
+        # drawn over the ordinary fill. The artboard's solid accent Apply is
+        # not expressible here, so the default button keeps the focus ring and
+        # normal_default_pushbutton stays on to suppress the stray marker.
         'button':   (R, {'normal':   (T['surface.raised'], hair),
                          'focused':  (hov, T['decoration.hover']),
                          'pressed':  (T['surface.float'], cyd),
                          'toggled':  (sel, cy),
                          'disabled': (T['surface.disabled'], dis)}, {}),
+        # Toolbar buttons share the shape but not that fill: a checked tool is a
+        # quiet raised box with a cyan edge, not a solid accent slab.
+        'toolbtn':  (R, {'normal':   (none, none),
+                         'focused':  (T['surface.raised'], hair),
+                         'pressed':  (T['surface.float'], cyd),
+                         'toggled':  (T['accent.cyan.ghost'], cy),
+                         'disabled': (none, none)}, {}),
         'combo':    (R, {'normal':   (T['surface.raised'], hair),
                          'focused':  (hov, T['decoration.hover']),
                          'pressed':  (T['surface.float'], cy),
@@ -365,9 +383,18 @@ def kvconfig(T, THEME_NAME):
         return f'[{name}]\n{body}\n'
 
     F = dict(frame='true', frame__top=R, frame__bottom=R, frame__left=R, frame__right=R)
-    def framed(element, r=R, interior=True, **extra):
+
+    def framed(element, r=R, interior=True, v=None, **extra):
+        """`v` sets the vertical frame slices independently of the radius.
+
+        A control's height is text height + frame.top + frame.bottom + the text
+        margins, with no way to subtract: at a 7px slice top and bottom every
+        primary control came out 38-40px against the artboard's 32. Narrowing
+        only the vertical slices keeps the 7px horizontal radius and buys back
+        the 6px, at the cost of corners that are 7 wide by `v` tall."""
+        vv = r if v is None else v
         d = dict(frame='true', frame__element=element,
-                 frame__top=r, frame__bottom=r, frame__left=r, frame__right=r,
+                 frame__top=vv, frame__bottom=vv, frame__left=r, frame__right=r,
                  interior='true' if interior else 'false')
         if interior:
             d['interior__element'] = element
@@ -484,22 +511,33 @@ def kvconfig(T, THEME_NAME):
                text__toggle__color=T['selection.fg'],
                text__normal__inactive__color=T['text.dim'])
 
-    out.append(sec('PanelButtonCommand', **framed('button'),
+    # The default button carries the accent as a fill, so its label has to flip
+    # to the on-colour; every other control keeps the light toggle text.
+    btn_txt = dict(txt, text__toggle__color=T['text.oncolor'])
+    out.append(sec('PanelButtonCommand', **framed('button', v=V_PRIMARY),
                    indicator__element='arrow', indicator__size='12',
-                   min_height='+0.3font', min_width='+0.8font',
-                   text__margin__top='2', text__margin__bottom='2',
-                   text__margin__left='8', text__margin__right='8',
+                   min_height=H_PRIMARY, min_width='+0.8font',
+                   text__margin__top='1', text__margin__bottom='1',
+                   text__margin__left='12', text__margin__right='12',
+                   text__iconspacing='6', **btn_txt))
+    out.append(sec('PanelButtonTool', **framed('toolbtn', v=V_PRIMARY),
+                   indicator__element='arrow', indicator__size='12',
+                   min_height=H_PRIMARY,
+                   text__margin__top='1', text__margin__bottom='1',
+                   text__margin__left='6', text__margin__right='6',
                    text__iconspacing='6', **txt))
-    out.append(sec('PanelButtonTool', inherits='PanelButtonCommand',
-                   text__margin__left='4', text__margin__right='4'))
-    out.append(sec('ToolbarButton', inherits='PanelButtonCommand'))
+    out.append(sec('ToolbarButton', inherits='PanelButtonTool'))
     out.append(sec('DropDownButton', inherits='PanelButtonCommand',
                    indicator__element='arrow-down'))
-    out.append(sec('ComboBox', **framed('combo'), indicator__element='arrow-down',
-                   indicator__size='12', min_height='+0.3font',
-                   text__margin__left='8', text__margin__right='6', **txt))
-    out.append(sec('LineEdit', **framed('lineedit'), min_height='+0.3font',
-                   text__margin__left='8', text__margin__right='8', **txt))
+    out.append(sec('ComboBox', **framed('combo', v=V_PRIMARY),
+                   indicator__element='arrow-down',
+                   indicator__size='12', min_height=H_PRIMARY,
+                   text__margin__top='1', text__margin__bottom='1',
+                   text__margin__left='10', text__margin__right='8', **txt))
+    out.append(sec('LineEdit', **framed('lineedit', v=V_PRIMARY),
+                   min_height=H_PRIMARY,
+                   text__margin__top='1', text__margin__bottom='1',
+                   text__margin__left='10', text__margin__right='10', **txt))
     out.append(sec('ToolbarLineEdit', inherits='LineEdit'))
     out.append(sec('ToolbarComboBox', inherits='ComboBox'))
     out.append(sec('IndicatorSpinBox', inherits='LineEdit',
@@ -516,7 +554,9 @@ def kvconfig(T, THEME_NAME):
     out.append(sec('Tab', frame='true', frame__element='tab',
                    frame__top='3', frame__bottom='3', frame__left='3', frame__right='3',
                    interior='true', interior__element='tab',
-                   min_height='+0.4font', text__margin__left='10', text__margin__right='10',
+                   min_height=H_PRIMARY,
+                   text__margin__top='1', text__margin__bottom='1',
+                   text__margin__left='14', text__margin__right='14',
                    text__normal__color=T['text.dim'],
                    text__focus__color=T['text.normal'],
                    text__toggle__color=T['accent.cyan'],
@@ -524,7 +564,7 @@ def kvconfig(T, THEME_NAME):
     out.append(sec('TabFrame', **framed('tabframe')))
     out.append(sec('TreeExpander', indicator__element='tree', indicator__size='12'))
     out.append(sec('HeaderSection', **framed('header', r=1),
-                   min_height='+0.3font', text__margin__left='8', text__margin__right='8',
+                   min_height=H_ROW, text__margin__left='8', text__margin__right='8',
                    text__bold='true',
                    text__normal__color=T['accent.cyan'],
                    text__focus__color=T['accent.cyan'],
@@ -532,8 +572,9 @@ def kvconfig(T, THEME_NAME):
     out.append(sec('SizeGrip', indicator__element='resize-grip', indicator__size='12'))
     out.append(sec('Toolbar', **framed('toolbar', r=1)))
     out.append(sec('MenuBar', **framed('menubar', r=1)))
-    out.append(sec('MenuBarItem', **framed('menubaritem', r=4),
-                   min_height='+0.2font', text__margin__left='8', text__margin__right='8',
+    out.append(sec('MenuBarItem', **framed('menubaritem', r=4, v=3),
+                   min_height=H_ROW, text__margin__top='0', text__margin__bottom='0',
+                   text__margin__left='10', text__margin__right='10',
                    **txt))
     out.append(sec('Slider', **framed('slider', r=2)))
     out.append(sec('SliderCursor', frame='false', interior='true',
@@ -542,8 +583,9 @@ def kvconfig(T, THEME_NAME):
                    min_height='+0.1font',
                    text__normal__color=T['text.normal']))
     out.append(sec('ProgressbarContents', **framed('progress-pattern', r=4)))
-    out.append(sec('ItemView', **framed('itemview', r=4),
-                   min_height='+0.25font',
+    out.append(sec('ItemView', **framed('itemview', r=4, v=2),
+                   min_height=H_ROW,
+                   text__margin__top='0', text__margin__bottom='0',
                    text__margin__left='6', text__margin__right='6',
                    text__normal__color=T['text.normal'],
                    text__focus__color=T['text.normal'],
@@ -554,10 +596,11 @@ def kvconfig(T, THEME_NAME):
     out.append(sec('ScrollbarGroove', **framed('scrollbargroove', r=1, interior=False)))
     out.append(sec('ScrollbarSlider', **framed('scrollbarslider', r=5),
                    indicator__element='grip', indicator__size='10'))
-    out.append(sec('MenuItem', **framed('menuitem', r=4),
+    out.append(sec('MenuItem', **framed('menuitem', r=4, v=3),
                    indicator__element='arrow', indicator__size='12',
-                   min_height='+0.3font',
-                   text__margin__left='8', text__margin__right='8',
+                   min_height=H_ROW,
+                   text__margin__top='0', text__margin__bottom='0',
+                   text__margin__left='10', text__margin__right='10',
                    text__iconspacing='8', **txt))
     out.append(sec('Menu', **framed('menu'), text__margin='0'))
     out.append(sec('TitleBar', **framed('titlebar', r=1),
