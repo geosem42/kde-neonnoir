@@ -153,6 +153,73 @@ GLYPHS = {
     'bookmark': '<path d="M6.4 3.6h11.2a1.2 1.2 0 0 1 1.2 1.2v15.6L12 16.4l-6.8 4V4.8'
                 'a1.2 1.2 0 0 1 1.2-1.2z"/>',
 
+    # ── places, and the tray applets that ship a filled Breeze glyph ──────────
+
+    'house': '<path d="M3.4 10.2 12 3.4l8.6 6.8v9a1.8 1.8 0 0 1-1.8 1.8H5.2'
+             'a1.8 1.8 0 0 1-1.8-1.8z"/>'
+             '<path d="M9.4 21v-7h5.2v7"/>',
+
+    'monitor': '<rect x="2.6" y="4.2" width="18.8" height="12.6" rx="2"/>'
+               '<path d="M8 20.4h8M12 16.8v3.6"/>',
+
+    'trash': '<path d="M4.2 6.8h15.6"/>'
+             '<path d="M6.4 6.8l.9 12.2a1.8 1.8 0 0 0 1.8 1.6h5.8a1.8 1.8 0 0 0 1.8-1.6'
+             'l.9-12.2"/>'
+             '<path d="M9.4 6.8V4.8a1.4 1.4 0 0 1 1.4-1.4h2.4a1.4 1.4 0 0 1 1.4 1.4v2"/>'
+             '<path d="M10.4 10.4v6.6M13.6 10.4v6.6"/>',
+
+    'clock': '<circle cx="12" cy="12" r="9"/><path d="M12 6.6V12l3.6 2.2"/>',
+
+    'drive': '<rect x="2.6" y="4.4" width="18.8" height="15.2" rx="2.2"/>'
+             '<path d="M2.6 14h18.8"/><circle cx="17.4" cy="16.8" r="1"/>'
+             '<path d="M6.2 8.6h6"/>',
+
+    'clipboard': '<path d="M9 4.2H7a1.8 1.8 0 0 0-1.8 1.8v13a1.8 1.8 0 0 0 1.8 1.8h10'
+                 'a1.8 1.8 0 0 0 1.8-1.8V6A1.8 1.8 0 0 0 17 4.2h-2"/>'
+                 '<rect x="9" y="2.6" width="6" height="3.6" rx="1.2"/>'
+                 '<path d="M8.6 11.6h6.8M8.6 15.2h4.6"/>',
+
+    'lock': '<rect x="4" y="10" width="16" height="10.6" rx="2.2"/>'
+            '<path d="M7.8 10V7.4a4.2 4.2 0 0 1 8.4 0V10"/>'
+            '<path d="M12 14v2.6"/>',
+
+    'moon': '<path d="M20.4 14.4A8.8 8.8 0 0 1 9.6 3.6a8.8 8.8 0 1 0 10.8 10.8z"/>',
+
+    # ── file types ────────────────────────────────────────────────────────────
+
+    'note': '<path d="M9.4 18V5.6l9.2-1.8v12.4"/>'
+            '<ellipse cx="6.6" cy="18" rx="2.8" ry="2.3"/>'
+            '<ellipse cx="15.8" cy="16.2" rx="2.8" ry="2.3"/>',
+
+    # Perforations down both edges, not full-height rules: with rules it read as
+    # a 3x2 grid, indistinguishable from the spreadsheet glyph.
+    'film': '<rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.2"/>'
+            '<path d="M2.6 8.4h3.6M2.6 12h3.6M2.6 15.6h3.6"/>'
+            '<path d="M17.8 8.4h3.6M17.8 12h3.6M17.8 15.6h3.6"/>'
+            '<path d="M6.2 4.6v14.8M17.8 4.6v14.8"/>',
+
+    'book': '<path d="M3.4 5a1.6 1.6 0 0 1 1.6-1.6h5.4a1.6 1.6 0 0 1 1.6 1.6v14.8'
+            'a1.6 1.6 0 0 0-1.6-1.6H3.4z"/>'
+            '<path d="M20.6 5a1.6 1.6 0 0 0-1.6-1.6h-5.4A1.6 1.6 0 0 0 12 5v14.8'
+            'a1.6 1.6 0 0 1 1.6-1.6h7z"/>',
+
+    'typeface': '<path d="M5.6 3.4h8.4L19 8.4v12.2H5.6z"/>'
+                '<path d="M13.8 3.4v5.2H19"/>'
+                '<path d="M8.6 17.4l2.8-6.6 2.8 6.6M9.6 15.2h3.6"/>',
+
+    'table': '<rect x="3" y="4.6" width="18" height="14.8" rx="2"/>'
+             '<path d="M3 9.6h18M3 14.4h18M9.4 4.6v14.8"/>',
+
+    'slide': '<rect x="2.6" y="4.6" width="18.8" height="12.4" rx="2"/>'
+             '<path d="M6.6 8.8h6.8M6.6 12.6h10.8"/>'
+             '<path d="M12 17v3.4M8.6 20.4h6.8"/>',
+
+    'unknown': '<path d="M5.6 3.4h8.4L19 8.4v12.2H5.6z"/>'
+               '<path d="M13.8 3.4v5.2H19"/>'
+               '<path d="M9.6 12.4a2.4 2.4 0 0 1 4.7.8c0 1.6-2.3 2.4-2.3 2.4"/>'
+               '<path d="M12 18.2h.01"/>',
+
+
     'question': '<circle cx="12" cy="12" r="9"/>'
                 '<path d="M9.4 9.4a2.7 2.7 0 0 1 5.2.9c0 1.8-2.6 2.7-2.6 2.7"/>'
                 '<path d="M12 17.2h.01"/>',
@@ -252,3 +319,66 @@ def category_svgs(stroke_hex):
         out[name] = svg
         out[name + '-symbolic'] = svg
     return out
+
+
+# Sidebar places. Emitted only at the SMALL fixed sizes (see icons.py): Breeze
+# itself ships monochrome place icons at 16/22/24 and coloured ones at 32 and
+# up, and a file manager uses the small set in its sidebar and the large set in
+# the file view. Following the same split is what lets the sidebar be outlines
+# while folders in the view stay cyan and filled.
+PLACES = {
+    'user-home': 'house',            'folder-home': 'house',
+    'user-desktop': 'monitor',       'folder-desktop': 'monitor',
+    'desktop': 'monitor',
+    'folder-documents': 'document',  'folder-text': 'document',
+    'folder-downloads': 'download',  'folder-download': 'download',
+    'folder-music': 'note',          'folder-sound': 'note',
+    'folder-pictures': 'image',      'folder-images': 'image',
+    'folder-videos': 'film',         'folder-video': 'film',
+    'user-trash': 'trash',           'user-trash-full': 'trash',
+    'trash-empty': 'trash',          'trash-full': 'trash',
+    'network-workgroup': 'nodes',    'folder-network': 'nodes',
+    'folder-remote': 'nodes',
+    'document-open-recent': 'clock', 'folder-recent': 'clock',
+    'folder-temp': 'clock',
+    'folder-root': 'drive',          'drive-harddisk': 'drive',
+    'folder-development': 'wrench',  'folder-script': 'wrench',
+    'folder-html': 'globe',          'folder-cloud': 'globe',
+    'folder-print': 'document',      'folder-publicshare': 'nodes',
+    'folder-templates': 'slide',     'folder-games': 'gamepad',
+    'folder-mail': 'mail',           'folder-favorites': 'bookmark',
+    'favorites': 'bookmark',         'bookmarks': 'bookmark',
+    'folder-important': 'bookmark',  'folder-locked': 'lock',
+    'folder-encrypted': 'lock',      'folder-tar': 'archive',
+    'folder-image-people': 'image',  'folder-camera': 'camera',
+}
+
+# Tray applets whose icon is an application or action name rather than one of
+# the status families, so statusicons.py never reaches them. These are the ones
+# that were still showing a filled Breeze glyph in the panel.
+TRAY = {
+    'klipper': 'clipboard',          'edit-paste': 'clipboard',
+    'klipper-symbolic': 'clipboard',
+    'plasmavault': 'lock',           'wallet-closed': 'lock',
+    'wallet-open': 'lock',           'vault-closed': 'lock',
+    'vault-open': 'lock',            'plasmavault-symbolic': 'lock',
+    'redshift-status-on': 'moon',    'redshift-status-off': 'moon',
+    'redshift-status-on-symbolic': 'moon',
+    'redshift-status-off-symbolic': 'moon',
+    'night-color-on': 'moon',        'night-color-off': 'moon',
+}
+
+
+def place_svgs(stroke_hex):
+    """{icon-name: svg} for the file-manager sidebar."""
+    out = {}
+    for name, glyph in PLACES.items():
+        svg = _wrap(GLYPHS[glyph], stroke_hex)
+        out[name] = svg
+        out[name + '-symbolic'] = svg
+    return out
+
+
+def tray_svgs(stroke_hex):
+    """{icon-name: svg} for tray applets outside the status families."""
+    return {name: _wrap(GLYPHS[glyph], stroke_hex) for name, glyph in TRAY.items()}

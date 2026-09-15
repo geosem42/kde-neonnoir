@@ -19,6 +19,11 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [x] Checked: ships with plasma-workspace, already on the theme
 - [ ] Third-party result icons are vendor logos
 
+## Tray
+
+- [x] Clipboard, vault and night-colour showed filled Breeze glyphs — they use
+      app/action names, so the status sweep never reached them
+
 ## Konsole
 
 - [x] Compared against artboard 06. Chrome already matches: titlebar, line icon,
@@ -42,8 +47,10 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 ## Dolphin
 
 - [x] File icons are grey line art — all 517 mimetype names swept by pattern
+- [x] Sidebar place icons are our outline glyphs (small sizes only, so folders
+      in the file view stay cyan and filled)
 - [ ] Sidebar section headers are plain grey; design is cyan caps
-- [x] Focus outline around the file view softened from #36D7D7 to #067878
+- [x] Focus outline around the file view is the popup grey #454F58, not an accent
 
 ## Other apps
 

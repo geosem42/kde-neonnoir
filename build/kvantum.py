@@ -254,11 +254,11 @@ def artwork(T):
         'menu':     (R, {'normal':   (T['surface.float'], flt)}, {}),
         'tooltip':  (5, {'normal':   (T['tooltip.bg'], flt)}, {}),
         # The focused frame is the outline around a file view or a scroll area.
-        # At full accent it ringed Dolphin's whole file list in bright cyan,
-        # which the artboard does not draw at all; the deep tone keeps the focus
-        # signal without the halo.
+        # The artboard draws no ring there at all, so this is the same neutral
+        # grey the popup surfaces use rather than any strength of accent — an
+        # accent ring around the whole file list reads as an alert.
         'common':   (R, {'normal':   (none, hair),
-                         'focused':  (none, T['accent.cyan.deep']),
+                         'focused':  (none, flt),
                          'disabled': (none, dis)}, {}),
         'group':    (R, {'normal':   (none, hair)}, {}),
         'dock':     (4, {'normal':   (T['surface.window'], hair)}, {}),

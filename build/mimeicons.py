@@ -15,41 +15,6 @@ from appicons import GLYPHS, STROKE, VIEWBOX
 
 DIRS = ('mimetypes/scalable',)
 
-# Extra glyphs that only file types need.
-EXTRA = {
-    'note': '<path d="M9.4 18V5.6l9.2-1.8v12.4"/>'
-            '<ellipse cx="6.6" cy="18" rx="2.8" ry="2.3"/>'
-            '<ellipse cx="15.8" cy="16.2" rx="2.8" ry="2.3"/>',
-
-    # Perforations down both edges, not full-height rules: with rules it was
-    # a 3x2 grid, indistinguishable from the spreadsheet glyph.
-    'film': '<rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.2"/>'
-            '<path d="M2.6 8.4h3.6M2.6 12h3.6M2.6 15.6h3.6"/>'
-            '<path d="M17.8 8.4h3.6M17.8 12h3.6M17.8 15.6h3.6"/>'
-            '<path d="M6.2 4.6v14.8M17.8 4.6v14.8"/>',
-
-    'book': '<path d="M3.4 5a1.6 1.6 0 0 1 1.6-1.6h5.4a1.6 1.6 0 0 1 1.6 1.6v14.8'
-            'a1.6 1.6 0 0 0-1.6-1.6H3.4z"/>'
-            '<path d="M20.6 5a1.6 1.6 0 0 0-1.6-1.6h-5.4A1.6 1.6 0 0 0 12 5v14.8'
-            'a1.6 1.6 0 0 1 1.6-1.6h7z"/>',
-
-    'typeface': '<path d="M5.6 3.4h8.4L19 8.4v12.2H5.6z"/>'
-                '<path d="M13.8 3.4v5.2H19"/>'
-                '<path d="M8.6 17.4l2.8-6.6 2.8 6.6M9.6 15.2h3.6"/>',
-
-    'table': '<rect x="3" y="4.6" width="18" height="14.8" rx="2"/>'
-             '<path d="M3 9.6h18M3 14.4h18M9.4 4.6v14.8"/>',
-
-    'slide': '<rect x="2.6" y="4.6" width="18.8" height="12.4" rx="2"/>'
-             '<path d="M6.6 8.8h6.8M6.6 12.6h10.8"/>'
-             '<path d="M12 17v3.4M8.6 20.4h6.8"/>',
-
-    'unknown': '<path d="M5.6 3.4h8.4L19 8.4v12.2H5.6z"/>'
-               '<path d="M13.8 3.4v5.2H19"/>'
-               '<path d="M9.6 12.4a2.4 2.4 0 0 1 4.7.8c0 1.6-2.3 2.4-2.3 2.4"/>'
-               '<path d="M12 18.2h.01"/>',
-}
-
 # Order matters: the first pattern that matches a name wins, so the specific
 # rules sit above the catch-alls.
 RULES = [
@@ -95,8 +60,7 @@ def _glyph_for(name):
 
 def svgs(stroke_hex, breeze_root):
     """{icon-name: svg} for every mimetype name breeze-dark ships."""
-    pool = dict(GLYPHS)
-    pool.update(EXTRA)
+    pool = GLYPHS
     names = set()
     for svg in (breeze_root / 'mimetypes').rglob('*.svg'):
         names.add(svg.stem)

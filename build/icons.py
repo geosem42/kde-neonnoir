@@ -49,6 +49,20 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     if not dirs:
         return ['  ! no folder icons found — icon theme skipped']
 
+    # Sidebar places. Written ONLY into the small fixed sizes, which is the set
+    # a file manager's sidebar draws from; 32 and up keep the recoloured cyan
+    # folders the file view uses. Breeze splits its own place icons the same
+    # way, monochrome below 32 and coloured above.
+    places = appicons.place_svgs(app_glyph_hex)
+    n_places = 0
+    for d in dirs:
+        size = d.split('/')[1]
+        if int(size.split('@')[0]) >= 32:
+            continue
+        for name, svg in places.items():
+            (dst / d / f'{name}.svg').write_text(svg, encoding='utf-8')
+            n_places += 1
+
     # A directory in a file manager is drawn from the MIME type, not the place:
     # Dolphin asks for `inode-directory`, which breeze keeps in mimetypes/ as a
     # SYMLINK back into its own places/folder.svg. A theme that recolours only
@@ -105,6 +119,16 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     for name, svg in sorted(mime.items()):
         (mt / f'{name}.svg').write_text(svg, encoding='utf-8')
 
+    # Tray applets whose icon name is an app or action rather than a status
+    # family — klipper, plasmavault, the night-colour toggle. Written into every
+    # scalable context because the tray asks for them under more than one.
+    tray = appicons.tray_svgs(app_glyph_hex)
+    for d in ('apps/scalable',) + statusicons.DIRS:
+        outdir = dst / d
+        outdir.mkdir(parents=True, exist_ok=True)
+        for name, svg in tray.items():
+            (outdir / f'{name}.svg').write_text(svg, encoding='utf-8')
+
     scalable = (['apps/scalable', 'categories/scalable', 'mimetypes/scalable']
                 + list(statusicons.DIRS))
     lines = ['[Icon Theme]', f'Name={THEME_NAME}',
@@ -140,5 +164,7 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
             f'{len(glyphs)} app glyphs, {len(category)} category glyphs, '
             f'{len(status)} tray glyphs, '
             f'{n_mime} inode-directory, {len(mime)} file types, '
+            f'{len(places)} places x{n_places // max(1, len(places))} sizes, '
+            f'{len(tray)} tray applets, '
             f'{len(dirs) + len(mime_dirs) + len(scalable)} dirs; '
             f'inherits breeze-dark)']
