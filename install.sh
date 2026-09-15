@@ -429,7 +429,7 @@ if [ "$DESKTOP" = 1 ]; then
 [Dolphin]
 Version=4
 ViewMode=1
-PreviewsShown=false
+PreviewsShown=true
 GroupedSorting=false
 SortRole=text
 SortOrder=0
@@ -437,6 +437,17 @@ SortFoldersFirst=true
 VisibleRoles=Details_text,Details_size,Details_modificationtime
 EOF
     ok "details view, no thumbnails"
+  fi
+  # Previews on, folder previews off. These are two different controls: the
+  # artboard draws folders as plain glyphs, but a file manager that cannot show
+  # you a picture is worse than one that does not match a drawing. Dropping the
+  # directorythumbnail plugin keeps the folder icon plain and leaves image,
+  # video and document previews working.
+  plugins="$(kreadconfig6 --file dolphinrc --group PreviewSettings --key Plugins 2>/dev/null)"
+  if [ -n "$plugins" ]; then
+    trimmed="$(printf '%s' "$plugins" | tr ',' '\n' | grep -vx 'directorythumbnail' \
+               | paste -sd, -)"
+    run kwriteconfig6 --file dolphinrc --group PreviewSettings --key Plugins "$trimmed"
   fi
   run kwriteconfig6 --file dolphinrc --group General --key GlobalViewProps true
   run kwriteconfig6 --file dolphinrc --group DetailsMode --key ExpandableFolders false

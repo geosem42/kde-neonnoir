@@ -54,8 +54,11 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       Modified columns — the artboard's layout. `GlobalViewProps=true` plus a
       written `view_properties/global/.directory`; ViewMode=1 is Details
       (0 is Icons, 2 is Compact)
-- [x] No folder thumbnails, so files carry their own type icon rather than a
-      preview
+- [x] Folder previews off, file previews on. Two different controls: the
+      artboard draws folders as plain glyphs, but a file manager that cannot
+      show you a picture is worse than one that does not match a drawing.
+      Dropping the `directorythumbnail` plugin keeps folders plain and leaves
+      image, video and document previews working
 - [x] No expander arrows on folders (`ExpandableFolders=false`)
 - [x] Flat rows. The zebra stripe was one step off the ground, which reads as
       banding at Dolphin's row height; the artboard's list is flat, so
