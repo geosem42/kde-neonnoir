@@ -466,6 +466,37 @@ if [ "$DESKTOP" = 1 ]; then
   [ "$DRY" = 1 ] || command -v update-desktop-database >/dev/null \
     && run update-desktop-database "$SHARE/applications" 2>/dev/null || true
 
+  # Dolphin's view. The artboard's file manager is a details list with no
+  # expander arrows, no thumbnails and one set of properties for every folder;
+  # Dolphin defaults to an icon grid with per-folder properties. None of that is
+  # style — it is view state, which lives here rather than in the theme package.
+  # ViewMode=1 is Details (0 is Icons, 2 is Compact).
+  say "Dolphin view"
+  vp="$SHARE/dolphin/view_properties/global"
+  if [ -f "$vp/.directory" ] && [ ! -e "$BACKUP/dolphin-global-directory" ]; then
+    run cp "$vp/.directory" "$BACKUP/dolphin-global-directory"
+    ok "view properties backed up"
+  fi
+  if [ "$DRY" = 1 ]; then
+    printf '   %swould:%s set the details view for every folder\n' "$c_dim" "$c_0"
+  else
+    run mkdir -p "$vp"
+    cat > "$vp/.directory" <<'EOF'
+[Dolphin]
+Version=4
+ViewMode=1
+PreviewsShown=false
+GroupedSorting=false
+SortRole=text
+SortOrder=0
+SortFoldersFirst=true
+VisibleRoles=Details_text,Details_size,Details_modificationtime
+EOF
+    ok "details view, no thumbnails"
+  fi
+  run kwriteconfig6 --file dolphinrc --group General --key GlobalViewProps true
+  run kwriteconfig6 --file dolphinrc --group DetailsMode --key ExpandableFolders false
+
   # Account picture. This is user data, not theme: Kickoff reads it through
   # KUser, which resolves ~/.face.icon (normally a symlink to ~/.face), and the
   # same file shows on the lock screen. Backed up, and uninstall puts it back.

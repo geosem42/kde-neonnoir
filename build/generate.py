@@ -61,7 +61,10 @@ def fg_set(link='accent.indigo', visited='accent.indigo.visited',
 # is held to AA against its own alternate rather than AAA.
 GROUPS = [
     ('Colors:Window',            'surface.window', 'surface.raised', fg_set(), 7.0),
-    ('Colors:View',              'surface.view',   'surface.alt',    fg_set(), 7.0),
+    # Alternate == normal on purpose: this is the zebra stripe in every list and
+    # tree view, and the artboard's file list is flat. A stripe one step off the
+    # ground reads as banding at Dolphin's row height, not as a reading aid.
+    ('Colors:View',              'surface.view',   'surface.view',   fg_set(), 7.0),
     ('Colors:Button',            'surface.raised', 'surface.float',  fg_set(), 7.0),
     ('Colors:Tooltip',           'tooltip.bg',     'surface.float',  fg_set(), 7.0),
     ('Colors:Complementary',     'surface.void',   'surface.view',   fg_set(), 7.0),

@@ -69,7 +69,18 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [x] File icons are grey line art — all 517 mimetype names swept by pattern
 - [x] Sidebar place icons are our outline glyphs — all 231 names swept by
       pattern, small sizes only so folders in the file view stay cyan and filled
+- [x] Details list for every folder, sorted column header in cyan, Size and
+      Modified columns — the artboard's layout. `GlobalViewProps=true` plus a
+      written `view_properties/global/.directory`; ViewMode=1 is Details
+      (0 is Icons, 2 is Compact)
+- [x] No folder thumbnails: the artboard's files carry our glyphs, not previews
+- [x] No expander arrows on folders (`ExpandableFolders=false`)
+- [x] Flat rows. The zebra stripe was one step off the ground, which reads as
+      banding at Dolphin's row height; the artboard's list is flat, so
+      `Colors:View` alternate now equals normal
 - [ ] Sidebar section headers are plain grey; design is cyan caps
+- [ ] Address bar is a bare breadcrumb; design is a bordered pill with a
+      separate search pill beside it
 - [x] Focus outline around the file view is the popup grey #454F58, not an accent
 
 ## Other apps

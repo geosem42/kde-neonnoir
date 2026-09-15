@@ -135,6 +135,14 @@ for base in "$HOME/.mozilla/firefox" "$HOME/snap/firefox/common/.mozilla/firefox
   done
 done
 
+say "Dolphin view"
+vp="$SHARE/dolphin/view_properties/global/.directory"
+if [ -f "$BACKUP/dolphin-global-directory" ]; then
+  run cp "$BACKUP/dolphin-global-directory" "$vp"; ok "view properties restored"
+elif [ -f "$vp" ]; then
+  run rm -f "$vp"; ok "view properties removed"
+else skip "no view properties to restore"; fi
+
 say "Application icon overrides"
 # Only the files we wrote: each carries X-NeonNoir-IconOverride. Anything of
 # yours that we replaced was copied aside at install time and goes back.
