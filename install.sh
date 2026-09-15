@@ -49,7 +49,8 @@ srun() { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s %s\n' "$c_dim" "$c_0" 
 
 # ── back up anything we are about to edit, once ────────────────────────────────
 say "Backing up current settings"
-run mkdir -p "$BACKUP" "$BACKUP/gtk-3.0" "$BACKUP/gtk-4.0" "$BACKUP/Kvantum"
+run mkdir -p "$BACKUP" "$BACKUP/gtk-3.0" "$BACKUP/gtk-4.0" "$BACKUP/Kvantum" \
+             "$BACKUP/fontconfig" "$BACKUP/firefox"
 for f in kdeglobals kwinrc plasmarc breezerc konsolerc kcminputrc ksplashrc \
          kscreenlockerrc plasmashellrc plasma-org.kde.plasma.desktop-appletsrc; do
   if [ -f "$CONF/$f" ]; then
@@ -57,6 +58,11 @@ for f in kdeglobals kwinrc plasmarc breezerc konsolerc kcminputrc ksplashrc \
     else run cp "$CONF/$f" "$BACKUP/$f"; ok "$f"; fi
   fi
 done
+if [ -f "$CONF/fontconfig/fonts.conf" ]; then
+  if [ -e "$BACKUP/fontconfig/fonts.conf" ]; then skip "fontconfig/fonts.conf already backed up"
+  else run cp "$CONF/fontconfig/fonts.conf" "$BACKUP/fontconfig/fonts.conf"
+       ok "fontconfig/fonts.conf"; fi
+fi
 if [ -f "$CONF/Kvantum/kvantum.kvconfig" ]; then
   if [ -e "$BACKUP/Kvantum/kvantum.kvconfig" ]; then skip "Kvantum/kvantum.kvconfig already backed up"
   else run cp "$CONF/Kvantum/kvantum.kvconfig" "$BACKUP/Kvantum/kvantum.kvconfig"
@@ -143,6 +149,53 @@ install_tree "$DIST/look-and-feel/$PKG_ID" "$SHARE/plasma/look-and-feel/$PKG_ID"
 
 say "Wallpaper"
 install_tree "$DIST/wallpapers/$THEME_ID" "$SHARE/wallpapers/$THEME_ID"
+
+say "Font rendering"
+install_file "$DIST/fontconfig/fonts.conf" "$CONF/fontconfig/fonts.conf"
+
+say "VS Code"
+vs_found=0
+for d in "$HOME/.vscode/extensions" "$HOME/.vscode-oss/extensions"; do
+  [ -d "$d" ] || continue
+  install_tree "$DIST/vscode/neon-noir-theme" "$d/neon-noir-theme"
+  vs_found=1
+done
+[ "$vs_found" = 1 ] || skip "no VS Code extensions directory"
+
+say "Firefox"
+# Both the deb and the snap keep profiles in their own tree; a real profile is
+# any directory with a prefs.js in it.
+ff_found=0
+for base in "$HOME/.mozilla/firefox" "$HOME/snap/firefox/common/.mozilla/firefox"; do
+  [ -d "$base" ] || continue
+  for prof in "$base"/*/; do
+    [ -f "$prof/prefs.js" ] || continue
+    name="$(basename "$prof")"
+    run mkdir -p "$prof/chrome" "$BACKUP/firefox/$name"
+    install_file "$DIST/firefox/userChrome.css"  "$prof/chrome/userChrome.css"
+    install_file "$DIST/firefox/userContent.css" "$prof/chrome/userContent.css"
+    # Firefox ignores userChrome.css unless this pref is on, and it can only be
+    # set from user.js — append rather than replace, so other prefs survive.
+    if [ -f "$prof/user.js" ]; then
+      if [ ! -e "$BACKUP/firefox/$name/user.js" ]; then
+        run cp "$prof/user.js" "$BACKUP/firefox/$name/user.js"
+      fi
+      if grep -q legacyUserProfileCustomizations "$prof/user.js" 2>/dev/null; then
+        skip "$name: stylesheet pref already set"
+      else
+        if [ "$DRY" = 1 ]; then printf '   %swould:%s append the stylesheet pref to %s\n' \
+             "$c_dim" "$c_0" "$prof/user.js"
+        else cat "$DIST/firefox/user.js" >> "$prof/user.js"; fi
+        ok "$name: stylesheet pref"
+      fi
+    else
+      install_file "$DIST/firefox/user.js" "$prof/user.js"
+    fi
+    ff_found=1
+  done
+done
+if [ "$ff_found" = 1 ]; then warn "Firefox must be fully restarted to pick up the chrome"
+else skip "no Firefox profile found"; fi
 
 say "Configuration"
 if [ -f "$DIST/config/settings.tsv" ]; then

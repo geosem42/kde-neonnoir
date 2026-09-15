@@ -50,6 +50,11 @@ if [ -d "$BACKUP" ]; then
                  gtkrc-2.0) run cp "$f" "$HOME/.gtkrc-2.0"; ok ".gtkrc-2.0"; continue ;; esac
     run cp "$f" "$CONF/$b"; ok "$b"
   done
+  if [ -f "$BACKUP/fontconfig/fonts.conf" ]; then
+    run cp "$BACKUP/fontconfig/fonts.conf" "$CONF/fontconfig/fonts.conf"; ok "fontconfig/fonts.conf"
+  elif [ -f "$CONF/fontconfig/fonts.conf" ]; then
+    run rm -f "$CONF/fontconfig/fonts.conf"; ok "fontconfig/fonts.conf removed"
+  fi
   if [ -f "$BACKUP/Kvantum/kvantum.kvconfig" ]; then
     run cp "$BACKUP/Kvantum/kvantum.kvconfig" "$CONF/Kvantum/kvantum.kvconfig"
     ok "Kvantum/kvantum.kvconfig"
@@ -67,6 +72,26 @@ if [ -d "$BACKUP" ]; then
     done
   done
 else skip "no backup directory — nothing to restore"; fi
+
+say "Firefox and VS Code"
+for d in "$HOME/.vscode/extensions/neon-noir-theme" "$HOME/.vscode-oss/extensions/neon-noir-theme"; do
+  if [ -d "$d" ]; then run rm -rf "$d"; ok "${d/#$HOME/\~}"; fi
+done
+for base in "$HOME/.mozilla/firefox" "$HOME/snap/firefox/common/.mozilla/firefox"; do
+  [ -d "$base" ] || continue
+  for prof in "$base"/*/; do
+    [ -f "$prof/prefs.js" ] || continue
+    name="$(basename "$prof")"
+    for f in userChrome.css userContent.css; do
+      [ -f "$prof/chrome/$f" ] && { run rm -f "$prof/chrome/$f"; ok "$name/chrome/$f"; }
+    done
+    if [ -f "$BACKUP/firefox/$name/user.js" ]; then
+      run cp "$BACKUP/firefox/$name/user.js" "$prof/user.js"; ok "$name/user.js restored"
+    elif [ -f "$prof/user.js" ]; then
+      run rm -f "$prof/user.js"; ok "$name/user.js removed"
+    fi
+  done
+done
 
 say "Removing installed files"
 for p in "$SHARE/color-schemes/$THEME_ID.colors" \

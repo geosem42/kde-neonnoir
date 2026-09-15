@@ -4,12 +4,15 @@ Imported by generate.py. Everything here is derived from design/palette.json.
 """
 import json, math
 
+UI_FONT   = 'IBM Plex Sans'     # fonts-ibm-plex, in the Ubuntu 26.04 archive
+MONO_FONT = 'JetBrains Mono'    # fonts-jetbrains-mono, likewise
+
+
 def build(T, ANSI, DIST, THEME_ID, THEME_NAME, need, PKG_ID):
     out = []
 
     # ── fonts ──────────────────────────────────────────────────────────────────
-    UI   = 'IBM Plex Sans'     # fonts-ibm-plex, in the Ubuntu 26.04 archive
-    MONO = 'JetBrains Mono'    # fonts-jetbrains-mono, likewise
+    UI, MONO = UI_FONT, MONO_FONT
     def qfont(fam, size, weight=400):
         # Qt6 font spec: family,pointSize,pixelSize,styleHint,weight,italic,
         # underline,strikeout,fixedPitch,rawMode,...,styleName

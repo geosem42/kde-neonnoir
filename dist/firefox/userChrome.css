@@ -1,0 +1,76 @@
+/* Neon Noir — Firefox chrome.
+   Deliberately narrow: browser chrome selectors change between releases, so
+   this restyles the surfaces and the focus ring and leaves layout alone.
+   Needs toolkit.legacyUserProfileCustomizations.stylesheets = true, which
+   install.sh writes into the profile's user.js. */
+:root {
+  --nn-void:   #060B11;
+  --nn-window: #171E26;
+  --nn-view:   #0D131A;
+  --nn-raised: #222B33;
+  --nn-hover:  #3A434E;
+  --nn-hair:   #293037;
+  --nn-text:   #D9DFE5;
+  --nn-dim:    #A1A9B0;
+  --nn-cyan:   #36D7D7;
+
+  --toolbar-bgcolor: var(--nn-window) !important;
+  --toolbar-color: var(--nn-text) !important;
+  --tab-selected-bgcolor: var(--nn-raised) !important;
+  --lwt-accent-color: var(--nn-window) !important;
+  --arrowpanel-background: var(--nn-float, var(--nn-raised)) !important;
+  --arrowpanel-color: var(--nn-text) !important;
+  --arrowpanel-border-color: var(--nn-hair) !important;
+  --focus-outline-color: var(--nn-cyan) !important;
+}
+
+#navigator-toolbox {
+  background: var(--nn-window) !important;
+  border-bottom: 1px solid var(--nn-hair) !important;
+}
+
+#TabsToolbar, #nav-bar, #PersonalToolbar {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* An active tab is a raised surface with a 2px accent rule, the same shape the
+   rest of the theme uses for a selected item. */
+.tabbrowser-tab .tab-background {
+  border-radius: 7px !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.tabbrowser-tab[selected] .tab-background {
+  background: var(--nn-raised) !important;
+  border-bottom: 2px solid var(--nn-cyan) !important;
+  border-radius: 7px 7px 0 0 !important;
+}
+.tabbrowser-tab:not([selected]):hover .tab-background {
+  background: var(--nn-hover) !important;
+}
+.tabbrowser-tab .tab-label { color: var(--nn-dim) !important; }
+.tabbrowser-tab[selected] .tab-label { color: var(--nn-text) !important; }
+
+#urlbar-background, #searchbar {
+  background: var(--nn-view) !important;
+  border: 1px solid var(--nn-hair) !important;
+  border-radius: 7px !important;
+}
+#urlbar[focuswithin] > #urlbar-background {
+  border-color: var(--nn-cyan) !important;
+  box-shadow: none !important;
+}
+#urlbar-input, #urlbar .urlbar-input { color: var(--nn-text) !important; }
+
+.urlbarView-row[selected] > .urlbarView-row-inner,
+.urlbarView-row:hover > .urlbarView-row-inner {
+  background: var(--nn-hover) !important;
+  border-radius: 6px !important;
+}
+
+toolbarbutton .toolbarbutton-icon { border-radius: 6px !important; }
+#sidebar-box, #sidebar-header {
+  background: var(--nn-window) !important;
+  color: var(--nn-text) !important;
+}

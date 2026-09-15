@@ -1,0 +1,22 @@
+{
+  "name": "neon-noir-theme",
+  "displayName": "Neon Noir",
+  "description": "Neon noir: cyan and magenta on blue-black",
+  "version": "1.0.0",
+  "publisher": "george",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Neon Noir",
+        "uiTheme": "vs-dark",
+        "path": "./themes/neon-noir-color-theme.json"
+      }
+    ]
+  }
+}

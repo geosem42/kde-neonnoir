@@ -1,0 +1,5 @@
+/* Neon Noir — stop the white flash on Firefox's own blank pages. */
+@-moz-document url("about:blank"), url("about:newtab"), url("about:home"),
+               url("about:privatebrowsing") {
+  :root, body { background-color: #060B11 !important; }
+}
