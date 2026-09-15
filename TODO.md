@@ -78,6 +78,15 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [x] Flat rows. The zebra stripe was one step off the ground, which reads as
       banding at Dolphin's row height; the artboard's list is flat, so
       `Colors:View` alternate now equals normal
+- [x] Borders match the artboard exactly, measured off it rather than eyeballed:
+      one 1px `border.hairline` rule under the toolbar across the full width, one
+      full-height 1px rule dividing the sidebar from the file view, and a 1px
+      rule above the status bar. Square — the view frame's radius is 1, not 7.
+      The divider is the view frame's left edge with `splitter_width=1` closing
+      the 4px dock gap; Kvantum's `[Dock]` frame does nothing here because Qt
+      only draws that for a FLOATING dock. With tabs open the divider breaks for
+      the tab-bar strip — the artboard has no tabs, so there is nothing to match
+      there
 - [ ] Sidebar section headers are plain grey; design is cyan caps
 - [ ] Address bar is a bare breadcrumb; design is a bordered pill with a
       separate search pill beside it

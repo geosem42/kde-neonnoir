@@ -257,13 +257,26 @@ def artwork(T):
         # The artboard draws no ring there at all, so this is the same neutral
         # grey the popup surfaces use rather than any strength of accent — an
         # accent ring around the whole file list reads as an alert.
-        'common':   (R, {'normal':   (none, hair),
-                         'focused':  (none, flt),
+        # The frame around a view — Dolphin's file list, Kate's browser. The
+        # artboard rules these off with one square 1px line, so there is no
+        # radius here and no brighter focused variant: the line that divides the
+        # sidebar from the file view is this element's left edge, and it has to
+        # read as the same hairline as the rule above it, focused or not.
+        'common':   (1, {'normal':   (none, hair),
+                         'focused':  (none, hair),
                          'disabled': (none, dis)}, {}),
         'group':    (R, {'normal':   (none, hair)}, {}),
-        'dock':     (4, {'normal':   (T['surface.window'], hair)}, {}),
+        # Same idea vertically: the sidebar is divided from the file view by one
+        # full-height 1px line, which is the dock's right edge and nothing else.
+        'dock':     (1, {'normal':   (T['surface.window'], hair)},
+                     {'sides': ('right',), 'bws': {'right': 1}}),
         'tabframe': (R, {'normal':   (T['surface.window'], hair)}, {}),
-        'toolbar':  (1, {'normal':   (T['surface.window'], none)}, {}),
+        # The artboard rules the toolbar off from the content below it with one
+        # 1px line the full width of the window — no box, no radius. A frame on
+        # every edge would draw three lines nobody asked for, so only the bottom
+        # edge carries the border.
+        'toolbar':  (1, {'normal':   (T['surface.window'], hair)},
+                     {'sides': ('bottom',), 'bws': {'bottom': 1}}),
         'menubar':  (1, {'normal':   (T['surface.window'], none)}, {}),
         'titlebar': (1, {'normal':   (T['titlebar.active'], none),
                          'focused':  (T['titlebar.active'], none),
@@ -451,7 +464,7 @@ def kvconfig(T, THEME_NAME):
                composite='true',
                menu_shadow_depth='0',
                tooltip_shadow_depth='0',
-               splitter_width='4',
+               splitter_width='1',
                layout_spacing='4',
                layout_margin='6',
                submenu_overlap='0',
@@ -560,7 +573,7 @@ def kvconfig(T, THEME_NAME):
     out.append(sec('Focus', frame='true', frame__element='focus',
                    frame__top=R, frame__bottom=R, frame__left=R, frame__right=R,
                    interior='false'))
-    out.append(sec('GenericFrame', **framed('common', interior=False)))
+    out.append(sec('GenericFrame', **framed('common', r=1, interior=False)))
     out.append(sec('Tab', frame='true', frame__element='tab',
                    frame__top='3', frame__bottom='3', frame__left='3', frame__right='3',
                    interior='true', interior__element='tab',
@@ -620,7 +633,7 @@ def kvconfig(T, THEME_NAME):
     out.append(sec('GroupBox', **framed('group', interior=False),
                    text__bold='true', **txt))
     out.append(sec('ToolTip', **framed('tooltip', r=5), text__margin='4'))
-    out.append(sec('Dock', **framed('dock', r=4)))
+    out.append(sec('Dock', **framed('dock', r=1)))
     out.append(sec('Window', frame='false', interior='true', interior__element='window'))
     out.append(sec('Dialog', inherits='Window'))
     return '\n'.join(out)
