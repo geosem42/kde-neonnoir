@@ -39,7 +39,7 @@
   <g id="decoration-maximized-top"><rect x="142" y="0" width="40" height="40" fill="#1B242E"/><rect x="142" y="0" width="40" height="2" fill="#36D7D7"/></g>
   <g id="decoration-maximized-topright"><rect x="188" y="0" width="16" height="40" fill="#1B242E"/><rect x="188" y="0" width="16" height="2" fill="#36D7D7"/></g>
   <g id="decoration-maximized-left"><rect x="120" y="50" width="18" height="18" fill="#1B242E"/></g>
-  <g id="decoration-maximized-center"><rect x="142" y="50" width="18" height="40" fill="#1B242E"/><rect x="142" y="50" width="18" height="2" fill="#36D7D7"/></g>
+  <g id="decoration-maximized-center"><rect x="142" y="50" width="18" height="40" fill="#1B242E"/></g>
   <g id="decoration-maximized-right"><rect x="164" y="50" width="18" height="18" fill="#1B242E"/></g>
   <g id="decoration-maximized-bottomleft"><rect x="120" y="76" width="18" height="4" fill="#1B242E"/></g>
   <g id="decoration-maximized-bottom"><rect x="142" y="76" width="18" height="4" fill="#1B242E"/></g>

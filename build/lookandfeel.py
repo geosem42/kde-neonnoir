@@ -31,6 +31,12 @@ Rectangle {{
     id: root
     color: "{void}"
 
+    // ksplashqml sizes the WINDOW, not the root item. Without an explicit size
+    // the root stays 0x0 and the whole splash renders in a small box in the
+    // top-left corner. Breeze declares 1600x900 here for the same reason.
+    width: 1920
+    height: 1080
+
     property int stage
 
     readonly property real u: Math.max(8, Math.round(Math.min(width, height) / 90))

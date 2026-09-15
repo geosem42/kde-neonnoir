@@ -124,12 +124,14 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
             for idx, nm in enumerate(('left', 'center', 'right')):
                 x = mx + idx * 22
                 if nm == 'center':
-                    # v1 draws this at exactly titlebar height, so the 2px accent
-                    # edge keeps its true thickness here (unlike decoration-center).
+                    # FLAT, no accent strip. A maximized window is painted with
+                    # enabledBorders = NoBorder, so KSvg draws only the center
+                    # and stretches it over the WHOLE titlebar — internal detail
+                    # scales with it, which turned the 2px edge into a fully
+                    # accent-coloured titlebar. The edge lives in -top, which is
+                    # only used in the restored state.
                     s.append(f'  <g id="{pre}-{nm}">'
-                             f'<rect x="{x}" y="{by}" width="18" height="{TH}" fill="{fill}"/>'
-                             + (f'<rect x="{x}" y="{by}" width="18" height="{EDG}" fill="{CY}"/>'
-                                if active else '') + '</g>')
+                             f'<rect x="{x}" y="{by}" width="18" height="{TH}" fill="{fill}"/></g>')
                 else:
                     s.append(f'  <g id="{pre}-{nm}">'
                              f'<rect x="{x}" y="{by}" width="18" height="18" fill="{fill}"/></g>')
