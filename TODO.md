@@ -41,8 +41,7 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Other apps
 
-- [ ] Checked toolbar buttons render a solid teal slab (seen in Gwenview) —
-      heavier than the artboard's quiet raised box with a cyan edge
+- [x] Checked buttons are a quiet teal box with cyan text, not a solid slab
 
 ## Taskbar
 

@@ -119,7 +119,7 @@ text.iconspacing=6
 text.normal.color=#D9DFE5
 text.focus.color=#D9DFE5
 text.press.color=#D9DFE5
-text.toggle.color=#060B11
+text.toggle.color=#36D7D7
 text.normal.inactive.color=#A1A9B0
 
 [PanelButtonTool]
@@ -142,7 +142,7 @@ text.iconspacing=6
 text.normal.color=#D9DFE5
 text.focus.color=#D9DFE5
 text.press.color=#D9DFE5
-text.toggle.color=#F0F4F9
+text.toggle.color=#36D7D7
 text.normal.inactive.color=#A1A9B0
 
 [ToolbarButton]

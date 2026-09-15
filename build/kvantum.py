@@ -226,17 +226,21 @@ def artwork(T):
         # drawn over the ordinary fill. The artboard's solid accent Apply is
         # not expressible here, so the default button keeps the focus ring and
         # normal_default_pushbutton stays on to suppress the stray marker.
+        # A CHECKED button is a quiet teal box with no border, not a solid
+        # accent slab: the artboard's toolbar marks its active tool that way,
+        # and selection.bg here made every checked button in Gwenview, Dolphin
+        # and Kate read as a filled highlight.
         'button':   (R, {'normal':   (T['surface.raised'], hair),
                          'focused':  (hov, T['decoration.hover']),
                          'pressed':  (T['surface.float'], cyd),
-                         'toggled':  (sel, cy),
+                         'toggled':  (T['accent.cyan.ghost'], none),
                          'disabled': (T['surface.disabled'], dis)}, {}),
-        # Toolbar buttons share the shape but not that fill: a checked tool is a
-        # quiet raised box with a cyan edge, not a solid accent slab.
+        # Same states, but flat at rest — a toolbar is a row of glyphs, not a
+        # row of raised buttons.
         'toolbtn':  (R, {'normal':   (none, none),
                          'focused':  (T['surface.raised'], hair),
                          'pressed':  (T['surface.float'], cyd),
-                         'toggled':  (T['accent.cyan.ghost'], cy),
+                         'toggled':  (T['accent.cyan.ghost'], none),
                          'disabled': (none, none)}, {}),
         'combo':    (R, {'normal':   (T['surface.raised'], hair),
                          'focused':  (hov, T['decoration.hover']),
@@ -511,9 +515,10 @@ def kvconfig(T, THEME_NAME):
                text__toggle__color=T['selection.fg'],
                text__normal__inactive__color=T['text.dim'])
 
-    # The default button carries the accent as a fill, so its label has to flip
-    # to the on-colour; every other control keeps the light toggle text.
-    btn_txt = dict(txt, text__toggle__color=T['text.oncolor'])
+    # A checked button's label goes cyan to match its box. Kept off the shared
+    # `txt` dict: a toggled MENU item is just a hovered row, where cyan text
+    # would be wrong.
+    btn_txt = dict(txt, text__toggle__color=T['accent.cyan'])
     out.append(sec('PanelButtonCommand', **framed('button', v=V_PRIMARY),
                    indicator__element='arrow', indicator__size='12',
                    min_height=H_PRIMARY, min_width='+0.8font',
@@ -525,7 +530,7 @@ def kvconfig(T, THEME_NAME):
                    min_height=H_PRIMARY,
                    text__margin__top='1', text__margin__bottom='1',
                    text__margin__left='6', text__margin__right='6',
-                   text__iconspacing='6', **txt))
+                   text__iconspacing='6', **btn_txt))
     out.append(sec('ToolbarButton', inherits='PanelButtonTool'))
     out.append(sec('DropDownButton', inherits='PanelButtonCommand',
                    indicator__element='arrow-down'))
