@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200">
+  <g id="decoration-topleft">
+    <path d="M0,40 L0,10 Q0,0 10,0 L24,0 L24,40 Z" fill="#1B242E"/>
+    <path d="M0,10 Q0,0 10,0 L24,0 L24,2 L10,2 Q2,2 2,10 Z" fill="#36D7D7"/>
+  </g>
+  <g id="decoration-top">
+    <rect x="30" y="0" width="40" height="40" fill="#1B242E"/>
+    <rect x="30" y="0" width="40" height="2" fill="#36D7D7"/>
+  </g>
+  <g id="decoration-topright">
+    <path d="M76,0 L90,0 Q100,0 100,10 L100,40 L76,40 Z" fill="#1B242E"/>
+    <path d="M76,0 L90,0 Q100,0 100,10 L98,10 Q98,2 90,2 L76,2 Z" fill="#36D7D7"/>
+  </g>
+  <g id="decoration-left"><rect x="0" y="50" width="4" height="20" fill="#293037"/></g>
+  <g id="decoration-center"><rect x="10" y="50" width="40" height="20" fill="#1B242E"/></g>
+  <g id="decoration-right"><rect x="60" y="50" width="4" height="20" fill="#293037"/></g>
+  <g id="decoration-bottomleft"><rect x="0" y="76" width="4" height="4" fill="#293037"/></g>
+  <g id="decoration-bottom"><rect x="10" y="76" width="40" height="4" fill="#293037"/></g>
+  <g id="decoration-bottomright"><rect x="60" y="76" width="4" height="4" fill="#293037"/></g>
+  <g id="decoration-inactive-topleft">
+    <path d="M0,140 L0,110 Q0,100 10,100 L24,100 L24,140 Z" fill="#131920"/>
+    <path d="M0,110 Q0,100 10,100 L24,100 L24,102 L10,102 Q2,102 2,110 Z" fill="none"/>
+  </g>
+  <g id="decoration-inactive-top">
+    <rect x="30" y="100" width="40" height="40" fill="#131920"/>
+  </g>
+  <g id="decoration-inactive-topright">
+    <path d="M76,100 L90,100 Q100,100 100,110 L100,140 L76,140 Z" fill="#131920"/>
+    <path d="M76,100 L90,100 Q100,100 100,110 L98,110 Q98,102 90,102 L76,102 Z" fill="none"/>
+  </g>
+  <g id="decoration-inactive-left"><rect x="0" y="150" width="4" height="20" fill="#293037"/></g>
+  <g id="decoration-inactive-center"><rect x="10" y="150" width="40" height="20" fill="#131920"/></g>
+  <g id="decoration-inactive-right"><rect x="60" y="150" width="4" height="20" fill="#293037"/></g>
+  <g id="decoration-inactive-bottomleft"><rect x="0" y="176" width="4" height="4" fill="#293037"/></g>
+  <g id="decoration-inactive-bottom"><rect x="10" y="176" width="40" height="4" fill="#293037"/></g>
+  <g id="decoration-inactive-bottomright"><rect x="60" y="176" width="4" height="4" fill="#293037"/></g>
+  <g id="decoration-maximized-topleft"><rect x="120" y="0" width="16" height="40" fill="#1B242E"/><rect x="120" y="0" width="16" height="2" fill="#36D7D7"/></g>
+  <g id="decoration-maximized-top"><rect x="142" y="0" width="40" height="40" fill="#1B242E"/><rect x="142" y="0" width="40" height="2" fill="#36D7D7"/></g>
+  <g id="decoration-maximized-topright"><rect x="188" y="0" width="16" height="40" fill="#1B242E"/><rect x="188" y="0" width="16" height="2" fill="#36D7D7"/></g>
+  <g id="decoration-maximized-left"><rect x="120" y="50" width="18" height="18" fill="#1B242E"/></g>
+  <g id="decoration-maximized-center"><rect x="142" y="50" width="18" height="40" fill="#1B242E"/><rect x="142" y="50" width="18" height="2" fill="#36D7D7"/></g>
+  <g id="decoration-maximized-right"><rect x="164" y="50" width="18" height="18" fill="#1B242E"/></g>
+  <g id="decoration-maximized-bottomleft"><rect x="120" y="76" width="18" height="4" fill="#1B242E"/></g>
+  <g id="decoration-maximized-bottom"><rect x="142" y="76" width="18" height="4" fill="#1B242E"/></g>
+  <g id="decoration-maximized-bottomright"><rect x="164" y="76" width="18" height="4" fill="#1B242E"/></g>
+  <g id="decoration-maximized-inactive-topleft"><rect x="120" y="100" width="16" height="40" fill="#131920"/></g>
+  <g id="decoration-maximized-inactive-top"><rect x="142" y="100" width="40" height="40" fill="#131920"/></g>
+  <g id="decoration-maximized-inactive-topright"><rect x="188" y="100" width="16" height="40" fill="#131920"/></g>
+  <g id="decoration-maximized-inactive-left"><rect x="120" y="150" width="18" height="18" fill="#131920"/></g>
+  <g id="decoration-maximized-inactive-center"><rect x="142" y="150" width="18" height="40" fill="#131920"/></g>
+  <g id="decoration-maximized-inactive-right"><rect x="164" y="150" width="18" height="18" fill="#131920"/></g>
+  <g id="decoration-maximized-inactive-bottomleft"><rect x="120" y="176" width="18" height="4" fill="#131920"/></g>
+  <g id="decoration-maximized-inactive-bottom"><rect x="142" y="176" width="18" height="4" fill="#131920"/></g>
+  <g id="decoration-maximized-inactive-bottomright"><rect x="164" y="176" width="18" height="4" fill="#131920"/></g>
+</svg>

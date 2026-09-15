@@ -1,0 +1,15 @@
+{
+  "KPlugin": {
+    "Id": "NeonNoir",
+    "Name": "Neon Noir",
+    "Description": "Neon Noir desktop wallpaper",
+    "License": "CC-BY-SA-4.0",
+    "Version": "1.0",
+    "Authors": [
+      {
+        "Name": "Neon Noir"
+      }
+    ]
+  },
+  "KPackageStructure": "Wallpaper/Images"
+}

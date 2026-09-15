@@ -1,0 +1,21 @@
+{
+  "KPackageStructure": "KWin/Aurorae",
+  "KPlugin": {
+    "Id": "NeonNoir",
+    "Name": "Neon Noir",
+    "Description": "Neon Noir window decoration",
+    "Authors": [
+      {
+        "Name": "Neon Noir"
+      }
+    ],
+    "Category": "Plasma 6 Window Decorations",
+    "ServiceTypes": [
+      "aurorae"
+    ],
+    "License": "LGPL",
+    "Version": "1.0",
+    "EnabledByDefault": true,
+    "X-KDE-PluginInfo-blur": true
+  }
+}

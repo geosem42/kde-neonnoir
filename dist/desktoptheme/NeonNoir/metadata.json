@@ -1,0 +1,16 @@
+{
+  "KPlugin": {
+    "Id": "NeonNoir",
+    "Name": "Neon Noir",
+    "Description": "Neon Noir Plasma style",
+    "Authors": [
+      {
+        "Name": "Neon Noir"
+      }
+    ],
+    "License": "LGPL",
+    "Version": "1.0",
+    "EnabledByDefault": true
+  },
+  "X-Plasma-API": "5.0"
+}

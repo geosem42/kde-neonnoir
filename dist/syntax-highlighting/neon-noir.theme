@@ -1,0 +1,136 @@
+{
+  "metadata": {
+    "name": "Neon Noir",
+    "revision": 1,
+    "license": "SPDX-License-Identifier: MIT",
+    "copyright": [
+      "Neon Noir theme"
+    ]
+  },
+  "editor-colors": {
+    "BackgroundColor": "#0D131A",
+    "CodeFolding": "#074C4D",
+    "BracketMatching": "#0D2B2B",
+    "CurrentLine": "#121920",
+    "IconBorder": "#171E26",
+    "IndentationLine": "#293037",
+    "LineNumbers": "#636A71",
+    "CurrentLineNumber": "#36D7D7",
+    "MarkBookmark": "#9BB5F9",
+    "MarkBreakpointActive": "#FE8B83",
+    "MarkBreakpointReached": "#E1A536",
+    "MarkBreakpointDisabled": "#636A71",
+    "MarkExecution": "#A1A9B0",
+    "MarkWarning": "#E1A536",
+    "MarkError": "#FE8B83",
+    "ModifiedLines": "#E1A536",
+    "SavedLines": "#6DC97D",
+    "ReplaceHighlight": "#132D18",
+    "SearchHighlight": "#332205",
+    "Separator": "#293037",
+    "SpellChecking": "#FE8B83",
+    "TabMarker": "#293037",
+    "TemplateBackground": "#171E26",
+    "TemplateFocusedPlaceholder": "#0D2B2B",
+    "TemplatePlaceholder": "#222B33",
+    "TemplateReadOnlyPlaceholder": "#141A20",
+    "TextSelection": "#035C5D",
+    "WordWrapMarker": "#293037"
+  },
+  "text-styles": {
+    "Normal": {
+      "text-color": "#D9DFE5"
+    },
+    "Keyword": {
+      "text-color": "#F57BEC"
+    },
+    "Function": {
+      "text-color": "#94B8F9"
+    },
+    "Variable": {
+      "text-color": "#94B8F9"
+    },
+    "ControlFlow": {
+      "text-color": "#F57BEC"
+    },
+    "Operator": {
+      "text-color": "#ACB2B9"
+    },
+    "BuiltIn": {
+      "text-color": "#F57BEC"
+    },
+    "Extension": {
+      "text-color": "#94B8F9"
+    },
+    "Preprocessor": {
+      "text-color": "#36D7D7"
+    },
+    "Attribute": {
+      "text-color": "#36D7D7"
+    },
+    "Char": {
+      "text-color": "#53DE73"
+    },
+    "SpecialChar": {
+      "text-color": "#36D7D7"
+    },
+    "String": {
+      "text-color": "#53DE73"
+    },
+    "VerbatimString": {
+      "text-color": "#39B457"
+    },
+    "SpecialString": {
+      "text-color": "#36D7D7"
+    },
+    "Import": {
+      "text-color": "#36D7D7"
+    },
+    "DataType": {
+      "text-color": "#FCBA43"
+    },
+    "DecVal": {
+      "text-color": "#FCBA43"
+    },
+    "BaseN": {
+      "text-color": "#FCBA43"
+    },
+    "Float": {
+      "text-color": "#FCBA43"
+    },
+    "Constant": {
+      "text-color": "#FCBA43"
+    },
+    "Comment": {
+      "text-color": "#636A71"
+    },
+    "Documentation": {
+      "text-color": "#A1A9B0"
+    },
+    "Annotation": {
+      "text-color": "#36D7D7"
+    },
+    "CommentVar": {
+      "text-color": "#94B8F9"
+    },
+    "RegionMarker": {
+      "text-color": "#94B8F9"
+    },
+    "Information": {
+      "text-color": "#FCBA43"
+    },
+    "Warning": {
+      "text-color": "#E1A536"
+    },
+    "Alert": {
+      "text-color": "#FE8B83"
+    },
+    "Error": {
+      "text-color": "#FE8B83"
+    },
+    "Others": {
+      "text-color": "#53DE73"
+    }
+  },
+  "custom-styles": {}
+}

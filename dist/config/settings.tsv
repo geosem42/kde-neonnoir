@@ -1,0 +1,34 @@
+kwinrc	org.kde.kdecoration3	library	org.kde.kwin.aurorae
+kwinrc	org.kde.kdecoration3	theme	__aurorae__svg__NeonNoir
+kwinrc	org.kde.kdecoration3	BorderSize	None
+kwinrc	org.kde.kdecoration3	BorderSizeAuto	false
+kwinrc	org.kde.kdecoration3	ButtonsOnRight	IAX
+kwinrc	org.kde.kdecoration3	ButtonsOnLeft	M
+kwinrc	org.kde.kdecoration2	library	org.kde.kwin.aurorae
+kwinrc	org.kde.kdecoration2	theme	__aurorae__svg__NeonNoir
+kwinrc	org.kde.kdecoration2	BorderSize	None
+kwinrc	org.kde.kdecoration2	BorderSizeAuto	false
+kwinrc	org.kde.kdecoration2	ButtonsOnRight	IAX
+kwinrc	org.kde.kdecoration2	ButtonsOnLeft	M
+breezerc	Common	OutlineCloseButton	true
+breezerc	Common	ShadowSize	ShadowLarge
+breezerc	Common	ShadowStrength	200
+breezerc	Common	ShadowColor	0,2,5
+breezerc	Windeco	DrawBackgroundGradient	false
+breezerc	Windeco	DrawTitleBarSeparator	false
+breezerc	Windeco	TitleAlignment	AlignLeft
+breezerc	Windeco	ButtonSize	ButtonDefault
+breezerc	Style	MenuOpacity	92
+kwinrc	Plugins	blurEnabled	true
+kwinrc	Plugins	contrastEnabled	true
+kwinrc	Effect-blur	BlurStrength	7
+kwinrc	Effect-blur	NoiseStrength	0
+kdeglobals	KDE	AnimationDurationFactor	0.5
+kdeglobals	General	font	IBM Plex Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+kdeglobals	General	fixed	JetBrains Mono,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+kdeglobals	General	smallestReadableFont	IBM Plex Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+kdeglobals	General	toolBarFont	IBM Plex Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+kdeglobals	General	menuFont	IBM Plex Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+kdeglobals	WM	activeFont	IBM Plex Sans,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1
+kdeglobals	Icons	Theme	NeonNoir
+plasmarc	Theme	name	NeonNoir

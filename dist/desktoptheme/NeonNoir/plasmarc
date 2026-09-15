@@ -1,0 +1,14 @@
+[Wallpaper]
+defaultWallpaperTheme=NeonNoir
+defaultFileSuffix=.png
+defaultWidth=3840
+defaultHeight=2160
+
+[ContrastEffect]
+enabled=true
+contrast=1.1
+intensity=0.9
+saturation=1.3
+
+[AdaptiveTransparency]
+enabled=true
