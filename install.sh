@@ -53,14 +53,26 @@ srun() { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s %s\n' "$c_dim" "$c_0" 
 # ── back up anything we are about to edit, once ────────────────────────────────
 say "Backing up current settings"
 run mkdir -p "$BACKUP" "$BACKUP/gtk-3.0" "$BACKUP/gtk-4.0" "$BACKUP/Kvantum" \
-             "$BACKUP/fontconfig" "$BACKUP/firefox"
+             "$BACKUP/fontconfig" "$BACKUP/firefox" "$BACKUP/xsettingsd" \
+             "$BACKUP/kdedefaults"
 for f in kdeglobals kwinrc plasmarc breezerc konsolerc kcminputrc ksplashrc \
-         kscreenlockerrc plasmashellrc plasma-org.kde.plasma.desktop-appletsrc; do
+         kscreenlockerrc plasmashellrc plasma-org.kde.plasma.desktop-appletsrc \
+         gtkrc gtkrc-2.0 Trolltech.conf; do
   if [ -f "$CONF/$f" ]; then
     if [ -e "$BACKUP/$f" ]; then skip "$f already backed up"
     else run cp "$CONF/$f" "$BACKUP/$f"; ok "$f"; fi
   fi
 done
+if [ -f "$CONF/xsettingsd/xsettingsd.conf" ] && [ ! -e "$BACKUP/xsettingsd/xsettingsd.conf" ]; then
+  run cp "$CONF/xsettingsd/xsettingsd.conf" "$BACKUP/xsettingsd/xsettingsd.conf"
+  ok "xsettingsd.conf"
+fi
+# plasma-apply-lookandfeel writes its values into this cascade layer, not into
+# ~/.config, and it never removes stale keys left by the previous theme.
+if [ -d "$CONF/kdedefaults" ] && [ -z "$(ls -A "$BACKUP/kdedefaults" 2>/dev/null)" ]; then
+  run cp -r "$CONF/kdedefaults/." "$BACKUP/kdedefaults/"
+  ok "kdedefaults/ (the global-theme cascade layer)"
+fi
 if [ -f "$CONF/Code/User/settings.json" ]; then
   if [ -e "$BACKUP/vscode-settings.json" ]; then skip "VS Code settings already backed up"
   else run cp "$CONF/Code/User/settings.json" "$BACKUP/vscode-settings.json"

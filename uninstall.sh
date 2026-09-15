@@ -61,6 +61,15 @@ if [ -d "$BACKUP" ]; then
   elif [ -f "$CONF/Kvantum/kvantum.kvconfig" ]; then
     run rm -f "$CONF/Kvantum/kvantum.kvconfig"; ok "Kvantum/kvantum.kvconfig removed"
   fi
+  if [ -f "$BACKUP/xsettingsd/xsettingsd.conf" ]; then
+    run cp "$BACKUP/xsettingsd/xsettingsd.conf" "$CONF/xsettingsd/xsettingsd.conf"
+    ok "xsettingsd.conf"
+  fi
+  if [ -n "$(ls -A "$BACKUP/kdedefaults" 2>/dev/null)" ]; then
+    run rm -rf "$CONF/kdedefaults"
+    run cp -r "$BACKUP/kdedefaults" "$CONF/kdedefaults"
+    ok "kdedefaults/ restored"
+  fi
   for g in gtk-3.0 gtk-4.0; do
     for f in gtk.css settings.ini; do
       if [ -f "$BACKUP/$g/$f" ]; then
