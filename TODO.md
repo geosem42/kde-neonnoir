@@ -38,6 +38,13 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [x] Shell prompt: cyan path, magenta branch, `❯`, blank line between commands.
       bash and zsh both, sourced from ~/.bashrc / ~/.zshrc (`--desktop` only;
       rc files backed up, block removed by uninstall)
+- [x] Tab bar matches the artboard: tabs the width of their own label, a 1px
+      rule between them and under the bar, and the active tab painted in the
+      terminal's own ground so it reads as the terminal continuing up.
+      `ExpandTabWidth=false` is what stops the stretch; the borders come from
+      Konsole's user stylesheet, the only hook it offers — no Qt style reaches
+      that bar, Kvantum included. The path must be written as a `file://` URL:
+      Konsole declares the key as a Url and silently ignores a bare path
 
 ## Kate
 

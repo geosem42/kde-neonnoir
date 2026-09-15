@@ -143,6 +143,7 @@ install_file "$DIST/color-schemes/$THEME_ID.colors" "$SHARE/color-schemes/$THEME
 say "Application schemes"
 install_file "$DIST/konsole/$THEME_ID.colorscheme" "$SHARE/konsole/$THEME_ID.colorscheme"
 install_file "$DIST/konsole/$THEME_ID.profile"     "$SHARE/konsole/$THEME_ID.profile"
+install_file "$DIST/konsole/tabbar.qss"             "$SHARE/konsole/tabbar.qss"
 install_file "$DIST/syntax-highlighting/neon-noir.theme" \
              "$SHARE/org.kde.syntax-highlighting/themes/neon-noir.theme"
 
@@ -581,6 +582,23 @@ if [ "$APPLY" = 1 ]; then
     run kwriteconfig6 --file konsolerc --group "Desktop Entry" \
         --key DefaultProfile "$THEME_ID.profile"
     ok "Konsole default profile (new windows only)"
+  fi
+
+  # Tab bar. ExpandTabWidth is what stretches every tab across the window;
+  # the artboard sizes each one to its own label. Konsole draws this bar
+  # itself and no Qt style reaches it, so the borders come from its user
+  # stylesheet — the only hook it offers.
+  if [ -f "$SHARE/konsole/tabbar.qss" ]; then
+    run kwriteconfig6 --file konsolerc --group TabBar --key ExpandTabWidth false
+    run kwriteconfig6 --file konsolerc --group TabBar --key TabBarVisibility ShowTabBarWhenNeeded
+    run kwriteconfig6 --file konsolerc --group TabBar --key TabBarPosition Top
+    run kwriteconfig6 --file konsolerc --group TabBar --key TabBarUseUserStyleSheet true
+    # file:// and not a bare path: Konsole declares this key as a Url, so a
+    # plain path is read back as an empty URL and the stylesheet is silently
+    # ignored — the tabs resize but keep Breeze's underline.
+    run kwriteconfig6 --file konsolerc --group TabBar \
+        --key TabBarUserStyleSheetFile "file://$SHARE/konsole/tabbar.qss"
+    ok "Konsole tab bar"
   fi
 
   # Reload the compositor so decoration/blur/animation changes take effect now.

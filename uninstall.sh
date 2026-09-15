@@ -157,6 +157,7 @@ command -v update-desktop-database >/dev/null \
 say "Removing installed files"
 for p in "$SHARE/color-schemes/$THEME_ID.colors" \
          "$SHARE/konsole/$THEME_ID.colorscheme" \
+         "$SHARE/konsole/tabbar.qss" \
          "$SHARE/konsole/$THEME_ID.profile" \
          "$SHARE/org.kde.syntax-highlighting/themes/neon-noir.theme"; do
   if [ -e "$p" ]; then run rm -f "$p"; ok "${p/#$HOME/\~}"; else skip "${p/#$HOME/\~} absent"; fi
