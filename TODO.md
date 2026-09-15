@@ -74,8 +74,15 @@ Swept by pattern, so a whole context changes at once and styles never mix:
 apps, categories, places, mimetypes, status/devices/actions/preferences for the
 tray. ~1,100 distinct names.
 
-Still Breeze: the `actions/` context — 2,222 names, the icons inside menus and
-toolbars (cut, copy, zoom, go-previous…). That is the last large surface.
+`actions/` is swept too: 1,833 names across the generic freedesktop families
+(edit-, document-, go-, view-, zoom-, format-, media-, window-, dialog-,
+system-, list-, tab-). Only 13 fall through to the neutral placeholder.
+
+Left on Breeze on purpose: application-specific toolsets — gnumeric, labplot,
+kdenlive, KTorrent, digiKam's batch queue, the vector-editor node and path
+tools. Giving a node-editing tool a generic outline does not restyle it, it
+makes it unidentifiable, and those icons only ever appear inside their own
+application's toolbar so no mixed-style list results.
 
 ## Rejected
 

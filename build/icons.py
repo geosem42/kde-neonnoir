@@ -10,7 +10,7 @@ breeze-dark via Inherits.
 """
 import re, shutil, pathlib
 
-import appicons, mimeicons, placeicons, statusicons
+import actionicons, appicons, mimeicons, placeicons, statusicons
 
 SRC_BLUE = re.compile(r'#3daee9', re.I)
 
@@ -119,6 +119,14 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     for name, svg in sorted(mime.items()):
         (mt / f'{name}.svg').write_text(svg, encoding='utf-8')
 
+    # Menu and toolbar glyphs. Only the generic freedesktop families; see
+    # actionicons for why the application-specific toolsets stay on Breeze.
+    act = dst / 'actions' / 'scalable'
+    act.mkdir(parents=True, exist_ok=True)
+    action = actionicons.svgs(app_glyph_hex, src)
+    for name, svg in sorted(action.items()):
+        (act / f'{name}.svg').write_text(svg, encoding='utf-8')
+
     # Tray applets whose icon name is an app or action rather than a status
     # family — klipper, plasmavault, the night-colour toggle. Written into every
     # scalable context because the tray asks for them under more than one.
@@ -165,6 +173,6 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
             f'{len(status)} tray glyphs, '
             f'{n_mime} inode-directory, {len(mime)} file types, '
             f'{len(places)} places x{n_places // max(1, len(places))} sizes, '
-            f'{len(tray)} tray applets, '
+            f'{len(tray)} tray applets, {len(action)} actions, '
             f'{len(dirs) + len(mime_dirs) + len(scalable)} dirs; '
             f'inherits breeze-dark)']
