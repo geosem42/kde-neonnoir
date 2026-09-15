@@ -380,10 +380,12 @@ def build(T, DIST, THEME_ID, THEME_NAME):
         'grip':     T['surface.hover'],
     }
     root = DIST / 'cursors' / f'{THEME_ID}-cursors'
+    # Wipe the whole theme, not just cursors/: a file this build no longer
+    # writes must not survive in dist and get installed again.
+    import shutil
+    shutil.rmtree(root, ignore_errors=True)
     cdir = root / 'cursors'
     cdir.mkdir(parents=True, exist_ok=True)
-    for stale in cdir.iterdir():
-        stale.unlink()
 
     cat = catalogue(C)
     for name, spec in cat.items():

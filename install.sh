@@ -100,6 +100,9 @@ install_tree() { # <srcdir> <destdir>
   [ -d "$src" ] || { skip "$(basename "$src") not built yet"; return 0; }
   if [ -d "$dst" ] && diff -rq "$src" "$dst" >/dev/null 2>&1; then
     skip "${dst/#$HOME/\~} unchanged"; return 0; fi
+  # Replace rather than merge: copying over an existing tree would leave
+  # behind files this build no longer produces.
+  run rm -rf "$dst"
   run mkdir -p "$dst"; run cp -r "$src/." "$dst/"; ok "${dst/#$HOME/\~}"
 }
 
@@ -255,10 +258,26 @@ if [ "$APPLY" = 1 ]; then
     ok "icon theme"
   fi
 
+  # plasma-apply-cursortheme refuses outright when the named theme is already
+  # current, and it never writes cursorSize — that key comes from settings.tsv.
   if command -v plasma-apply-cursortheme >/dev/null \
      && [ -d "$ICONS/$THEME_ID-cursors" ]; then
-    run plasma-apply-cursortheme "$THEME_ID-cursors" --size 24 >/dev/null 2>&1 \
-      && ok "cursor theme" || warn "cursor theme could not be applied"
+    cur="$(kreadconfig6 --file kcminputrc --group Mouse --key cursorTheme 2>/dev/null || true)"
+    if [ "$cur" = "$THEME_ID-cursors" ]; then
+      skip "cursor theme already current"
+    else
+      run plasma-apply-cursortheme "$THEME_ID-cursors" >/dev/null 2>&1 \
+        && ok "cursor theme" || warn "cursor theme could not be applied"
+    fi
+  fi
+
+  # GTK2 has its own file and nothing in Plasma syncs the cursor into it, so
+  # GTK2 apps keep the old pointer until this is patched directly.
+  if [ -f "$HOME/.gtkrc-2.0" ]; then
+    [ -e "$BACKUP/gtkrc-2.0" ] || run cp "$HOME/.gtkrc-2.0" "$BACKUP/gtkrc-2.0"
+    run sed -i -E "s|^gtk-cursor-theme-name=.*|gtk-cursor-theme-name=\"$THEME_ID-cursors\"|;
+                   s|^gtk-cursor-theme-size=.*|gtk-cursor-theme-size=24|" "$HOME/.gtkrc-2.0"
+    ok "~/.gtkrc-2.0 pointer"
   fi
 
   if command -v plasma-apply-wallpaperimage >/dev/null \
