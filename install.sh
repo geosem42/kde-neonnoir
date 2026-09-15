@@ -17,6 +17,8 @@ THEME_NAME="Neon Noir"
 PKG_ID="org.neonnoir.desktop"
 APPLET_ID="org.neonnoir.sysmon"
 SEPARATOR_ID="org.neonnoir.separator"
+NN_MARK_BEGIN="# >>> neon noir prompt >>>"
+NN_MARK_END="# <<< neon noir prompt <<<"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST="$HERE/dist"
 SHARE="${XDG_DATA_HOME:-$HOME/.local/share}"
@@ -358,6 +360,33 @@ if [ "$DESKTOP" = 1 ]; then
       ok "${r:-no response from plasmashell}"
     fi
   fi
+
+  # Shell prompt. User data like the account picture: the artboard's terminal
+  # shows a cyan path, a magenta branch and a caret, none of which a terminal
+  # theme can set — the prompt belongs to the shell.
+  say "Shell prompt"
+  install -Dm644 "$DIST/shell/prompt.bash" "$SHARE/neon-noir/prompt.bash" 2>/dev/null || true
+  install -Dm644 "$DIST/shell/prompt.zsh"  "$SHARE/neon-noir/prompt.zsh"  2>/dev/null || true
+  for sh in bash zsh; do
+    rc="$HOME/.${sh}rc"
+    [ -f "$rc" ] || continue
+    if [ ! -e "$BACKUP/home-.${sh}rc" ]; then
+      run cp "$rc" "$BACKUP/home-.${sh}rc"; ok ".${sh}rc backed up"
+    fi
+    if grep -q "$NN_MARK_BEGIN" "$rc" 2>/dev/null; then
+      skip ".${sh}rc already sources the prompt"
+    elif [ "$DRY" = 1 ]; then
+      printf '   %swould:%s source the prompt from ~/.%src\n' "$c_dim" "$c_0" "$sh"
+    else
+      {
+        printf '\n%s\n' "$NN_MARK_BEGIN"
+        printf '[ -r "%s/neon-noir/prompt.%s" ] && . "%s/neon-noir/prompt.%s"\n' \
+               "$SHARE" "$sh" "$SHARE" "$sh"
+        printf '%s\n' "$NN_MARK_END"
+      } >> "$rc"
+      ok "~/.${sh}rc"
+    fi
+  done
 
   # Account picture. This is user data, not theme: Kickoff reads it through
   # KUser, which resolves ~/.face.icon (normally a symlink to ~/.face), and the

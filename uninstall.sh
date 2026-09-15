@@ -41,6 +41,17 @@ if command -v plasma-apply-cursortheme >/dev/null; then
     || skip "could not switch the pointer back automatically"
 fi
 
+say "Shell prompt"
+for sh in bash zsh; do
+  rc="$HOME/.${sh}rc"
+  [ -f "$rc" ] || continue
+  if grep -q '^# >>> neon noir prompt >>>$' "$rc" 2>/dev/null; then
+    run sed -i '/^# >>> neon noir prompt >>>$/,/^# <<< neon noir prompt <<<$/d' "$rc"
+    ok "~/.${sh}rc"
+  fi
+done
+run rm -rf "$SHARE/neon-noir"
+
 say "Restoring saved settings"
 if [ -d "$BACKUP" ]; then
   for f in "$BACKUP"/*; do
@@ -48,7 +59,7 @@ if [ -d "$BACKUP" ]; then
     b="$(basename "$f")"
     case "$b" in MANIFEST|PREVIOUS_SCHEME|PREVIOUS_CURSOR) continue ;;
                  home-gtkrc-2.0) run cp "$f" "$HOME/.gtkrc-2.0"; ok "~/.gtkrc-2.0"; continue ;;
-                 home-.face|home-.face.icon)
+                 home-.face|home-.face.icon|home-.bashrc|home-.zshrc)
                    run cp "$f" "$HOME/${b#home-}"; ok "~/${b#home-}"; continue ;; esac
     run cp "$f" "$CONF/$b"; ok "$b"
   done

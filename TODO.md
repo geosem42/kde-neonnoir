@@ -24,8 +24,9 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [x] Compared against artboard 06. Chrome already matches: titlebar, line icon,
       JetBrains Mono, #0D131A ground, 10px margin, cyan block cursor, no
       menubar/tab bar/scrollbar
-- [ ] Shell prompt is default bash. Design: cyan path, magenta branch, `❯`,
-      blank line between commands. That is PS1 in ~/.bashrc — user data
+- [x] Shell prompt: cyan path, magenta branch, `❯`, blank line between commands.
+      bash and zsh both, sourced from ~/.bashrc / ~/.zshrc (`--desktop` only;
+      rc files backed up, block removed by uninstall)
 
 ## Kate
 
@@ -37,6 +38,11 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [ ] File icons are Breeze's colour documents; design is grey line art (`mimetypes/`)
 - [ ] Sidebar section headers are plain grey; design is cyan caps
 - [ ] Cyan focus outline around the file view is not in the design
+
+## Other apps
+
+- [ ] Checked toolbar buttons render a solid teal slab (seen in Gwenview) —
+      heavier than the artboard's quiet raised box with a cyan edge
 
 ## Taskbar
 
