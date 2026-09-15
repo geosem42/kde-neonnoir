@@ -1,109 +1,156 @@
-"""Icon theme: inherit breeze-dark, recolour the folders, change nothing else.
+"""Icon theme: Breeze's own icons with every blue rotated to the theme's cyan.
 
-Breeze paints folders in its brand blue #3daee9. We swap that for a cyan at the
-same perceptual lightness so folders stay as readable as Breeze's, rather than
-using the full-strength UI accent, which is far too loud across 500 icons.
+Breeze paints its accent in brand blue — #3daee9 in 1,246 files, plus a long
+tail of other blues, and every application that ships its own icon picks a
+different one again (Dolphin's is #147cdc and #3593e6). A find-and-replace on
+one hex therefore recoloured folders and nothing else, which is exactly what it
+looked like: cyan folders in the file view, a blue Dolphin in the titlebar.
 
-That recolour is the whole theme. An earlier version also redrew about 6,150
-icons as monochrome outlines — apps, categories, places, mimetypes, actions and
-the tray. It matched the artboards, and it was the wrong call: an icon is
-something you recognise before you read it, and replacing a set the user already
-knows costs them that recognition everywhere at once. Shapes stay Breeze's.
+So the transform is a hue rotation, not a substitution. Any colour whose hue
+falls in the blue band is moved to the cyan hue with its lightness and
+saturation untouched, so shading, gradients and contrast all survive. Greens,
+reds, yellows and greys are left exactly as Breeze drew them — the band stops
+short of green at one end and violet at the other, and anything desaturated is
+skipped so greys never tint.
 
-The outline glyphs and their pattern sweeps are in the history if they are ever
-wanted back — see the commit that removed them.
+Shapes are Breeze's throughout. An earlier version of this theme redrew about
+6,150 icons as monochrome outlines; it matched the artboards and was the wrong
+call, because an icon is something you recognise before you read it.
+
+Only files that actually change are written. Everything else resolves in
+breeze-dark through Inherits, which keeps the theme to the icons it restyles
+rather than a copy of the whole set.
 """
-import re, shutil, pathlib
+import colorsys, re, pathlib
 
-SRC_BLUE = re.compile(r'#3daee9', re.I)
+BREEZE = pathlib.Path('/usr/share/icons/breeze-dark')
+# Applications install their own icon here, outside any theme. An icon theme is
+# searched before hicolor, so a recoloured copy under our name wins — this is
+# the only way to reach Dolphin's own titlebar and task-bar icon.
+HICOLOR = pathlib.Path('/usr/share/icons/hicolor/scalable/apps')
 
-# Folder COLOUR variants are left exactly as Breeze drew them. Dolphin's context
-# menu shows them as a row of swatches where the colour IS the content, so
-# recolouring their accent turned `folder-blue` cyan — neither blue nor distinct
-# from the cyan one beside it.
-COLOUR_VARIANT = re.compile(
-    r'^folder-(black|blue|brown|cyan|green|grey|magenta|orange|red|violet|'
-    r'yellow)(-|$)')
+HEX = re.compile(r'#([0-9a-fA-F]{6})\b')
+HUE_LO, HUE_HI = 188.0, 265.0     # blue band: past cyan-green, short of violet
+MIN_SAT = 0.18                    # below this it is a grey and must stay one
+
+
+def _rotate(text, cyan_hue):
+    """Move every blue in `text` to `cyan_hue`, keeping lightness and saturation."""
+    hits = 0
+
+    def sub(m):
+        nonlocal hits
+        h = m.group(1)
+        r, g, b = (int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
+        hh, l, s = colorsys.rgb_to_hls(r, g, b)
+        if s < MIN_SAT or not (HUE_LO <= hh * 360 <= HUE_HI):
+            return m.group(0)
+        hits += 1
+        nr, ng, nb = colorsys.hls_to_rgb(cyan_hue, l, s)
+        return '#%02x%02x%02x' % (round(nr * 255), round(ng * 255), round(nb * 255))
+
+    return HEX.sub(sub, text), hits
+
+
+def _dir_specs(index_theme):
+    """{directory: [lines]} from breeze's own index.theme.
+
+    Its Size/Context/Type/MinSize/MaxSize/Scale are reused verbatim. Guessing
+    them is how a theme ends up with an unparseable entry, and a theme with one
+    bad directory is skipped whole in favour of its parent.
+    """
+    specs, cur = {}, None
+    for line in index_theme.splitlines():
+        line = line.strip()
+        if line.startswith('[') and line.endswith(']'):
+            cur = line[1:-1]
+            if cur != 'Icon Theme':
+                specs[cur] = []
+        elif cur and cur != 'Icon Theme' and '=' in line:
+            specs[cur].append(line)
+    return specs
 
 
 def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
-    src = pathlib.Path('/usr/share/icons/breeze-dark')
-    if not src.is_dir():
+    if not BREEZE.is_dir():
         return ['  ! breeze-dark icons not installed — icon theme skipped']
+
+    import shutil
     dst = DIST / 'icons' / THEME_ID
     if dst.exists():
         shutil.rmtree(dst)
 
-    dirs, n_files, n_recoloured = [], 0, 0
-    for places in sorted(src.glob('places/*')):
-        if not places.is_dir():
+    # The hue the whole set is pulled towards, taken from the palette rather
+    # than hard-coded, so changing accent.cyan moves every icon with it.
+    c = T['accent.cyan'].lstrip('#')
+    r, g, b = (int(c[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    cyan_hue = colorsys.rgb_to_hls(r, g, b)[0]
+
+    specs = _dir_specs((BREEZE / 'index.theme').read_text(errors='ignore'))
+    dirs, n_written, n_hits = set(), 0, 0
+
+    def emit(rel, text):
+        nonlocal n_written
+        out = dst / rel
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text, encoding='utf-8')
+        n_written += 1
+
+    for svg in sorted(BREEZE.rglob('*.svg')):
+        rel = svg.relative_to(BREEZE)
+        if rel.parts[0] == 'index.theme':
             continue
-        size = places.name
-        outdir = dst / 'places' / size
-        made = False
-        for svg in sorted(places.glob('folder*.svg')):
-            real = svg.resolve()                      # flatten symlinks
+        real = svg.resolve()            # symlinks are flattened into real files
+        if not real.is_file():
+            continue
+        try:
+            text = real.read_text(encoding='utf-8')
+        except Exception:
+            continue
+        new, hits = _rotate(text, cyan_hue)
+        if not hits:
+            continue                    # unchanged: let it resolve in breeze-dark
+        emit(str(rel), new)
+        dirs.add(str(rel.parent))
+        n_hits += hits
+
+    n_apps = 0
+    if HICOLOR.is_dir():
+        for svg in sorted(HICOLOR.glob('*.svg')):
+            real = svg.resolve()
             if not real.is_file():
                 continue
             try:
                 text = real.read_text(encoding='utf-8')
             except Exception:
                 continue
-            if COLOUR_VARIANT.match(svg.stem):
-                new, hits = text, 0
-            else:
-                new, hits = SRC_BLUE.subn(folder_hex, text)
-            if not made:
-                outdir.mkdir(parents=True, exist_ok=True); made = True
-            (outdir / svg.name).write_text(new, encoding='utf-8')
-            n_files += 1
-            n_recoloured += 1 if hits else 0
-        if made:
-            dirs.append(f'places/{size}')
+            new, hits = _rotate(text, cyan_hue)
+            if not hits:
+                continue
+            emit(f'apps/scalable/{svg.name}', new)
+            dirs.add('apps/scalable')
+            n_apps += 1
 
     if not dirs:
-        return ['  ! no folder icons found — icon theme skipped']
-
-    # A directory in a file manager is drawn from the MIME type, not the place:
-    # Dolphin asks for `inode-directory`, which breeze keeps in mimetypes/ as a
-    # SYMLINK back into its own places/folder.svg. A theme that recolours only
-    # places/ therefore changes nothing in the file view — the lookup resolves
-    # inside the parent theme and never sees our copy.
-    mime_dirs, n_mime = [], 0
-    for d in dirs:
-        size = d.split('/')[1]
-        folder = dst / d / 'folder.svg'
-        if not folder.is_file():
-            continue
-        mdir = dst / 'mimetypes' / size
-        mdir.mkdir(parents=True, exist_ok=True)
-        (mdir / 'inode-directory.svg').write_text(
-            folder.read_text(encoding='utf-8'), encoding='utf-8')
-        mime_dirs.append(f'mimetypes/{size}')
-        n_mime += 1
+        return ['  ! nothing to recolour — icon theme skipped']
 
     lines = ['[Icon Theme]', f'Name={THEME_NAME}',
-             'Comment=Neon Noir — Breeze icons with cyan folders',
+             'Comment=Neon Noir — Breeze icons, every blue rotated to cyan',
              'Inherits=breeze-dark,breeze,hicolor',
              # Breeze's SVGs carry a `current-color-scheme` stylesheet that
-             # KIconLoader rewrites at load time. Our folders are baked from the
-             # palette already, so opting out keeps the colour we generated.
+             # KIconLoader rewrites at load time, which would undo the rotation
+             # on any icon that uses it.
              'FollowsColorScheme=false',
-             f'Directories={",".join(dirs + mime_dirs)}', '']
-    # A "16@2x" directory is size 16 at scale 2, NOT a size called "16@2x".
-    # Writing the literal name into Size= makes the entry unparseable, and an
-    # icon theme with a bad directory entry is skipped in favour of its parent
-    # — which is why every folder stayed Breeze blue despite being recoloured
-    # on disk.
-    for d in dirs + mime_dirs:
-        name = d.split('/')[1]
-        size, _, scale = name.partition('@')
-        ctx = 'MimeTypes' if d.startswith('mimetypes/') else 'Places'
-        lines += [f'[{d}]', f'Size={size}', f'Context={ctx}', 'Type=Fixed']
-        if scale:
-            lines.append(f'Scale={scale.rstrip("x")}')
+             f'Directories={",".join(sorted(dirs))}', '']
+    for d in sorted(dirs):
+        lines.append(f'[{d}]')
+        if d in specs:
+            lines += specs[d]
+        else:                            # apps/scalable is ours, not Breeze's
+            lines += ['Size=48', 'MinSize=8', 'MaxSize=512',
+                      'Context=Applications', 'Type=Scalable']
         lines.append('')
     (dst / 'index.theme').write_text('\n'.join(lines))
-    return [f'icons/{THEME_ID}/  ({n_files} folder icons, {n_recoloured} recoloured, '
-            f'{n_mime} inode-directory, {len(dirs) + len(mime_dirs)} dirs; '
-            f'everything else inherits breeze-dark)']
+    return [f'icons/{THEME_ID}/  ({n_written} icons recoloured, {n_hits} colours '
+            f'rotated, {n_apps} from hicolor, {len(dirs)} dirs; '
+            f'everything untouched inherits breeze-dark)']

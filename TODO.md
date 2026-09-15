@@ -122,6 +122,23 @@ Ctrl+M shows the menubar, Ctrl+N makes a new document, Ctrl+Shift+I opens the
 command bar, which reaches every action the menubar had. Read off the running
 instance over D-Bus, not from documentation.
 
+## Icons
+
+Breeze's own shapes throughout, with every blue rotated to the theme's cyan —
+4,010 files, 7,161 colours moved. Not a hex substitution: Breeze's brand blue
+#3daee9 covers 1,246 files but every other blue (and every app that ships its
+own icon — Dolphin's is #147cdc and #3593e6) needs catching too, which is why
+the first attempt recoloured folders and left a blue Dolphin in the titlebar.
+Anything whose hue falls between 188 and 265 degrees and is saturated enough to
+read as a colour moves to the cyan hue with its lightness and saturation intact,
+so shading and contrast survive; greens, reds, yellows and greys are untouched.
+`hicolor` is swept as well as breeze-dark, because that is where an application
+installs its own icon and no theme overrides it by default. Only files that
+actually change are written; the rest resolve in breeze-dark through Inherits.
+
+Still their own colours: third-party icons shipped as PNG rather than SVG —
+VS Code is the one on this machine. A raster pass could catch those.
+
 ## Reverted
 
 - The whole outline icon set — ~6,150 files across apps, categories, places,
