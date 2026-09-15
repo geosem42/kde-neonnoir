@@ -13,7 +13,6 @@ slider_handle_width=18
 slider_handle_length=18
 tickless_slider_handle_size=18
 check_size=18
-textless_progressbar=false
 progressbar_thickness=6
 menubar_mouse_tracking=true
 toolbar_item_spacing=2
@@ -98,7 +97,6 @@ normal_default_pushbutton=true
 single_top_toolbar=true
 tint_on_mouseover=0
 no_selection_tint=true
-kinetic_scrolling=false
 
 [PanelButtonCommand]
 frame=true
