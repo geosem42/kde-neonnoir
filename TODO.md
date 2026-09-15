@@ -5,8 +5,8 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 ## Start menu
 
 - [x] Background matches the theme instead of a lighter grey slab
-- [ ] Avatar is the Kubuntu logo; design has a magenta-to-indigo disc with an initial
-      (account data in AccountsService, not theme — needs a decision before touching)
+- [x] Avatar is a cyan-to-magenta disc with the account initial (`--desktop` only;
+      writes ~/.face, backed up, restored by uninstall)
 - [ ] No subtitle under the name (design: `resolute · Plasma 6.6.6`)
 - [ ] Brightness and power belong in the header, not a footer strip
 - [x] Search field no longer swells on hover; focus ring drawn over it, not around

@@ -359,6 +359,29 @@ if [ "$DESKTOP" = 1 ]; then
     fi
   fi
 
+  # Account picture. This is user data, not theme: Kickoff reads it through
+  # KUser, which resolves ~/.face.icon (normally a symlink to ~/.face), and the
+  # same file shows on the lock screen. Backed up, and uninstall puts it back.
+  initial="$(printf '%s' "${USER:-u}" | cut -c1 | tr '[:lower:]' '[:upper:]')"
+  avatar="$DIST/brand/avatars/$initial.png"
+  if [ -f "$avatar" ]; then
+    say "Account picture"
+    for f in .face .face.icon; do
+      if [ -f "$HOME/$f" ] && [ ! -L "$HOME/$f" ] && [ ! -e "$BACKUP/home-$f" ]; then
+        run cp "$HOME/$f" "$BACKUP/home-$f"; ok "$f backed up"
+      fi
+    done
+    if [ "$DRY" = 1 ]; then
+      printf '   %swould:%s write the %s disc to ~/.face\n' "$c_dim" "$c_0" "$initial"
+    else
+      run cp "$avatar" "$HOME/.face"
+      # Recreate the symlink only if it is missing; overwriting a real file the
+      # user put there is what the backup above is for.
+      [ -e "$HOME/.face.icon" ] || run ln -s .face "$HOME/.face.icon"
+      ok "~/.face  ($initial)"
+    fi
+  fi
+
   if [ -f "$DIST/config/desktop-layout.js" ] && command -v qdbus6 >/dev/null; then
     if [ "$DRY" = 1 ]; then
       printf '   %swould:%s place the clock, system card and media widget\n' "$c_dim" "$c_0"

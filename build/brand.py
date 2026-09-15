@@ -10,6 +10,7 @@ import io, pathlib
 FONT_DIRS = ('/usr/share/fonts/truetype/ibm-plex', '/usr/local/share/fonts',
              str(pathlib.Path.home() / '.local/share/fonts'))
 FONT_MEDIUM = 'IBMPlexSans-Medium.ttf'
+FONT_BOLD = 'IBMPlexSans-Bold.ttf'
 
 
 def font_path(name=FONT_MEDIUM):
@@ -144,6 +145,46 @@ def launcher_svg(T, size=48):
     )
 
 
+def avatar_png(path, initial, T, size=256):
+    """The account picture: a cyan-to-magenta disc with one dark letter.
+
+    One file per letter is written at build time rather than rendering at
+    install time, so install.sh needs no Python and the output is the same on
+    every machine. 26 discs at this size cost a few KB each.
+    """
+    from PIL import Image, ImageDraw, ImageFont
+    a, b = rgb(T['accent.cyan.deep']), rgb(T['accent.magenta.deep'])
+    n = size
+    im = Image.new('RGBA', (n, n), (0, 0, 0, 0))
+    px = im.load()
+    # Diagonal ramp, top-left to bottom-right, as the artboard draws it.
+    for y in range(n):
+        for x in range(n):
+            t = (x + y) / (2 * (n - 1))
+            px[x, y] = (round(a[0] + (b[0] - a[0]) * t),
+                        round(a[1] + (b[1] - a[1]) * t),
+                        round(a[2] + (b[2] - a[2]) * t), 255)
+    # Circular mask, supersampled so the edge is not stepped.
+    S = 4
+    mask = Image.new('L', (n * S, n * S), 0)
+    ImageDraw.Draw(mask).ellipse((0, 0, n * S - 1, n * S - 1), fill=255)
+    im.putalpha(mask.resize((n, n), Image.LANCZOS))
+
+    fp = font_path(FONT_BOLD) or font_path()
+    if fp:
+        d = ImageDraw.Draw(im)
+        f = ImageFont.truetype(str(fp), round(n * 0.46))
+        l, t, r, bm = d.textbbox((0, 0), initial, font=f)
+        d.text(((n - (r - l)) / 2 - l, (n - (bm - t)) / 2 - t), initial,
+               font=f, fill=rgb(T['surface.void']) + (255,))
+    im.save(path, optimize=True)
+
+
+def rgb(h):
+    h = h.lstrip('#')
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
 def build(T, DIST, THEME_ID, THEME_NAME):
     out = []
     d = DIST / 'brand'
@@ -154,6 +195,12 @@ def build(T, DIST, THEME_ID, THEME_NAME):
 
     (d / 'launcher.svg').write_text(launcher_svg(T, 48))
     out.append('brand/launcher.svg')
+
+    av = d / 'avatars'
+    av.mkdir(exist_ok=True)
+    for ch in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+        avatar_png(av / f'{ch}.png', ch, T, 256)
+    out.append('brand/avatars/A-Z.png  (26 discs)')
     for size in (96, 128, 192, 256, 384):
         png(mark_svg(T, size), d / f'mark-{size}.png', size, size)
     out.append('brand/mark-*.png  (5 sizes)')
