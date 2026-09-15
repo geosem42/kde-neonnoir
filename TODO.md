@@ -72,7 +72,6 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       only draws that for a FLOATING dock. With tabs open the divider breaks for
       the tab-bar strip — the artboard has no tabs, so there is nothing to match
       there
-- [ ] Sidebar section headers are plain grey; design is cyan caps
 - [x] Toolbar cut to the artboard's row: back, forward, up, path, then search
       and the menu at the right end, icon only. View-mode and Split view moved
       to the hamburger. A KXmlGui override in `kxmlgui5` — still kxmlgui5 under
@@ -151,6 +150,14 @@ Kept here so they are not re-attempted.
 - Lock screen layout: loaded from the Plasma shell package, not the theme.
 - ` — Konsole` suffix on the window title: KMainWindow appends the application
   name; Konsole exposes no key for it.
+- Cyan caps for Dolphin's sidebar section headers. The colour is reachable but
+  not separable: KFilePlacesView draws PLACES/REMOTE/DEVICES from Kvantum's
+  `window.text.color` at about 63% alpha — proved by probing it to magenta,
+  which moved the headers and left the item labels alone (those come from
+  `[ItemView] text.normal.color`). But `window.text.color` is the general window
+  text colour for every label, checkbox and group title in every Qt app, so
+  cyan there is cyan everywhere. The caps and letter-spacing have no mechanism
+  at all: Qt style sheets have no text-transform and Kvantum exposes none.
 - A background behind Dolphin's path, on one toolbar row. Dolphin calls
   `KUrlNavigator::setBackgroundEnabled(false)` whenever the navigator lives in
   the toolbar and exposes no setting for it. Kvantum cannot reach the breadcrumb
