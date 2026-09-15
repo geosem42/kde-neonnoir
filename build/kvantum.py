@@ -390,7 +390,6 @@ def kvconfig(T, THEME_NAME):
                slider_handle_length='18',
                tickless_slider_handle_size='18',
                check_size='18',
-               textless_progressbar='false',
                progressbar_thickness='6',
                menubar_mouse_tracking='true',
                toolbar_item_spacing='2',
@@ -477,7 +476,7 @@ def kvconfig(T, THEME_NAME):
                    single_top_toolbar='true',
                    tint_on_mouseover='0',
                    no_selection_tint='true',
-                   kinetic_scrolling='false'))
+                   ))
 
     txt = dict(text__normal__color=T['text.normal'],
                text__focus__color=T['text.normal'],

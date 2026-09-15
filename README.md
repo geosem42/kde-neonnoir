@@ -1,10 +1,14 @@
 # Neon Noir
 
-> **Work in progress.** Usable day to day, but incomplete — see [Not done yet](#not-done-yet).
+> **Work in progress.** Daily-drivable, but see [Limits](#limits).
 
 A dark global theme for **Kubuntu 26.04 / KDE Plasma 6.6** (Wayland, Qt 6).
 Cyan and magenta on blue-black. The accent appears on focus, selection, checked
 and active states — nowhere else.
+
+Everything is derived from `design/palette.json`. `build/generate.py`
+contrast-asserts every foreground/background pair a user actually reads, so an
+illegible combination fails the build instead of shipping.
 
 ## Screenshots
 
@@ -22,29 +26,55 @@ and active states — nowhere else.
 ## Install
 
 ```sh
-python3 build/generate.py     # palette -> artefacts
-./install.sh --apply          # install and switch the live session
-./uninstall.sh                # put everything back
+sudo apt install fonts-ibm-plex fonts-jetbrains-mono qt6-style-kvantum \
+                 python3-cairosvg python3-pil python3-numpy
+
+python3 build/generate.py      # palette -> dist/
+./install.sh --apply           # install, and switch the live session
+./install.sh --system          # SDDM and Plymouth (asks for sudo)
+./uninstall.sh [--system]      # put it all back
 ```
 
-Idempotent. Every config file it edits is copied to `~/.config/neon-noir-backup/`
-before the first write, along with the colour scheme that was active beforehand.
-`--dry-run` shows what it would do.
+Idempotent. Every file it edits is copied to `~/.config/neon-noir-backup/`
+before the first write, along with the colour scheme and cursor theme that were
+active beforehand. `--dry-run` shows what it would do and touches nothing.
 
 ## What's installed
 
 | Artefact | Destination |
 |---|---|
 | Colour scheme | `~/.local/share/color-schemes/NeonNoir.colors` |
+| Global theme + splash | `~/.local/share/plasma/look-and-feel/org.neonnoir.desktop/` |
 | Plasma style | `~/.local/share/plasma/desktoptheme/NeonNoir/` |
 | Window decoration (Aurorae) | `~/.local/share/aurorae/themes/NeonNoir/` |
+| Widget style (Kvantum) | `~/.config/Kvantum/NeonNoir/` |
 | Icon theme | `~/.local/share/icons/NeonNoir/` |
+| Cursor theme | `~/.icons/NeonNoir-cursors/` |
+| System widget | `~/.local/share/plasma/plasmoids/org.neonnoir.sysmon/` |
+| Wallpaper | `~/.local/share/wallpapers/NeonNoir/` |
 | Konsole scheme + profile | `~/.local/share/konsole/` |
 | Kate editor theme | `~/.local/share/org.kde.syntax-highlighting/themes/` |
 | GTK 3 / 4 / libadwaita | `~/.config/gtk-{3,4}.0/gtk.css` |
-| Wallpaper | `~/.local/share/wallpapers/NeonNoir/` |
-| Decoration, effects, fonts | `kwinrc`, `breezerc`, `kdeglobals` |
+| Font rendering | `~/.config/fontconfig/fonts.conf` |
+| VS Code | `~/.vscode/extensions/neon-noir-theme/` |
+| Firefox chrome | `<profile>/chrome/userChrome.css` |
+| Decoration, effects, fonts | `kwinrc`, `breezerc`, `kdeglobals`, `kcminputrc` |
 
-## Not done yet
+With `--system`:
 
-Cursor theme · Kvantum · SDDM · Plymouth · splash · lock screen
+| Artefact | Destination |
+|---|---|
+| SDDM greeter | `/usr/share/sddm/themes/NeonNoir/` |
+| Plymouth boot splash | `/usr/share/plymouth/themes/NeonNoir/` |
+| Cursor theme, for the greeter | `/usr/share/icons/NeonNoir-cursors/` |
+
+`dist/icons/` and `dist/cursors/` are not committed — 1952 icons and 39 cursors,
+~15 MB of generated binaries. `build/generate.py` writes them.
+
+## Limits
+
+- **Lock screen.** Its QML comes from the Plasma *shell* package, not from a
+  theme, so only the colours (the scheme's `Complementary` set) and the
+  wallpaper are reachable. Layout, clock and controls are fixed.
+- **Qt 5 apps** keep Breeze. There is no Qt 5 Kvantum in 26.04.
+- **Login and boot** need `--system` and a reboot; `--apply` cannot touch them.
