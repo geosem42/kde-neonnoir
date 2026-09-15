@@ -447,10 +447,16 @@ MAP = {
 }
 
 
-def _wrap(body, stroke_hex):
+def _wrap(body, stroke_hex, size=VIEWBOX):
+    """`size` is the INTRINSIC size; the viewBox always stays 24.
+
+    A Type=Fixed directory promises icons of the size it declares. Writing a
+    24x24 file into places/16 made a 16px request hand back a 24px icon, which
+    widened the icon column in every menu that used one.
+    """
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{VIEWBOX}" '
-        f'height="{VIEWBOX}" viewBox="0 0 {VIEWBOX} {VIEWBOX}">'
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{size}" '
+        f'height="{size}" viewBox="0 0 {VIEWBOX} {VIEWBOX}">'
         f'<g fill="none" stroke="{stroke_hex}" stroke-width="{STROKE}" '
         f'stroke-linecap="round" stroke-linejoin="round">{body}</g></svg>\n'
     )

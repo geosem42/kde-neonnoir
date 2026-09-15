@@ -69,9 +69,12 @@ def _glyph_for(name):
     return FALLBACK
 
 
-def svgs(stroke_hex, breeze_root):
-    """{icon-name: svg} for every place name breeze-dark ships."""
+def svgs(stroke_hex, breeze_root, size=24):
+    """{icon-name: svg} for every place name breeze-dark ships.
+
+    `size` must match the Fixed directory the files are written into.
+    """
     names = set()
     for svg in (breeze_root / 'places').rglob('*.svg'):
         names.add(svg.stem)
-    return {n: _wrap(GLYPHS[_glyph_for(n)], stroke_hex) for n in sorted(names)}
+    return {n: _wrap(GLYPHS[_glyph_for(n)], stroke_hex, size) for n in sorted(names)}

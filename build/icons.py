@@ -53,12 +53,15 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     # a file manager's sidebar draws from; 32 and up keep the recoloured cyan
     # folders the file view uses. Breeze splits its own place icons the same
     # way, monochrome below 32 and coloured above.
-    places = placeicons.svgs(app_glyph_hex, src)
-    n_places = 0
+    n_places, places = 0, {}
     for d in dirs:
-        size = d.split('/')[1]
-        if int(size.split('@')[0]) >= 32:
+        name_px = d.split('/')[1]
+        px = int(name_px.split('@')[0])
+        if px >= 32:
             continue
+        # Rendered at the directory's own size, not a fixed 24.
+        scale = int(name_px.split('@')[1].rstrip('x')) if '@' in name_px else 1
+        places = placeicons.svgs(app_glyph_hex, src, px * scale)
         for name, svg in places.items():
             (dst / d / f'{name}.svg').write_text(svg, encoding='utf-8')
             n_places += 1
