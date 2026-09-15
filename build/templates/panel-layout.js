@@ -52,6 +52,10 @@ function configure(w) {
         w.currentConfigGroup = ["General"];
         w.writeConfig("icon", "@MARK@");
         w.writeConfig("menuLabel", "");
+        // 1 = list, 0 = grid. The artboard shows a compact list with a
+        // subtitle per row, not a wall of tiles.
+        w.writeConfig("applicationsDisplay", 1);
+        w.writeConfig("favoritesDisplay", 1);
         w.reloadConfig();
 
     } else if (w.type === "org.kde.plasma.icontasks") {
