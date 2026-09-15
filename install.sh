@@ -325,7 +325,18 @@ if [ "$SYSTEM" = 1 ]; then
 fi
 
 if [ "$DESKTOP" = 1 ]; then
-  say "Desktop widgets"
+  say "Panel and desktop widgets"
+  if [ -f "$DIST/config/panel-layout.js" ] && command -v qdbus6 >/dev/null; then
+    install -Dm644 "$DIST/brand/mark.svg" "$SHARE/icons/neon-noir-mark.svg" 2>/dev/null || true
+    if [ "$DRY" = 1 ]; then
+      printf '   %swould:%s reshape the panel (48px, floating, hexagon launcher)\n' "$c_dim" "$c_0"
+    else
+      pj="$(sed "s|@MARK@|$SHARE/icons/neon-noir-mark.svg|" "$DIST/config/panel-layout.js")"
+      r="$(qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "$pj" 2>&1 | tail -1)"
+      ok "${r:-no response from plasmashell}"
+    fi
+  fi
+
   if [ -f "$DIST/config/desktop-layout.js" ] && command -v qdbus6 >/dev/null; then
     if [ "$DRY" = 1 ]; then
       printf '   %swould:%s place the clock, system card and media widget\n' "$c_dim" "$c_0"

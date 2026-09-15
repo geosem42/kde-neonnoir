@@ -311,7 +311,11 @@ def build(T, ANSI, DIST, THEME_ID, THEME_NAME, UI_FONT, MONO_FONT, template_dir=
         cfg = DIST / 'config'
         cfg.mkdir(parents=True, exist_ok=True)
         shutil.copy(template_dir / 'desktop-layout.js', cfg / 'desktop-layout.js')
-        out.append('config/desktop-layout.js')
+        # The launcher icon is referenced by absolute path, so it is expanded
+        # at install time, not here.
+        (cfg / 'panel-layout.js').write_text(
+            (template_dir / 'panel-layout.js').read_text())
+        out.append('config/desktop-layout.js, config/panel-layout.js')
 
     fc = DIST / 'fontconfig'
     fc.mkdir(parents=True, exist_ok=True)
