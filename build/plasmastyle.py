@@ -139,8 +139,12 @@ def build(T, DIST, THEME_ID):
     s.frame('thick', win, hair, r=R_BIG, margin=8)
     files['widgets/panel-background.svg'] = s
 
-    # Popups: launcher, clock, notifications.
-    for path, fill, border, r in (('dialogs/background.svg', T['surface.float'], hair, R_BIG),
+    # Popups: launcher, clock, notifications. The window surface, not the
+    # floating one: the artboard draws the launcher a step above its near-black
+    # ground, but on a real desktop that step reads as a grey slab next to the
+    # panel and the window chrome, which are both surface.window. A hairline
+    # border carries the elevation instead.
+    for path, fill, border, r in (('dialogs/background.svg', T['surface.window'], flt, R_BIG),
                                   ('widgets/tooltip.svg', T['tooltip.bg'], flt, R_MED)):
         s = Sheet()
         s.frame('', fill, border, r=r, margin=r)

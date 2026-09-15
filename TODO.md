@@ -1,0 +1,44 @@
+# To fix
+
+Worked one item at a time, top to bottom. `x` means done and verified on screen.
+
+## Start menu
+
+- [x] Background matches the theme instead of a lighter grey slab
+- [ ] Avatar is the Kubuntu logo; design has a magenta-to-indigo disc with an initial
+- [ ] No subtitle under the name (design: `resolute · Plasma 6.6.6`)
+- [ ] Brightness and power belong in the header, not a footer strip
+- [ ] Search field has no cyan border when focused
+- [ ] Sidebar categories use Breeze icons, not our outline glyphs
+- [ ] Grid of apps; design is a compact list with a category subtitle per row
+- [ ] Selected row is a grey pill; design is a teal fill with a 2px cyan leading edge
+
+## Konsole
+
+- [ ] Compare against artboard 06 and list what differs
+
+## Kate
+
+- [ ] Menubar is visible; design has none. Lives in Kate's session file, not katerc
+- [ ] Compare the tab bar against artboard 06
+
+## Dolphin
+
+- [ ] File icons are Breeze's colour documents; design is grey line art (`mimetypes/`)
+- [ ] Sidebar section headers are plain grey; design is cyan caps
+- [ ] Cyan focus outline around the file view is not in the design
+
+## Taskbar
+
+- [ ] Pinned icons can be dragged out of order
+- [ ] Firefox keeps its snap logo — `Icon=` is an absolute path, unreachable from an icon theme
+
+## Known dead ends
+
+Kept here so they are not re-attempted.
+
+- Filled-cyan primary button: Kvantum's only default-button hook is a small
+  corner marker, not the fill.
+- `TUE 15 SEP` in the clock: Qt date formats have no uppercase.
+- Tray expander chevron: Plasma always draws one when anything is hidden.
+- Lock screen layout: loaded from the Plasma shell package, not the theme.
