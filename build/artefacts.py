@@ -4,7 +4,7 @@ Imported by generate.py. Everything here is derived from design/palette.json.
 """
 import json, math
 
-def build(T, ANSI, DIST, THEME_ID, THEME_NAME, need):
+def build(T, ANSI, DIST, THEME_ID, THEME_NAME, need, PKG_ID):
     out = []
 
     # ── fonts ──────────────────────────────────────────────────────────────────
@@ -222,6 +222,18 @@ BlinkingCursorEnabled=true
     # Pointer. 24 is the nominal size, which the theme renders as a 32px image.
     add('kcminputrc', 'Mouse', 'cursorTheme', THEME_ID + '-cursors')
     add('kcminputrc', 'Mouse', 'cursorSize', '24')
+    # Splash. The kcfg default for this key is 'org.kde.breeze.desktop', so the
+    # value is a look-and-feel package id, not a display name
+    # (/usr/share/config.kcfg/splashscreensettings.kcfg).
+    add('ksplashrc', 'KSplash', 'Engine', 'KSplashQML')
+    add('ksplashrc', 'KSplash', 'Theme', PKG_ID)
+    # Lock screen. kscreenlocker_greet loads its QML from the SHELL package, not
+    # from look-and-feel, so the only things a theme can change are the colours
+    # (it pins itself to the scheme's Complementary set) and this wallpaper.
+    # @SHARE@ is expanded by install.sh.
+    add('kscreenlockerrc', 'Greeter', 'WallpaperPlugin', 'org.kde.image')
+    add('kscreenlockerrc', 'Greeter/Wallpaper/org.kde.image/General', 'Image',
+        f'file://@SHARE@/wallpapers/{THEME_ID}')
     # GTK reads its own cursor and icon keys. Plasma's gtkconfig kded normally
     # mirrors kcminputrc into these, but only on its own schedule, so they are
     # written directly too.

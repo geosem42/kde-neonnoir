@@ -34,6 +34,10 @@ kdeglobals	Icons	Theme	NeonNoir
 plasmarc	Theme	name	NeonNoir
 kcminputrc	Mouse	cursorTheme	NeonNoir-cursors
 kcminputrc	Mouse	cursorSize	24
+ksplashrc	KSplash	Engine	KSplashQML
+ksplashrc	KSplash	Theme	org.neonnoir.desktop
+kscreenlockerrc	Greeter	WallpaperPlugin	org.kde.image
+kscreenlockerrc	Greeter/Wallpaper/org.kde.image/General	Image	file://@SHARE@/wallpapers/NeonNoir
 gtk-3.0/settings.ini	Settings	gtk-cursor-theme-name	NeonNoir-cursors
 gtk-3.0/settings.ini	Settings	gtk-cursor-theme-size	24
 gtk-3.0/settings.ini	Settings	gtk-icon-theme-name	NeonNoir

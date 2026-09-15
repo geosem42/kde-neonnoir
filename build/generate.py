@@ -15,6 +15,7 @@ ANSI = {a['name']: a['hex'] for a in PAL['ansi']}
 DIST = ROOT / 'dist'
 
 THEME_ID   = 'NeonNoir'
+PKG_ID     = 'org.neonnoir.desktop'
 THEME_NAME = 'Neon Noir'
 
 # ---------- colour helpers ----------
@@ -195,7 +196,7 @@ def main():
         p.write_text(fn())
         print(f'  wrote dist/{rel}  ({p.stat().st_size} bytes)')
     sys.path.insert(0, str(ROOT / 'build'))
-    import artefacts, decoration, icons, cursors
+    import artefacts, decoration, icons, cursors, brand, lookandfeel
     # A folder is a large filled shape: the full-strength UI accent is far too
     # loud across 500 icons, so match Breeze's own folder lightness instead.
     folder_hex = T['accent.cyan.folder']
@@ -203,9 +204,13 @@ def main():
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     for line in decoration.build(T, DIST, THEME_ID, THEME_NAME, colors_file()):
         print(f'  wrote dist/{line}')
-    for line in artefacts.build(T, ANSI, DIST, THEME_ID, THEME_NAME, need):
+    for line in artefacts.build(T, ANSI, DIST, THEME_ID, THEME_NAME, need, PKG_ID):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     for line in cursors.build(T, DIST, THEME_ID, THEME_NAME):
+        print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
+    for line in brand.build(T, DIST, THEME_ID, THEME_NAME):
+        print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
+    for line in lookandfeel.build(T, DIST, THEME_ID, THEME_NAME, PKG_ID):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
 
     if FAILURES:

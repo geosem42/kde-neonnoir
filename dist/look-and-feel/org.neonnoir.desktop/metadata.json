@@ -1,0 +1,17 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Id": "org.neonnoir.desktop",
+        "Name": "Neon Noir",
+        "Description": "Neon noir: cyan and magenta on blue-black, accent only where something is focused, selected or running",
+        "Authors": [
+            {
+                "Name": "George",
+                "Email": "geosem042@gmail.com"
+            }
+        ],
+        "License": "GPL-3.0-or-later",
+        "Category": "",
+        "Website": ""
+    }
+}

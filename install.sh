@@ -12,6 +12,7 @@
 set -euo pipefail
 
 THEME_ID="NeonNoir"
+PKG_ID="org.neonnoir.desktop"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DIST="$HERE/dist"
 SHARE="${XDG_DATA_HOME:-$HOME/.local/share}"
@@ -118,6 +119,9 @@ install_tree "$DIST/icons/$THEME_ID" "$SHARE/icons/$THEME_ID"
 say "Cursor theme"
 install_tree "$DIST/cursors/$THEME_ID-cursors" "$ICONS/$THEME_ID-cursors"
 
+say "Global theme package"
+install_tree "$DIST/look-and-feel/$PKG_ID" "$SHARE/plasma/look-and-feel/$PKG_ID"
+
 say "Wallpaper"
 install_tree "$DIST/wallpapers/$THEME_ID" "$SHARE/wallpapers/$THEME_ID"
 
@@ -126,9 +130,14 @@ if [ -f "$DIST/config/settings.tsv" ]; then
   n=0
   while IFS=$'\t' read -r file group key value; do
     [ -z "${file:-}" ] && continue
+    # A group field may name nested groups separated by "/". kwriteconfig6
+    # escapes brackets inside a single --group, so nesting has to be passed as
+    # repeated --group arguments.
+    gargs=(); IFS='/' read -ra parts <<< "$group"
+    for part in "${parts[@]}"; do gargs+=(--group "$part"); done
     # --notify is what emits the KConfigWatcher D-Bus signal; without it the
     # file changes but nothing running reloads it.
-    run kwriteconfig6 --file "$file" --group "$group" --key "$key" "$value" --notify
+    run kwriteconfig6 --file "$file" "${gargs[@]}" --key "$key" "${value//@SHARE@/$SHARE}" --notify
     n=$((n+1))
   done < "$DIST/config/settings.tsv"
   ok "$n settings written (decoration, effects, fonts, blur)"
