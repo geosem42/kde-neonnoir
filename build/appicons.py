@@ -80,6 +80,78 @@ GLYPHS = {
 
     # Generic fallback: the brand hexagon, so an unknown app still belongs here.
     'hexagon': '<path d="M12 2.9l7.9 4.55v9.1L12 21.1l-7.9-4.55v-9.1z"/>',
+
+    # ── menu categories ───────────────────────────────────────────────────────
+
+    'grid4': '<rect x="3.4" y="3.4" width="7.2" height="7.2" rx="1.6"/>'
+             '<rect x="13.4" y="3.4" width="7.2" height="7.2" rx="1.6"/>'
+             '<rect x="3.4" y="13.4" width="7.2" height="7.2" rx="1.6"/>'
+             '<rect x="13.4" y="13.4" width="7.2" height="7.2" rx="1.6"/>',
+
+    'wrench': '<path d="M15.6 3.5a4.8 4.8 0 0 0-5.8 6.2l-5.9 5.9a2 2 0 0 0 2.8 2.8l5.9-5.9'
+              'a4.8 4.8 0 0 0 6.2-5.8l-3 3-2.5-.7-.7-2.5z"/>',
+
+    'toolbox': '<rect x="2.6" y="8.4" width="18.8" height="11.2" rx="2"/>'
+               '<path d="M8.4 8.4V6.6a1.8 1.8 0 0 1 1.8-1.8h3.6a1.8 1.8 0 0 1 1.8 1.8v1.8"/>'
+               '<path d="M2.6 13h18.8"/><path d="M10.4 11.6h3.2"/>',
+
+    'paperclip': '<path d="M18.6 11.2 12 17.8a4.2 4.2 0 0 1-5.9-5.9l7.4-7.4a2.8 2.8 0 0 1 4 4'
+                 'l-7.4 7.4a1.4 1.4 0 0 1-2-2l6.6-6.6"/>',
+
+    'cap': '<path d="M12 4.2 22 9l-10 4.8L2 9z"/>'
+           '<path d="M6 11.2v4.4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.4"/>',
+
+    'bubble': '<path d="M20.4 14.2a2 2 0 0 1-2 2H7.6l-4 4V5.8a2 2 0 0 1 2-2h12.8'
+              'a2 2 0 0 1 2 2z"/>',
+
+    'maths': '<path d="M4.4 7.2h5M6.9 4.7v5"/><path d="M14.6 7.2h5"/>'
+             '<path d="M4.9 14.9l4 4M8.9 14.9l-4 4"/>'
+             '<path d="M14.6 14.2h5M14.6 17.8h5"/>',
+
+    'atom': '<circle cx="12" cy="12" r="2"/>'
+            '<ellipse cx="12" cy="12" rx="9.2" ry="4"/>'
+            '<ellipse cx="12" cy="12" rx="9.2" ry="4" transform="rotate(60 12 12)"/>'
+            '<ellipse cx="12" cy="12" rx="9.2" ry="4" transform="rotate(120 12 12)"/>',
+
+    'dividers': '<circle cx="12" cy="4.6" r="1.8"/>'
+                '<path d="M11.2 6.3 6.4 20.4M12.8 6.3 17.6 20.4"/>'
+                '<path d="M9.4 14.6h5.2"/>',
+
+    'gamepad': '<path d="M8.4 9.4h7.2a5.2 5.2 0 0 1 5.1 6.2l-.5 2.4a2.3 2.3 0 0 1-4 1.1'
+               'L14.4 17H9.6l-2.2 2.1a2.3 2.3 0 0 1-4-1.1l-.5-2.4a5.2 5.2 0 0 1 5.1-6.2z"/>'
+               '<path d="M7.4 12.4v2.2M6.3 13.5h2.2"/>'
+               '<circle cx="16.2" cy="12.8" r=".9"/><circle cx="18" cy="15" r=".9"/>',
+
+    'palette': '<path d="M12 3.2a8.8 8.8 0 0 0 0 17.6c1.1 0 1.9-.8 1.9-1.8 0-.5-.2-.9-.5-1.2'
+               '-.3-.3-.5-.7-.5-1.2 0-1 .9-1.8 1.9-1.8h2.2a4 4 0 0 0 4-4c0-4.2-4-7.6-9-7.6z"/>'
+               '<circle cx="7.4" cy="11.4" r="1.1"/><circle cx="10.6" cy="7.6" r="1.1"/>'
+               '<circle cx="15.4" cy="8.4" r="1.1"/>',
+
+    'play': '<rect x="2.8" y="4.8" width="18.4" height="14.4" rx="2.2"/>'
+            '<path d="M10 9.6l5 2.8-5 2.8z"/>',
+
+    'nodes': '<circle cx="12" cy="5" r="2.4"/><circle cx="5" cy="18" r="2.4"/>'
+             '<circle cx="19" cy="18" r="2.4"/>'
+             '<path d="M10.8 7.2 6.2 15.8M13.2 7.2l4.6 8.6M7.4 18h9.2"/>',
+
+    'briefcase': '<rect x="2.6" y="7.2" width="18.8" height="12.4" rx="2.2"/>'
+                 '<path d="M8.6 7.2V5.6a1.6 1.6 0 0 1 1.6-1.6h3.6a1.6 1.6 0 0 1 1.6 1.6v1.6"/>'
+                 '<path d="M2.6 12.4h18.8"/>',
+
+    'flask': '<path d="M9.6 3.4v5.4l-5.2 9a2 2 0 0 0 1.7 3h11.8a2 2 0 0 0 1.7-3l-5.2-9V3.4"/>'
+             '<path d="M8.4 3.4h7.2"/><path d="M7.6 14.6h8.8"/>',
+
+    'chip': '<rect x="6.4" y="6.4" width="11.2" height="11.2" rx="2"/>'
+            '<rect x="9.8" y="9.8" width="4.4" height="4.4" rx="1"/>'
+            '<path d="M9.6 3.2v3.2M14.4 3.2v3.2M9.6 17.6v3.2M14.4 17.6v3.2'
+            'M3.2 9.6h3.2M3.2 14.4h3.2M17.6 9.6h3.2M17.6 14.4h3.2"/>',
+
+    'bookmark': '<path d="M6.4 3.6h11.2a1.2 1.2 0 0 1 1.2 1.2v15.6L12 16.4l-6.8 4V4.8'
+                'a1.2 1.2 0 0 1 1.2-1.2z"/>',
+
+    'question': '<circle cx="12" cy="12" r="9"/>'
+                '<path d="M9.4 9.4a2.7 2.7 0 0 1 5.2.9c0 1.8-2.6 2.7-2.6 2.7"/>'
+                '<path d="M12 17.2h.01"/>',
 }
 
 # Icon name -> glyph. Both spellings are listed for every app: KDE's own
@@ -118,15 +190,61 @@ MAP = {
 }
 
 
+def _wrap(body, stroke_hex):
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{VIEWBOX}" '
+        f'height="{VIEWBOX}" viewBox="0 0 {VIEWBOX} {VIEWBOX}">'
+        f'<g fill="none" stroke="{stroke_hex}" stroke-width="{STROKE}" '
+        f'stroke-linecap="round" stroke-linejoin="round">{body}</g></svg>\n'
+    )
+
+
 def svgs(stroke_hex):
     """Return {icon-name: svg-text} for every mapped application icon."""
+    return {name: _wrap(GLYPHS[glyph], stroke_hex) for name, glyph in MAP.items()}
+
+
+# The application-menu categories down the launcher's left edge. These live in
+# the `categories` context, which is separate from `apps` — the same theme has
+# to ship both or the launcher list stays on Breeze while the task bar changes.
+CATEGORIES = {
+    'applications-all': 'grid4',
+    'applications-accessories': 'paperclip',
+    'applications-development': 'wrench',
+    'applications-education': 'cap',
+    'applications-education-language': 'bubble',
+    'applications-education-mathematics': 'maths',
+    'applications-education-science': 'atom',
+    'applications-engineering': 'dividers',
+    'applications-games': 'gamepad',
+    'applications-graphics': 'palette',
+    'applications-internet': 'globe',
+    'applications-multimedia': 'play',
+    'applications-network': 'nodes',
+    'applications-office': 'briefcase',
+    'applications-other': 'hexagon',
+    'applications-science': 'flask',
+    'applications-system': 'chip',
+    'applications-utilities': 'toolbox',
+    # Not an `applications-` name, but they sit in the same list.
+    'bookmarks': 'bookmark',
+    'favorites': 'bookmark',
+    'help-browser': 'question',
+    'help-contents': 'question',
+    'help-about': 'question',
+    'system-help': 'question',
+}
+
+
+def category_svgs(stroke_hex):
+    """{icon-name: svg} for the launcher's category list.
+
+    Every name is emitted twice, plain and `-symbolic`: the launcher asks for
+    whichever the menu file names, and a miss falls back to Breeze.
+    """
     out = {}
-    for name, glyph in MAP.items():
-        body = GLYPHS[glyph]
-        out[name] = (
-            f'<svg xmlns="http://www.w3.org/2000/svg" width="{VIEWBOX}" '
-            f'height="{VIEWBOX}" viewBox="0 0 {VIEWBOX} {VIEWBOX}">'
-            f'<g fill="none" stroke="{stroke_hex}" stroke-width="{STROKE}" '
-            f'stroke-linecap="round" stroke-linejoin="round">{body}</g></svg>\n'
-        )
+    for name, glyph in CATEGORIES.items():
+        svg = _wrap(GLYPHS[glyph], stroke_hex)
+        out[name] = svg
+        out[name + '-symbolic'] = svg
     return out

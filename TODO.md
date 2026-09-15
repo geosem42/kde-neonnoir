@@ -10,7 +10,7 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [ ] No subtitle under the name (design: `resolute · Plasma 6.6.6`)
 - [ ] Brightness and power belong in the header, not a footer strip
 - [x] Search field no longer swells on hover; focus ring drawn over it, not around
-- [ ] Sidebar categories use Breeze icons, not our outline glyphs
+- [x] Sidebar categories use our outline glyphs
 - [x] Compact list with a subtitle per row instead of a grid of tiles
 - [x] Selected row is a teal fill with a 2px cyan leading edge (also fixes KRunner)
 

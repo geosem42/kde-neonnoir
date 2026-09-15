@@ -88,7 +88,16 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
         for name, svg in sorted(status.items()):
             (outdir / f'{name}.svg').write_text(svg, encoding='utf-8')
 
-    scalable = ['apps/scalable'] + list(statusicons.DIRS)
+    # Menu categories. A separate context from apps: the launcher's left-hand
+    # list asks for `applications-development` and friends under `categories`,
+    # so shipping only apps/ leaves that list on Breeze.
+    cats = dst / 'categories' / 'scalable'
+    cats.mkdir(parents=True, exist_ok=True)
+    category = appicons.category_svgs(app_glyph_hex)
+    for name, svg in sorted(category.items()):
+        (cats / f'{name}.svg').write_text(svg, encoding='utf-8')
+
+    scalable = ['apps/scalable', 'categories/scalable'] + list(statusicons.DIRS)
     lines = ['[Icon Theme]', f'Name={THEME_NAME}',
              'Comment=Neon Noir — cyan folders and outline glyphs',
              'Inherits=breeze-dark,breeze,hicolor',
@@ -110,15 +119,16 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
         if scale:
             lines.append(f'Scale={scale.rstrip("x")}')
         lines.append('')
-    CONTEXT = {'apps': 'Applications', 'status': 'Status',
-               'devices': 'Devices', 'actions': 'Actions',
+    CONTEXT = {'apps': 'Applications', 'categories': 'Categories',
+               'status': 'Status', 'devices': 'Devices', 'actions': 'Actions',
                'preferences': 'Preferences'}
     for d in scalable:
         lines += [f'[{d}]', 'Size=24', 'MinSize=8', 'MaxSize=512',
                   f'Context={CONTEXT[d.split("/")[0]]}', 'Type=Scalable', '']
     (dst / 'index.theme').write_text('\n'.join(lines))
     return [f'icons/{THEME_ID}/  ({n_files} folder icons, {n_recoloured} recoloured, '
-            f'{len(glyphs)} app glyphs, {len(status)} tray glyphs, '
+            f'{len(glyphs)} app glyphs, {len(category)} category glyphs, '
+            f'{len(status)} tray glyphs, '
             f'{n_mime} inode-directory, '
             f'{len(dirs) + len(mime_dirs) + len(scalable)} dirs; '
             f'inherits breeze-dark)']
