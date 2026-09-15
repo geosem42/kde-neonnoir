@@ -10,7 +10,7 @@ breeze-dark via Inherits.
 """
 import re, shutil, pathlib
 
-import appicons, statusicons
+import appicons, mimeicons, statusicons
 
 SRC_BLUE = re.compile(r'#3daee9', re.I)
 
@@ -97,7 +97,16 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     for name, svg in sorted(category.items()):
         (cats / f'{name}.svg').write_text(svg, encoding='utf-8')
 
-    scalable = ['apps/scalable', 'categories/scalable'] + list(statusicons.DIRS)
+    # File types. Same reason as the tray: a partial override leaves outline
+    # and colour glyphs side by side in one folder.
+    mt = dst / 'mimetypes' / 'scalable'
+    mt.mkdir(parents=True, exist_ok=True)
+    mime = mimeicons.svgs(app_glyph_hex, src)
+    for name, svg in sorted(mime.items()):
+        (mt / f'{name}.svg').write_text(svg, encoding='utf-8')
+
+    scalable = (['apps/scalable', 'categories/scalable', 'mimetypes/scalable']
+                + list(statusicons.DIRS))
     lines = ['[Icon Theme]', f'Name={THEME_NAME}',
              'Comment=Neon Noir — cyan folders and outline glyphs',
              'Inherits=breeze-dark,breeze,hicolor',
@@ -120,7 +129,8 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
             lines.append(f'Scale={scale.rstrip("x")}')
         lines.append('')
     CONTEXT = {'apps': 'Applications', 'categories': 'Categories',
-               'status': 'Status', 'devices': 'Devices', 'actions': 'Actions',
+               'mimetypes': 'MimeTypes', 'status': 'Status',
+               'devices': 'Devices', 'actions': 'Actions',
                'preferences': 'Preferences'}
     for d in scalable:
         lines += [f'[{d}]', 'Size=24', 'MinSize=8', 'MaxSize=512',
@@ -129,6 +139,6 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     return [f'icons/{THEME_ID}/  ({n_files} folder icons, {n_recoloured} recoloured, '
             f'{len(glyphs)} app glyphs, {len(category)} category glyphs, '
             f'{len(status)} tray glyphs, '
-            f'{n_mime} inode-directory, '
+            f'{n_mime} inode-directory, {len(mime)} file types, '
             f'{len(dirs) + len(mime_dirs) + len(scalable)} dirs; '
             f'inherits breeze-dark)']

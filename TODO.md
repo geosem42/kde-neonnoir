@@ -41,9 +41,9 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Dolphin
 
-- [ ] File icons are Breeze's colour documents; design is grey line art (`mimetypes/`)
+- [x] File icons are grey line art — all 517 mimetype names swept by pattern
 - [ ] Sidebar section headers are plain grey; design is cyan caps
-- [ ] Cyan focus outline around the file view is not in the design
+- [x] Focus outline around the file view softened from #36D7D7 to #067878
 
 ## Other apps
 
