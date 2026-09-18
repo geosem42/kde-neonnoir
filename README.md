@@ -77,7 +77,7 @@ With `--system`:
 | Plymouth boot splash | `/usr/share/plymouth/themes/NeonNoir/` |
 | Cursor theme, for the greeter | `/usr/share/icons/NeonNoir-cursors/` |
 
-`dist/icons/` and `dist/cursors/` are not committed — 4,010 icons and 39 cursors,
+`dist/icons/` and `dist/cursors/` are not committed — 4,598 icons and 39 cursors,
 ~15 MB of generated binaries. `build/generate.py` writes them.
 
 ## Limits

@@ -1,7 +1,7 @@
 __pycache__/
 *.pyc
 
-# 1952 folder icons derived from breeze-dark (LGPL) at build time.
+# 4,598 icons derived from breeze-dark (LGPL) at build time.
 # Regenerate with: python3 build/generate.py
 dist/icons/
 

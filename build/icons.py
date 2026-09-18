@@ -89,11 +89,14 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
     specs = _dir_specs((BREEZE / 'index.theme').read_text(errors='ignore'))
     dirs, n_written, n_hits = set(), 0, 0
 
+    stems = set()
+
     def emit(rel, text):
         nonlocal n_written
         out = dst / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(text, encoding='utf-8')
+        stems.add(out.stem)
         n_written += 1
 
     for svg in sorted(BREEZE.rglob('*.svg')):
@@ -131,6 +134,40 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
             dirs.add('apps/scalable')
             n_apps += 1
 
+    # Symbolic hand-off. Asked for `<name>-symbolic`, KIconLoader strips the
+    # suffix and looks for `<name>` IN THIS THEME before it falls through to
+    # breeze-dark — so every icon recoloured above also answers for its
+    # monochrome twin, and anything that wanted the flat outline got the colour
+    # one instead. That is why the panel's show-desktop button came up as a
+    # cyan-and-magenta monitor: kiconfinder6 resolved
+    #   user-desktop-symbolic -> NeonNoir/places/32/user-desktop.svg
+    #
+    # Shipping breeze's symbolic file unchanged puts the exact name back in this
+    # theme, where it wins outright. None of them carries a blue in the band, so
+    # these copies restyle nothing; they are here to route.
+    #
+    # Snapshotted, because emit() adds to `stems` as it goes: tested against the
+    # live set, shipping places/22 would mark the name done and the 32, 48 and
+    # 64 variants would be skipped — leaving one small size in this theme to
+    # answer every size, since a hit in the current theme beats a better-sized
+    # hit in the parent. 235 names, 588 files.
+    n_sym, recoloured = 0, set(stems)
+    for svg in sorted(BREEZE.rglob('*-symbolic.svg')):
+        base = svg.stem[:-len('-symbolic')]
+        if base not in recoloured or svg.stem in recoloured:
+            continue
+        real = svg.resolve()
+        if not real.is_file():
+            continue
+        try:
+            text = real.read_text(encoding='utf-8')
+        except Exception:
+            continue
+        rel = svg.relative_to(BREEZE)
+        emit(str(rel), _rotate(text, cyan_hue)[0])
+        dirs.add(str(rel.parent))
+        n_sym += 1
+
     if not dirs:
         return ['  ! nothing to recolour — icon theme skipped']
 
@@ -151,6 +188,6 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
                       'Context=Applications', 'Type=Scalable']
         lines.append('')
     (dst / 'index.theme').write_text('\n'.join(lines))
-    return [f'icons/{THEME_ID}/  ({n_written} icons recoloured, {n_hits} colours '
-            f'rotated, {n_apps} from hicolor, {len(dirs)} dirs; '
+    return [f'icons/{THEME_ID}/  ({n_written} icons, {n_hits} colours rotated, '
+            f'{n_apps} from hicolor, {n_sym} symbolic kept mono, {len(dirs)} dirs; '
             f'everything untouched inherits breeze-dark)']
