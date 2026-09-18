@@ -255,6 +255,21 @@ def build(T, DIST, THEME_ID):
                   f'<rect x="0" y="0" width="{DW}" height="{GH}" fill="{dot}"/>', DW, GH)
     files['widgets/tasks.svg'] = s
 
+    # Virtual-desktop pager. One tile per desktop, and unlike every other
+    # surface in this theme the tile IS a box: the element stands for a screen,
+    # so a rule under it would say nothing. Three states only — Plasma asks
+    # `widgets/pager` for `normal`, `hover` and `active`, and a file that ships
+    # any of them must ship all three, since KSvg falls back per FILE.
+    #
+    # R_SMALL, not R_MED: at a 48px panel the tile is roughly 24px tall, and the
+    # medium radius eats the straight run of every edge.
+    s = Sheet()
+    for p_, fill, border in (('normal', view, hair),
+                             ('hover', hov, T['decoration.hover']),
+                             ('active', T['accent.cyan.ghost'], cy)):
+        s.frame(p_, fill, border, r=R_SMALL, margin=2)
+    files['widgets/pager.svg'] = s
+
     s = Sheet()
     for p, fill, border in (('plain', N, hair), ('raised', raised, hair), ('sunken', view, hair)):
         s.frame(p, fill, border, r=R_MED, margin=6)

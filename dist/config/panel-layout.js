@@ -11,12 +11,25 @@
 var TARGET = [
     "org.kde.plasma.kickoff",
     "org.neonnoir.separator",
+    // Not on the artboard, which was drawn against a single desktop. With two
+    // or more there is otherwise no way to see which one you are on, and no way
+    // to switch without alt-tabbing into a window that happens to live there.
+    // No second rule after it: Plasma hides the pager outright when there is
+    // only one desktop, and a rule on each side would then collapse into two
+    // parallel lines with a gap between them.
+    "org.kde.plasma.pager",
     // Icons only. The artboard labels each task, but a label as wide as a
     // window title crowds the bar, so this deliberately departs from it.
     "org.kde.plasma.icontasks",
     "org.kde.plasma.systemtray",
     "org.neonnoir.separator",
-    "org.kde.plasma.digitalclock"
+    "org.kde.plasma.digitalclock",
+    // Last, hard against the right edge, where every desktop since CDE has put
+    // it. minimizeall, not showdesktop: showdesktop asks KWin to slide the
+    // windows aside and slides them back the moment anything takes focus, which
+    // is a peek, not a "clear the screen". This one minimises for real and
+    // restores the same set on a second click.
+    "org.kde.plasma.minimizeall"
 ];
 
 // Pinned apps, in the artboard's order. Resolved at install time against the
@@ -61,7 +74,10 @@ function configure(w) {
     } else if (w.type === "org.kde.plasma.icontasks") {
         w.currentConfigGroup = ["General"];
         w.writeConfig("launchers", LAUNCHERS);
-        w.writeConfig("showOnlyCurrentDesktop", false);
+        // The point of a second desktop is a second set of windows. With this
+        // false every task button is on every desktop, so switching changes the
+        // wallpaper and nothing else.
+        w.writeConfig("showOnlyCurrentDesktop", true);
         w.writeConfig("showOnlyCurrentActivity", true);
         w.writeConfig("showOnlyCurrentScreen", false);
         w.writeConfig("maxStripes", 1);
@@ -76,6 +92,26 @@ function configure(w) {
         w.writeConfig("iconSpacing", 2);
         w.writeConfig("indicateAudioStreams", false);
         w.writeConfig("fill", true);
+        w.reloadConfig();
+
+    } else if (w.type === "org.kde.plasma.pager") {
+        w.currentConfigGroup = ["General"];
+        // 0 = Number, 1 = Name, 2 = None. A number is legible in a 24px tile;
+        // a desktop name is not, and "None" leaves two identical boxes.
+        w.writeConfig("displayedText", 0);
+        // The thumbnail windows inside each tile are two or three pixels at
+        // this size — noise, not information.
+        w.writeConfig("showWindowOutlines", false);
+        w.writeConfig("showWindowIcons", false);
+        w.writeConfig("showOnlyCurrentScreen", false);
+        // Scrolling past the last desktop comes back to the first.
+        w.writeConfig("wrapPage", true);
+        // 0 = DoNothing. Clicking the desktop you are already on should not
+        // minimise everything on it.
+        w.writeConfig("currentDesktopSelected", 0);
+        // 1 = Horizontal. Left unset, KWin's desktop grid decides, and a 2x1
+        // grid can come back as two stacked 24px-wide slivers.
+        w.writeConfig("pagerLayout", 1);
         w.reloadConfig();
 
     } else if (w.type === "org.kde.plasma.systemtray") {
@@ -100,6 +136,15 @@ function configure(w) {
         w.writeConfig("fontWeight", 700);
         w.writeConfig("fontStyleName", "Bold");
         w.writeConfig("fontSize", 11);
+        w.reloadConfig();
+
+    } else if (w.type === "org.kde.plasma.minimizeall") {
+        w.currentConfigGroup = ["General"];
+        // The applet's own default, written out rather than left implicit: the
+        // symbolic variant is the flat monitor outline, which sits beside the
+        // tray glyphs. Plain `user-desktop` is the full-colour one, and this
+        // theme recolours it — a lone cyan monitor next to white glyphs.
+        w.writeConfig("icon", "user-desktop-symbolic");
         w.reloadConfig();
     }
 }

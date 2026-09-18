@@ -91,6 +91,35 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Taskbar
 
+- [x] A show-desktop button at the right end, past the clock.
+      `org.kde.plasma.minimizeall`, not `org.kde.plasma.showdesktop`: the latter
+      asks KWin to slide the windows aside and slides them straight back when
+      anything takes focus, which is a peek. This one minimises for real and a
+      second click restores the same set
+
+- [x] Symbolic icon names no longer pick up the colour icon. Asked for
+      `<name>-symbolic`, KIconLoader strips the suffix and looks for `<name>`
+      IN THE CURRENT THEME before falling through to breeze-dark, so every icon
+      recoloured here was also answering for its monochrome twin — the new
+      show-desktop button came up as a cyan-and-magenta monitor, and
+      `kiconfinder6 user-desktop-symbolic` pointed at
+      `NeonNoir/places/32/user-desktop.svg`. Fixed by shipping breeze's symbolic
+      file unchanged for the 235 names affected, all 588 size variants of them:
+      the exact name is back in this theme, where it wins outright. Shipping one
+      size is not enough — a hit in the current theme beats a better-sized hit
+      in the parent, so a lone 22px copy would answer for every size
+
+- [x] Virtual desktops are visible and switchable. The panel had no pager at
+      all, and the task manager had `showOnlyCurrentDesktop=false`, so every
+      window from every desktop sat in one bar and switching changed nothing but
+      the wallpaper. Both fixed: `org.kde.plasma.pager` goes between the
+      launcher's rule and the tasks, numbered rather than named or blank, and
+      the task manager now shows one desktop at a time. Only one rule beside it,
+      because Plasma sets the applet to `HiddenStatus` when
+      `numberOfDesktops() > 1` is false and a rule on each side would collapse
+      into two parallel lines. Styled through `widgets/pager.svg` — `normal`,
+      `hover` and `active`, the three prefixes the applet asks for
+
 - [x] An app with more than one window carries a cyan block set into its
       indicator bar. Every task drew the same bar whatever its window count, so
       there was no cue at all; Plasma stamps this from the Plasma style's
