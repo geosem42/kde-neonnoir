@@ -91,6 +91,15 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 ## Taskbar
 
+- [x] Clicking show-desktop no longer blanks its own slot. The applet marks
+      itself active by drawing `south-active-tab` from `widgets/tabbar.svg`
+      over its icon — it is the last child of the mouse area, so it paints last
+      — and ours was an opaque `surface.raised` pill, which covered the glyph
+      completely and left a blank box in the panel. The comment above it already
+      claimed "accent rule, no filled pill"; the code did not. Now a 2px cyan
+      rule on the edge the prefix names, which for a bottom panel is the same
+      underline a running task gets
+
 - [x] A show-desktop button at the right end, past the clock.
       `org.kde.plasma.minimizeall`, not `org.kde.plasma.showdesktop`: the latter
       asks KWin to slide the windows aside and slides them straight back when

@@ -286,9 +286,20 @@ def build(T, DIST, THEME_ID):
     files['widgets/scrollbar.svg'] = s
 
     # Active tab: accent rule, no filled pill — same rule as the Kvantum tabs.
+    # It was a filled pill, which the comment already denied, and the fill is
+    # opaque: the show-desktop applet draws this element OVER its icon as its
+    # "active" marker (it is the last child, so it paints last), so clicking the
+    # button covered the icon with a plain raised box and left a blank slot in
+    # the panel. As a rule it marks the state and leaves the glyph alone.
+    #
+    # The rule goes on the edge the prefix names, which for the applet is the
+    # panel's outer edge — the same place, and the same 2px, as the underline
+    # under a running task.
     s = Sheet()
-    for edge in ('north', 'south', 'east', 'west'):
-        s.frame(f'{edge}-active-tab', raised, N, r=R_SMALL, margin=6)
+    for edge, side in (('north', 'top'), ('south', 'bottom'),
+                       ('east', 'right'), ('west', 'left')):
+        s.frame(f'{edge}-active-tab', N, N, r=R_SMALL, margin=6,
+                bar=cy, bar_side=side)
     files['widgets/tabbar.svg'] = s
 
     root = DIST / 'desktoptheme' / THEME_ID
