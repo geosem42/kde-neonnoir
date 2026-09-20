@@ -151,10 +151,38 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       the two windows' minimums on the axis being halved. Still open: when NO
       leaf has room the split happens anyway and those two windows overlap.
       Real tilers stack or tab at that point, which is the proper fix
-- [ ] Tiler, still to build: focus and swap keybindings, per-window float
-      toggle, adjustable split ratios, and deciding what dragging a tiled
-      window by its titlebar should do (today it just moves, and the layout
-      does not follow)
+- [x] Moving a window in the layout: Meta+Shift+H/J/K/L, plus Meta+Shift+Up and
+      Meta+Shift+Down. The arrows are only half available — Meta+Shift+Left and
+      Meta+Shift+Right are KDE's "move window to next/previous screen", which is
+      global and not this script's to take, so H and L carry the horizontal.
+      Implemented as a SWAP of two leaves, not a re-insert, so moving a window
+      out and back restores the layout exactly. The neighbour is chosen
+      geometrically from the stamped rects — nearest centre in that direction,
+      and only where the direction dominates — because walking the tree instead
+      would follow split order, which is not what the screen looks like
+- [x] Directional focus needed nothing built: KDE already binds Meta+Alt+arrows
+      to "Switch to Window Left/Right/Above/Below" and it works with tiling
+- [x] Fullscreen on Meta+F. The layout follows by itself — a fullscreen window
+      fails manageable(), so it drops out of the tree and the rest close over
+      its space; leaving fullscreen puts it back. Measured: 944x500 -> 1920x1080
+      -> 944x500, with the neighbour growing to 944x1008 in between
+- [x] Cyan outline on the active window, Tiled only, via a third Aurorae package
+      (`NeonNoirTiled`). Tiles do not overlap, so the usual depth cues are gone
+      and the border is the only thing left to mark focus. It needed
+      `BorderSize=Normal` in the profile: every other profile sets `None`, and
+      None means KWin draws no side or foot border at all and never consults the
+      theme's own BorderLeft — the outline was generated, shipped and invisible
+- [ ] The border renders 4px and I could not drive the thickness. Neither the
+      SVG slice width (tried 2) nor BorderLeft (tried 1) changed it, and Tiny,
+      NoSides and Normal all produced the same 4px. Left as is because it reads
+      well, but the number is KWin's, not ours
+- [ ] Client-side-decorated apps get no cyan border, because they have no KWin
+      decoration to put one on. On this machine that is VS Code and Firefox.
+      Nothing in Aurorae can reach them
+- [ ] Tiler, still to build: per-window float toggle, adjustable split ratios,
+      stacking when no tile has room, and deciding what dragging a tiled window
+      by its titlebar should do (today it just moves, and the layout does not
+      follow)
 - [x] Superseded detail from the reverted attempt: no titlebars on normal windows, blur 7 -> 12, inactive
       windows at 92% and 70% while moving, dim-inactive at 12, plus the magic
       lamp and glide animations. Dialogs keep their titlebar (`types=1`) so they

@@ -49,7 +49,7 @@ def _plasma_style(DIST, THEME_ID, THEME_NAME, colors_text):
 
 def build(T, DIST, THEME_ID, THEME_NAME, colors_text,
           title_height=40, aurorae_id=None, aurorae_name=None,
-          plasma_style=True):
+          plasma_style=True, border_active=None, border_px=1, border_slice=4):
     """Aurorae decoration, and (unless switched off) the Plasma style with it.
 
     title_height is a parameter rather than a constant because the SVG is DRAWN
@@ -70,7 +70,11 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text,
 
     TB      = T['titlebar.active']      # active titlebar fill
     TBI     = T['titlebar.inactive']    # inactive titlebar fill
-    BORD    = T['border.hairline']      # 1px window outline
+    # The outline down the sides and across the foot. Inactive is always the
+    # hairline; active is a parameter so a variant can use it as a focus cue —
+    # which is what the Tiled profile does, because in a grid of windows with no
+    # overlap there is nothing else to say which one has the keyboard.
+    BORD    = border_active or T['border.hairline']
     BORDI   = T['border.hairline']
     CY      = T['accent.cyan']
     MG      = T['accent.magenta']
@@ -79,7 +83,11 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text,
     R   = 10     # top corner radius, px
     TH  = title_height
     EDG = 2      # accent edge thickness, px
-    BW  = 4      # side/bottom border slice width in SVG units
+    # Aurorae takes the border thickness from the WIDTH OF THE SLICE, not from
+    # BorderLeft in the rc — every BorderSize setting from Tiny to Normal drew
+    # the same 4px, because all of them were reading this. So the variant that
+    # wants a finer outline has to be drawn with a finer one.
+    BW  = border_slice
 
     # The window's top hairline is solid cyan across the full width. The
     # artboards fade it to magenta at the right end; that was tried and
@@ -261,9 +269,9 @@ TitleAlignment=Left
 TitleVerticalAlignment=Center
 
 [Layout]
-BorderLeft=1
-BorderRight=1
-BorderBottom=1
+BorderLeft={border_px}
+BorderRight={border_px}
+BorderBottom={border_px}
 TitleEdgeTop=0
 TitleEdgeBottom=0
 TitleEdgeLeft=8

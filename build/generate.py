@@ -24,6 +24,10 @@ CONTROL_ID = 'org.neonnoir.control'
 COMPACT_ID = THEME_ID + 'Compact'
 COMPACT_TH = 26
 TILER_ID = 'neonnoirtiler'
+# The Tiled profile gets its own decoration: same drawing, but the active
+# window's outline is the accent. Tiles do not overlap, so the usual depth
+# cues are gone and the border is the only thing left to mark focus.
+TILED_DECO_ID = THEME_ID + 'Tiled'
 # Gaps, in px. Outer is screen edge to window, inner is window to window.
 GAP_OUTER, GAP_INNER = 12, 8
 THEME_NAME = 'Neon Noir'
@@ -310,6 +314,13 @@ def main():
     apply_path = '${XDG_DATA_HOME:-$HOME/.local/share}/neon-noir/neon-noir-apply'
     for line in plasmoid.build_control(T, DIST, THEME_NAME, CONTROL_ID,
                                        ROOT / 'build' / 'templates', apply_path):
+        print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
+    for line in decoration.build(T, DIST, THEME_ID, THEME_NAME, colors_file(),
+                                 aurorae_id=TILED_DECO_ID,
+                                 aurorae_name=f'{THEME_NAME} Tiled',
+                                 plasma_style=False,
+                                 border_active=T['accent.cyan'], border_px=2,
+                                 border_slice=2):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     _s = DIST / 'scripts'
     _s.mkdir(parents=True, exist_ok=True)

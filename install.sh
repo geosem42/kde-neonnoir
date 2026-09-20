@@ -192,6 +192,7 @@ install_tree "$DIST/aurorae/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID"
 install_tree "$DIST/aurorae/${THEME_ID}Compact" "$SHARE/aurorae/themes/${THEME_ID}Compact"
 # The tiler. A KWin/Script package, switched on and off through kwinrc by the
 # window profile, so it ships disabled and only the Tiled profile turns it on.
+install_tree "$DIST/aurorae/${THEME_ID}Tiled" "$SHARE/aurorae/themes/${THEME_ID}Tiled"
 install_tree "$DIST/kwin-scripts/$TILER_ID" "$SHARE/kwin/scripts/$TILER_ID"
 
 say "Icon theme"

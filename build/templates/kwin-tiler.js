@@ -309,6 +309,107 @@ function attach(w) {
     }
 }
 
+/* ── Moving a window inside the layout ────────────────────────────────────
+
+   Swapping two leaves, not re-inserting: the tree keeps its shape and only the
+   windows in it trade places, so moving a window left and then right again puts
+   the layout back exactly as it was.
+
+   The neighbour is chosen geometrically, from the rects layout() stamped —
+   nearest centre in the requested direction, and only where that direction
+   dominates, so "left" cannot pick a window that is really above. Walking the
+   tree structurally instead would follow the split order, which is not what the
+   screen looks like. */
+function neighbour(root, from, dx, dy) {
+    const all = leaves(root, []);
+    if (!from || !from.rect) {
+        return null;
+    }
+    const cx = from.rect.x + from.rect.width / 2;
+    const cy = from.rect.y + from.rect.height / 2;
+    let best = null;
+    let bestDist = Infinity;
+    for (let i = 0; i < all.length; i++) {
+        const n = all[i];
+        if (n === from || !n.rect) {
+            continue;
+        }
+        const ox = n.rect.x + n.rect.width / 2 - cx;
+        const oy = n.rect.y + n.rect.height / 2 - cy;
+        if (dx !== 0) {
+            if (ox * dx <= 0 || Math.abs(ox) < Math.abs(oy)) {
+                continue;
+            }
+        } else {
+            if (oy * dy <= 0 || Math.abs(oy) < Math.abs(ox)) {
+                continue;
+            }
+        }
+        const dist = ox * ox + oy * oy;
+        if (dist < bestDist) {
+            bestDist = dist;
+            best = n;
+        }
+    }
+    return best;
+}
+
+function moveActive(dx, dy) {
+    const w = workspace.activeWindow;
+    if (!manageable(w)) {
+        return;
+    }
+    const k = key(w);
+    const forest = forests[k];
+    if (!forest || !forest.root) {
+        return;
+    }
+    const hit = find(forest.root, w, null);
+    if (!hit) {
+        return;
+    }
+    const other = neighbour(forest.root, hit.node, dx, dy);
+    if (!other) {
+        return;
+    }
+    const tmp = hit.node.win;
+    hit.node.win = other.win;
+    other.win = tmp;
+    retile(k);
+    // Focus follows the window, not the position — moving a window and then
+    // typing into whatever happened to take its place is never what was meant.
+    workspace.activeWindow = w;
+}
+
+function toggleFullScreen() {
+    const w = workspace.activeWindow;
+    if (w && w.fullScreenable) {
+        // The layout follows by itself: fullScreenChanged is connected, and a
+        // fullscreen window fails manageable(), so it drops out of the tree and
+        // the others close over its space until it comes back.
+        w.fullScreen = !w.fullScreen;
+    }
+}
+
+/* Arrow keys are only half available: Meta+Shift+Left and Meta+Shift+Right are
+   KDE's "move window to next/previous screen". Rather than take those away —
+   they are global, and this script is not — the four directions are on H J K L,
+   with the two free arrows registered as well. */
+registerShortcut("NeonNoirTileMoveLeft", "Neon Noir: move window left",
+                 "Meta+Shift+H", function () { moveActive(-1, 0); });
+registerShortcut("NeonNoirTileMoveRight", "Neon Noir: move window right",
+                 "Meta+Shift+L", function () { moveActive(1, 0); });
+registerShortcut("NeonNoirTileMoveUp", "Neon Noir: move window up",
+                 "Meta+Shift+K", function () { moveActive(0, -1); });
+registerShortcut("NeonNoirTileMoveDown", "Neon Noir: move window down",
+                 "Meta+Shift+J", function () { moveActive(0, 1); });
+registerShortcut("NeonNoirTileMoveUpArrow", "Neon Noir: move window up (arrow)",
+                 "Meta+Shift+Up", function () { moveActive(0, -1); });
+registerShortcut("NeonNoirTileMoveDownArrow", "Neon Noir: move window down (arrow)",
+                 "Meta+Shift+Down", function () { moveActive(0, 1); });
+registerShortcut("NeonNoirTileFullScreen", "Neon Noir: toggle fullscreen",
+                 "Meta+F", toggleFullScreen);
+
 workspace.windowAdded.connect(function (w) {
     attach(w);
     add(w);

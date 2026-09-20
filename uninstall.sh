@@ -163,6 +163,7 @@ for p in "$SHARE/color-schemes/$THEME_ID.colors" \
 done
 for d in "$SHARE/plasma/desktoptheme/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID" \
          "$SHARE/aurorae/themes/${THEME_ID}Compact" \
+         "$SHARE/aurorae/themes/${THEME_ID}Tiled" \
          "$SHARE/kwin/scripts/neonnoirtiler" \
          "$SHARE/icons/$THEME_ID" "$HOME/.icons/$THEME_ID-cursors" \
          "$SHARE/plasma/look-and-feel/$PKG_ID" "$CONF/Kvantum/$THEME_ID" \
