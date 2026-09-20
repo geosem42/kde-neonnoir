@@ -60,6 +60,8 @@ active beforehand. `--dry-run` shows what it would do and touches nothing.
 | Icon theme | `~/.local/share/icons/NeonNoir/` |
 | Cursor theme | `~/.icons/NeonNoir-cursors/` |
 | System widget | `~/.local/share/plasma/plasmoids/org.neonnoir.sysmon/` |
+| Options widget | `~/.local/share/plasma/plasmoids/org.neonnoir.control/` |
+| Variant scripts and state | `~/.local/share/neon-noir/`, `~/.config/neonnoirrc` |
 | Wallpaper | `~/.local/share/wallpapers/NeonNoir/` |
 | Konsole scheme + profile | `~/.local/share/konsole/` |
 | Kate editor theme | `~/.local/share/org.kde.syntax-highlighting/themes/` |

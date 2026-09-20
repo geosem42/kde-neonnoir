@@ -89,6 +89,35 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 - [x] Checked buttons are a quiet teal box with cyan text, not a solid slab
 
+## Theme options
+
+- [x] An options widget in the panel, beside the clock: `org.neonnoir.control`,
+      a cog over a popup with one row per axis. Two axes so far — Windows and
+      Taskbar — each a pair of NAMED variants rather than an on/off switch,
+      because neither side is the absence of the other
+- [x] `~/.config/neonnoirrc` is the single source of truth for which variant is
+      applied. The widget reads it back through `kreadconfig6` instead of
+      keeping its own copy, so the popup is right even when the last change came
+      from the installer or the command line. install.sh seeds it and never
+      overwrites it, so re-running the installer cannot silently undo a switch
+- [x] `~/.local/share/neon-noir/neon-noir-apply <axis> <variant>` does the work.
+      The widget launches it under `setsid`: switching the taskbar rebuilds the
+      panel, which destroys the widget and with it the DataSource that started
+      the script, so the script must outlive its caller. Plasma's executable
+      engine runs commands through `KProcess::setShellCommand`, i.e. `/bin/sh
+      -c`, which is what makes `setsid`, the redirect and the `&` work at all
+- [x] `panel-classic.js` and `windows-classic.tsv` are written by install.sh and
+      replayed by the widget, so "Standard" restores exactly what a fresh
+      install applies — `windows-classic.tsv` is a filter over the installer's
+      own settings table, not a second copy of it
+- [ ] The riced taskbar. Islands rather than one bar, wider gaps and radii,
+      per-widget backgrounds
+- [ ] Riced window management. All four, per the brief: no titlebars with KWin
+      tiling and gaps; heavier blur, transparency and larger radii; animation
+      effects; and a thin/compact titlebar variant
+- [ ] `--panel=classic|neon` on install.sh, once there is a second variant to
+      name
+
 ## Taskbar
 
 - [x] Clicking show-desktop no longer blanks its own slot. The applet marks

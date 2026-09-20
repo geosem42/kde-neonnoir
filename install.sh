@@ -18,6 +18,7 @@ THEME_NAME="Neon Noir"
 PKG_ID="org.neonnoir.desktop"
 APPLET_ID="org.neonnoir.sysmon"
 SEPARATOR_ID="org.neonnoir.separator"
+CONTROL_ID="org.neonnoir.control"
 NN_MARK_BEGIN="# >>> neon noir prompt >>>"
 NN_MARK_END="# <<< neon noir prompt <<<"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -198,6 +199,66 @@ install_tree "$DIST/kvantum/$THEME_ID" "$CONF/Kvantum/$THEME_ID"
 say "Panel widgets"
 install_tree "$DIST/plasmoids/$APPLET_ID" "$SHARE/plasma/plasmoids/$APPLET_ID"
 install_tree "$DIST/plasmoids/$SEPARATOR_ID" "$SHARE/plasma/plasmoids/$SEPARATOR_ID"
+install_tree "$DIST/plasmoids/$CONTROL_ID" "$SHARE/plasma/plasmoids/$CONTROL_ID"
+
+# What the options widget drives. This is deliberately outside --desktop: the
+# widget is installed either way, and a widget whose script is missing is worse
+# than no widget. panel-classic.js is written here rather than substituted twice
+# because --desktop runs the very same file, so what the widget restores is by
+# construction what the installer applied.
+say "Theme options"
+NN_LIB="$SHARE/neon-noir"
+# The framed-hexagon variant, not brand/mark.svg: kickoff draws no button behind
+# its icon, so the design's border has to be inside the SVG. Installed here, not
+# under --desktop, because the layout script names it and the options widget can
+# replay that script on its own.
+[ -f "$DIST/brand/launcher.svg" ] && \
+  run install -Dm644 "$DIST/brand/launcher.svg" "$SHARE/icons/neon-noir-launcher.svg"
+# One slot per app, first spelling that exists — see the note in the panel
+# section; a launcher pointing at a missing .desktop still takes a slot.
+launchers=""
+pin() {
+  for cand in "$@"; do
+    for dir in /usr/share/applications "$SHARE/applications" \
+               /var/lib/snapd/desktop/applications \
+               /var/lib/flatpak/exports/share/applications; do
+      if [ -f "$dir/$cand.desktop" ]; then
+        launchers="${launchers:+$launchers,}applications:$cand.desktop"
+        return 0
+      fi
+    done
+  done
+  return 0
+}
+pin org.kde.konsole konsole
+pin org.kde.dolphin dolphin
+pin firefox_firefox firefox firefox-esr
+if [ -f "$DIST/config/panel-layout.js" ] && [ "$DRY" = 0 ]; then
+  mkdir -p "$NN_LIB"
+  sed -e "s|@MARK@|$SHARE/icons/neon-noir-launcher.svg|" \
+      -e "s|@LAUNCHERS@|$launchers|" \
+      "$DIST/config/panel-layout.js" > "$NN_LIB/panel-classic.js"
+  ok "~/.local/share/neon-noir/panel-classic.js"
+elif [ -f "$DIST/config/panel-layout.js" ]; then
+  printf '   %swould:%s write the classic panel layout to %s\n' \
+         "$c_dim" "$c_0" "$NN_LIB/panel-classic.js"
+fi
+install_file "$DIST/config/windows-classic.tsv" "$NN_LIB/windows-classic.tsv"
+if [ -f "$DIST/scripts/neon-noir-apply" ]; then
+  run install -Dm755 "$DIST/scripts/neon-noir-apply" "$NN_LIB/neon-noir-apply"
+  ok "~/.local/share/neon-noir/neon-noir-apply"
+else
+  skip "apply script not built yet"
+fi
+# Seeded, never overwritten: this records which variant is applied, and a
+# re-run of the installer should not silently undo a switch made in the widget.
+for pair in "Panel:Variant:classic" "Windows:Profile:classic"; do
+  IFS=: read -r g k v <<< "$pair"
+  if [ -z "$(kreadconfig6 --file neonnoirrc --group "$g" --key "$k" 2>/dev/null)" ]; then
+    run kwriteconfig6 --file neonnoirrc --group "$g" --key "$k" "$v"
+  fi
+done
+ok "neonnoirrc"
 
 say "Global theme package"
 install_tree "$DIST/look-and-feel/$PKG_ID" "$SHARE/plasma/look-and-feel/$PKG_ID"
@@ -356,41 +417,19 @@ fi
 
 if [ "$DESKTOP" = 1 ]; then
   say "Panel and desktop widgets"
-  if [ -f "$DIST/config/panel-layout.js" ] && command -v qdbus6 >/dev/null; then
-    # The framed-hexagon variant, not brand/mark.svg: kickoff draws no button
-    # behind its icon, so the design's border has to be inside the SVG.
-    install -Dm644 "$DIST/brand/launcher.svg" "$SHARE/icons/neon-noir-launcher.svg" 2>/dev/null || true
+  # The same file the options widget replays, so "Taskbar: Standard" in the
+  # widget and a fresh install cannot drift apart. It is written in the Theme
+  # options section above, launchers already resolved.
+  if [ -f "$NN_LIB/panel-classic.js" ] && command -v qdbus6 >/dev/null; then
     if [ "$DRY" = 1 ]; then
       printf '   %swould:%s reshape the panel (48px, floating, hexagon launcher)\n' "$c_dim" "$c_0"
     else
-      # The artboard's pinned apps, in its order, keeping only the ones whose
-      # .desktop file exists: a launcher pointing at a missing file still takes
-      # a slot and draws a blank page icon.
-      # One slot per app, in this order. Each group is a list of spellings for
-      # the SAME app and only the first that exists is pinned — the old flat
-      # loop pinned `firefox` AND `firefox_firefox` when both were present,
-      # giving the browser two slots.
-      launchers=""
-      pin() {
-        for cand in "$@"; do
-          for dir in /usr/share/applications "$SHARE/applications" \
-                     /var/lib/snapd/desktop/applications \
-                     /var/lib/flatpak/exports/share/applications; do
-            if [ -f "$dir/$cand.desktop" ]; then
-              launchers="${launchers:+$launchers,}applications:$cand.desktop"
-              return
-            fi
-          done
-        done
-      }
-      pin org.kde.konsole konsole
-      pin org.kde.dolphin dolphin
-      pin firefox_firefox firefox firefox-esr
-      pj="$(sed -e "s|@MARK@|$SHARE/icons/neon-noir-launcher.svg|" \
-                -e "s|@LAUNCHERS@|$launchers|" "$DIST/config/panel-layout.js")"
-      r="$(qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "$pj" 2>&1 | tail -1)"
+      r="$(qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
+           "$(cat "$NN_LIB/panel-classic.js")" 2>&1 | tail -1)"
       ok "${r:-no response from plasmashell}"
     fi
+  else
+    skip "classic panel layout not written"
   fi
 
   # Kate's menubar. katerc's "Show Menu Bar" is not enough on its own: KXmlGui

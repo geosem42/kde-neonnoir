@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+# neon-noir-apply <axis> <variant>
+#
+#   neon-noir-apply panel   classic|neon
+#   neon-noir-apply windows classic|riced
+#
+# Switches one axis of the theme and records the choice in neonnoirrc, which is
+# the single source of truth for which variant is applied — the options widget
+# reads it back rather than keeping its own copy.
+#
+# Launched detached by the widget: switching the panel variant rebuilds the
+# panel and destroys the widget that asked for it, so this script must not need
+# its caller to stay alive.
+set -euo pipefail
+
+SHARE="${XDG_DATA_HOME:-$HOME/.local/share}"
+LIB="$SHARE/neon-noir"
+
+axis="${1:-}"
+variant="${2:-}"
+
+die() { printf 'neon-noir-apply: %s\n' "$*" >&2; exit 1; }
+
+notify() {
+  command -v kdialog >/dev/null 2>&1 &&
+    kdialog --title "Neon Noir" --passivepopup "$1" 5 >/dev/null 2>&1 || true
+}
+
+# Replay a file/group/key/value table through kwriteconfig6. Same format and
+# the same nested-group handling as install.sh: a group field may name nested
+# groups separated by "/", and kwriteconfig6 escapes brackets inside a single
+# --group, so nesting has to be repeated --group arguments.
+replay() {
+  local table="$1" file group key value n=0
+  [ -f "$table" ] || die "missing table: $table"
+  while IFS=$'\t' read -r file group key value; do
+    [ -z "${file:-}" ] && continue
+    local gargs=()
+    local parts
+    IFS='/' read -ra parts <<< "$group"
+    for part in "${parts[@]}"; do gargs+=(--group "$part"); done
+    # --notify emits the KConfigWatcher signal; without it the file changes and
+    # nothing running reloads it.
+    kwriteconfig6 --file "$file" "${gargs[@]}" --key "$key" "$value" --notify
+    n=$((n + 1))
+  done < "$table"
+  printf '%s' "$n"
+}
+
+case "$axis" in
+  panel)
+    case "$variant" in
+      classic)
+        [ -f "$LIB/panel-classic.js" ] || die "missing $LIB/panel-classic.js"
+        command -v qdbus6 >/dev/null 2>&1 || die "qdbus6 not found"
+        kwriteconfig6 --file neonnoirrc --group Panel --key Variant classic
+        qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
+               "$(cat "$LIB/panel-classic.js")" >/dev/null
+        notify "Taskbar: Standard"
+        ;;
+      neon)
+        notify "The futuristic taskbar is not built yet."
+        die "panel variant 'neon' is not built yet"
+        ;;
+      *) die "unknown panel variant: ${variant:-<none>}" ;;
+    esac
+    ;;
+
+  windows)
+    case "$variant" in
+      classic)
+        n="$(replay "$LIB/windows-classic.tsv")"
+        kwriteconfig6 --file neonnoirrc --group Windows --key Profile classic
+        command -v qdbus6 >/dev/null 2>&1 &&
+          qdbus6 org.kde.KWin /KWin reconfigure >/dev/null 2>&1 || true
+        notify "Windows: Standard ($n settings)"
+        ;;
+      riced)
+        notify "Riced window management is not built yet."
+        die "windows profile 'riced' is not built yet"
+        ;;
+      *) die "unknown windows profile: ${variant:-<none>}" ;;
+    esac
+    ;;
+
+  *)
+    die "usage: neon-noir-apply panel|windows <variant>"
+    ;;
+esac

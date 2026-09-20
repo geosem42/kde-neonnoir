@@ -270,4 +270,13 @@ BlinkingCursorEnabled=true
     c.parent.mkdir(parents=True, exist_ok=True)
     c.write_text(''.join('\t'.join(r) + '\n' for r in S))
     out.append(f'config/settings.tsv  ({len(S)} settings)')
+
+    # The window half of that table, on its own, as the "classic" profile the
+    # options widget can re-apply. It is a filter rather than a second list so
+    # the two can never drift: whatever the installer writes for kwinrc is by
+    # definition what "Standard" restores.
+    w = [r for r in S if r[0] == 'kwinrc']
+    p = DIST / 'config' / 'windows-classic.tsv'
+    p.write_text(''.join('\t'.join(r) + '\n' for r in w))
+    out.append(f'config/windows-classic.tsv  ({len(w)} settings)')
     return out

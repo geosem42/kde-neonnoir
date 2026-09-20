@@ -1,0 +1,23 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Id": "org.neonnoir.control",
+        "Name": "Neon Noir Options",
+        "Description": "Switch between the theme's window and taskbar variants",
+        "Icon": "configure",
+        "Category": "Utilities",
+        "Authors": [
+            {
+                "Name": "George",
+                "Email": "geosem042@gmail.com"
+            }
+        ],
+        "License": "GPL-3.0-or-later",
+        "Version": "1.0",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ]
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

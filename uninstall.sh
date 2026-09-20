@@ -8,6 +8,8 @@ set -euo pipefail
 THEME_ID="NeonNoir"
 PKG_ID="org.neonnoir.desktop"
 APPLET_ID="org.neonnoir.sysmon"
+SEPARATOR_ID="org.neonnoir.separator"
+CONTROL_ID="org.neonnoir.control"
 SHARE="${XDG_DATA_HOME:-$HOME/.local/share}"
 CONF="${XDG_CONFIG_HOME:-$HOME/.config}"
 BACKUP="$CONF/neon-noir-backup"
@@ -154,13 +156,17 @@ for p in "$SHARE/color-schemes/$THEME_ID.colors" \
          "$SHARE/konsole/$THEME_ID.colorscheme" \
          "$SHARE/konsole/tabbar.qss" \
          "$SHARE/konsole/$THEME_ID.profile" \
-         "$SHARE/org.kde.syntax-highlighting/themes/neon-noir.theme"; do
+         "$SHARE/org.kde.syntax-highlighting/themes/neon-noir.theme" \
+         "$SHARE/icons/neon-noir-launcher.svg" \
+         "$CONF/neonnoirrc"; do
   if [ -e "$p" ]; then run rm -f "$p"; ok "${p/#$HOME/\~}"; else skip "${p/#$HOME/\~} absent"; fi
 done
 for d in "$SHARE/plasma/desktoptheme/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID" \
          "$SHARE/icons/$THEME_ID" "$HOME/.icons/$THEME_ID-cursors" \
          "$SHARE/plasma/look-and-feel/$PKG_ID" "$CONF/Kvantum/$THEME_ID" \
-         "$SHARE/plasma/plasmoids/$APPLET_ID"; do
+         "$SHARE/plasma/plasmoids/$APPLET_ID" \
+         "$SHARE/plasma/plasmoids/$SEPARATOR_ID" \
+         "$SHARE/plasma/plasmoids/$CONTROL_ID"; do
   if [ -d "$d" ]; then run rm -rf "$d"; ok "${d/#$HOME/\~}"; else skip "${d/#$HOME/\~} absent"; fi
 done
 if [ -d "$SHARE/wallpapers/$THEME_ID" ]; then

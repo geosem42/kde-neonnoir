@@ -24,6 +24,10 @@ var TARGET = [
     "org.kde.plasma.systemtray",
     "org.neonnoir.separator",
     "org.kde.plasma.digitalclock",
+    // The theme's own options popup, beside the clock rather than in the tray:
+    // the tray hides what it does not have room for, and a control that can
+    // move the panel out from under you should not be the thing that vanishes.
+    "org.neonnoir.control",
     // Last, hard against the right edge, where every desktop since CDE has put
     // it. minimizeall, not showdesktop: showdesktop asks KWin to slide the
     // windows aside and slides them back the moment anything takes focus, which

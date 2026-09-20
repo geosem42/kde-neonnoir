@@ -68,6 +68,34 @@ def build_separator(T, DIST, THEME_NAME, SEPARATOR_ID, template_dir):
     return [f'plasmoids/{SEPARATOR_ID}/  (metadata.json, main.qml)']
 
 
+def build_control(T, DIST, THEME_NAME, CONTROL_ID, template_dir, apply_path):
+    """The options widget: a cog in the panel over a popup of theme switches."""
+    root = DIST / 'plasmoids' / CONTROL_ID
+    ui = root / 'contents' / 'ui'
+    ui.mkdir(parents=True, exist_ok=True)
+
+    subs = {
+        '@CARD@': T['surface.raised'], '@HAIR@': T['border.hairline'],
+        '@VOID@': T['surface.view'],   '@HOVER@': T['surface.hover'],
+        '@GHOST@': T['accent.cyan.ghost'], '@CYAN@': T['accent.cyan'],
+        '@TEXT@': T['text.normal'],    '@DIM@': T['text.dim'],
+        '@FAINT@': T['text.faint'],    '@FONT@': 'IBM Plex Sans',
+    }
+    card = (template_dir / 'plasmoid-ControlCard.qml').read_text()
+    for k, v in subs.items():
+        card = card.replace(k, v)
+    (ui / 'ControlCard.qml').write_text(card)
+
+    main = (template_dir / 'plasmoid-Control.qml').read_text()
+    (ui / 'main.qml').write_text(main.replace('@APPLY@', apply_path))
+
+    (root / 'metadata.json').write_text(_metadata(
+        CONTROL_ID, f'{THEME_NAME} Options',
+        'Switch between the theme\'s window and taskbar variants',
+        'configure', 'Utilities', ['desktop']))
+    return [f'plasmoids/{CONTROL_ID}/  (metadata.json, main.qml, ControlCard.qml)']
+
+
 def build(T, DIST, THEME_ID, THEME_NAME, PLASMOID_ID, template_dir):
     out = []
     root = DIST / 'plasmoids' / PLASMOID_ID

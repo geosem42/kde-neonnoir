@@ -18,6 +18,7 @@ THEME_ID   = 'NeonNoir'
 PKG_ID     = 'org.neonnoir.desktop'
 APPLET_ID  = 'org.neonnoir.sysmon'
 SEPARATOR_ID = 'org.neonnoir.separator'
+CONTROL_ID = 'org.neonnoir.control'
 THEME_NAME = 'Neon Noir'
 
 # ---------- colour helpers ----------
@@ -289,6 +290,19 @@ def main():
     for line in plasmoid.build_separator(T, DIST, THEME_NAME, SEPARATOR_ID,
                                          ROOT / 'build' / 'templates'):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
+    # Resolved by the shell that runs it, not here: KProcess::setShellCommand
+    # puts the command through /bin/sh, so the widget can carry the XDG lookup
+    # itself instead of the build guessing where the install will land.
+    apply_path = '${XDG_DATA_HOME:-$HOME/.local/share}/neon-noir/neon-noir-apply'
+    for line in plasmoid.build_control(T, DIST, THEME_NAME, CONTROL_ID,
+                                       ROOT / 'build' / 'templates', apply_path):
+        print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
+    _s = DIST / 'scripts'
+    _s.mkdir(parents=True, exist_ok=True)
+    _a = _s / 'neon-noir-apply'
+    _a.write_text((ROOT / 'build' / 'templates' / 'neon-noir-apply').read_text())
+    _a.chmod(0o755)
+    print('  wrote dist/scripts/neon-noir-apply')
     for line in shell.build(DIST, THEME_NAME):
         print(f'  wrote dist/{line}')
     for line in apps.build(T, ANSI, DIST, THEME_ID, THEME_NAME,
