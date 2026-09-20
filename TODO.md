@@ -179,6 +179,26 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 - [ ] Client-side-decorated apps get no cyan border, because they have no KWin
       decoration to put one on. On this machine that is VS Code and Firefox.
       Nothing in Aurorae can reach them
+- [x] `kwin reconfigure` does NOT reload an already-enabled KWin script. It only
+      starts newly-enabled ones and stops newly-disabled ones, so re-applying
+      Tiled while already in Tiled left the OLD script running — which is why
+      several fixes to the tiler appeared to change nothing whatsoever. The
+      apply script now writes `neonnoirtilerEnabled=false`, reconfigures, and
+      only then replays the table that turns it back on. Every tiler change
+      before this was being tested against stale code
+- [x] Maximise and minimise now work with the tiler. A maximised window has
+      opted out of the layout, so `manageable()` excludes `maximizeMode !== 0`
+      and the rest close over its space. Measured: Konsole maximised leaves
+      Dolphin at 1896x1008 (the full area), un-maximised both return to
+      944x1008. Minimise already worked. Meta+PgUp and Meta+PgDown are KDE's own
+      bindings and were there all along
+- [ ] Membership alone was not enough: coming out of maximise a window is
+      manageable AND already in the tree, so nothing fired and it kept the size
+      it remembered. `maximizedChanged` cannot be trusted at signal time either —
+      `maximizeMode` still reports the value it is leaving — and KWin scripts
+      have no `setTimeout`, `Qt` or `createTimer` to defer with (all verified
+      undefined). So the settled state is read on the next `frameGeometryChanged`
+      instead, which also puts a hand-dragged window back in its tile
 - [ ] Tiler, still to build: per-window float toggle, adjustable split ratios,
       stacking when no tile has room, and deciding what dragging a tiled window
       by its titlebar should do (today it just moves, and the layout does not

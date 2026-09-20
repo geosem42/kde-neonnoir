@@ -51,6 +51,13 @@ function manageable(w) {
         && !w.skipTaskbar && !w.skipPager
         && w.moveable && w.resizeable
         && !w.fullScreen && !w.minimized
+        // A maximised window has opted OUT of the layout. Without this the
+        // tiler kept it in the tree and went on assigning it a tile, so KWin
+        // held it full-screen while the tiler believed it was one cell of the
+        // grid — the window covered the whole layout and every retile fought
+        // the maximise. Same treatment as fullscreen: it leaves, the others
+        // close over its space, and it comes back where it was.
+        && w.maximizeMode === 0
         && !w.onAllDesktops;
 }
 
@@ -298,9 +305,80 @@ function rehome(w) {
     add(w);
 }
 
+function treeOf(w) {
+    for (const k in forests) {
+        if (forests[k].root && find(forests[k].root, w, null)) {
+            return k;
+        }
+    }
+    return null;
+}
+
+function inTree(w) {
+    return treeOf(w) !== null;
+}
+
+/* Whether a window is sitting where the layout put it. Two pixels of slack
+   because KWin rounds and a window may round back differently. */
+function atItsTile(w) {
+    const k = treeOf(w);
+    if (!k) {
+        return true;
+    }
+    const hit = find(forests[k].root, w, null);
+    if (!hit || !hit.node.rect) {
+        return true;
+    }
+    const g = w.frameGeometry;
+    const r = hit.node.rect;
+    return Math.abs(g.x - r.x) <= 2 && Math.abs(g.y - r.y) <= 2
+        && Math.abs(g.width - r.width) <= 2 && Math.abs(g.height - r.height) <= 2;
+}
+
+/* Membership is re-checked whenever a window's geometry changes on its own.
+
+   maximizedChanged alone is not enough: at the moment it fires, maximizeMode
+   still reports the value it is leaving, so a window coming OUT of maximise
+   looked un-manageable and was never re-tiled — it sat at whatever size it
+   remembered while the layout ignored it. KWin scripts have no setTimeout and
+   no QTimer to defer with (checked: setTimeout, Qt and createTimer are all
+   undefined), so the settled state is read at the next thing that happens,
+   which is the geometry change itself.
+
+   This converges rather than looping: acting only when membership DIFFERS means
+   the retile it triggers produces a geometry change whose membership already
+   matches, and the chain stops there. */
+function recheck(w) {
+    if (applying) {
+        return;
+    }
+    if (manageable(w) !== inTree(w)) {
+        rehome(w);
+        return;
+    }
+    /* Membership can be unchanged and the window still be in the wrong place:
+       coming out of maximise, it is manageable again AND already in the tree, so
+       nothing above fires and it keeps the size it remembered while the rest of
+       the layout carries on around it. That was the whole maximise bug. Putting
+       it back is also what makes the profile behave like a tiler when a window
+       is dragged or resized by hand. */
+    if (manageable(w) && !atItsTile(w)) {
+        const k = treeOf(w);
+        if (k) {
+            retile(k);
+        }
+    }
+}
+
 function attach(w) {
+    if (w.frameGeometryChanged) {
+        w.frameGeometryChanged.connect(function () { recheck(w); });
+    }
     w.minimizedChanged.connect(function () { rehome(w); });
     w.fullScreenChanged.connect(function () { rehome(w); });
+    if (w.maximizedChanged) {
+        w.maximizedChanged.connect(function () { rehome(w); });
+    }
     if (w.desktopsChanged) {
         w.desktopsChanged.connect(function () { rehome(w); });
     }

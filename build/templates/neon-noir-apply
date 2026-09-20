@@ -150,6 +150,16 @@ case "$axis" in
         # titlebar rule needs a branch, and it is removed FIRST in every case,
         # so a profile can never inherit the previous one's rule.
         rule_remove
+        # Force the tiler to reload. `kwin reconfigure` does NOT restart a KWin
+        # script that is already enabled — it only starts newly-enabled ones and
+        # stops newly-disabled ones. Re-applying Tiled while already in Tiled
+        # therefore kept the OLD script running, which is why several fixes to
+        # it appeared to change nothing at all. Switching it off and back on is
+        # the only reload KWin offers.
+        if [ "$variant" = tiled ]; then
+          kwriteconfig6 --file kwinrc --group Plugins --key neonnoirtilerEnabled false
+          reconfigure
+        fi
         n="$(replay "$LIB/windows-$variant.tsv")"
         # An `if`, not `&&`: under `set -e` a false `[ ]` at the end of an
         # && chain is the script's exit status and would kill it here.

@@ -315,13 +315,6 @@ def main():
     for line in plasmoid.build_control(T, DIST, THEME_NAME, CONTROL_ID,
                                        ROOT / 'build' / 'templates', apply_path):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
-    for line in decoration.build(T, DIST, THEME_ID, THEME_NAME, colors_file(),
-                                 aurorae_id=TILED_DECO_ID,
-                                 aurorae_name=f'{THEME_NAME} Tiled',
-                                 plasma_style=False,
-                                 border_active=T['accent.cyan'], border_px=2,
-                                 border_slice=2):
-        print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     _s = DIST / 'scripts'
     _s.mkdir(parents=True, exist_ok=True)
     _a = _s / 'neon-noir-apply'

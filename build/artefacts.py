@@ -316,14 +316,6 @@ BlinkingCursorEnabled=true
     # windows that could not be used. Revisit only once the tiler owns those.
     TILED = {
         ('Plugins', 'neonnoirtilerEnabled'): 'true',
-        ('org.kde.kdecoration3', 'theme'): f'__aurorae__svg__{THEME_ID}Tiled',
-        ('org.kde.kdecoration2', 'theme'): f'__aurorae__svg__{THEME_ID}Tiled',
-        # Every other profile sets BorderSize=None, and None means KWin draws no
-        # side or foot border AT ALL — the theme's own BorderLeft/Right/Bottom
-        # are never consulted. Without this the cyan outline is generated,
-        # shipped, and invisible.
-        ('org.kde.kdecoration3', 'BorderSize'): 'Normal',
-        ('org.kde.kdecoration2', 'BorderSize'): 'Normal',
         ('Effect-blur', 'BlurStrength'): '12',
         ('Plugins', 'diminactiveEnabled'): 'true',
         ('Plugins', 'magiclampEnabled'): 'true',
