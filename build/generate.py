@@ -314,6 +314,9 @@ def main():
     _a.write_text((ROOT / 'build' / 'templates' / 'neon-noir-apply').read_text())
     _a.chmod(0o755)
     print('  wrote dist/scripts/neon-noir-apply')
+    _b = _s / 'restore-borders.js'
+    _b.write_text((ROOT / 'build' / 'templates' / 'restore-borders.js').read_text())
+    print('  wrote dist/scripts/restore-borders.js')
     for line in shell.build(DIST, THEME_NAME):
         print(f'  wrote dist/{line}')
     for line in apps.build(T, ANSI, DIST, THEME_ID, THEME_NAME,

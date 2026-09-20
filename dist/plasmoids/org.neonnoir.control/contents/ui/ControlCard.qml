@@ -57,7 +57,7 @@ ColumnLayout {
                 variants: [
                     { id: "classic", label: "Standard", ready: true },
                     { id: "compact", label: "Compact", ready: true },
-                    { id: "riced", label: "Riced", ready: false }
+                    { id: "riced", label: "Riced", ready: true }
                 ]
                 onPick: (a, v) => card.choose(a, v)
             }

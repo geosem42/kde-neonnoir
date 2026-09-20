@@ -123,18 +123,31 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       settings reaches every profile
 - [ ] The riced taskbar. Islands rather than one bar, wider gaps and radii,
       per-widget backgrounds
-- [ ] Riced window management: no titlebars (a wildcard `noborder` window rule —
-      note kwinrulesrc already holds a hand-made Dolphin opacity rule, so this
-      has to MERGE into `rules=`/`count=`, not overwrite), gaps via
-      `[Tiling][...] padding`, heavier blur and translucency, and the animation
-      effects (magiclamp, glide, diminactive are all present but unloaded).
-      Must set its own close/quit keybindings as part of applying, and the
-      return path has to be tested before the outbound one
+- [x] Windows / Riced: no titlebars on normal windows, blur 7 -> 12, inactive
+      windows at 92% and 70% while moving, dim-inactive at 12, plus the magic
+      lamp and glide animations. Dialogs keep their titlebar (`types=1`) so they
+      keep a close button; Alt+F4 was already bound and is the escape hatch, and
+      the options widget lives in the panel, which no window rule can touch
+- [x] The no-titlebar rule MERGES into kwinrulesrc. That file already held a
+      hand-made Dolphin opacity rule, so the rule carries a fixed uuid, is
+      appended to `[General] rules=` rather than replacing it, and is taken back
+      out by id on the way out. Verified across six switches: the Dolphin rule
+      and `count=1` survive every one
+- [x] Leaving Riced needs an explicit border pass. KWin applies a Force
+      `noborder` rule to windows that are already open, but does NOT put the
+      border back when the rule goes away — only new windows recover. So
+      `restore-borders.js` clears `noBorder` on every window, and it has to run
+      AFTER the reconfigure: while the rule is still live in KWin's memory the
+      clear is reverted on the spot, which is what made the first attempt look
+      like a no-op. A second reconfigure then re-asserts any rule of the user's
+      own. Measured decoration heights across classic/riced/classic/compact/
+      riced/classic: 40, 0, 40, 26, 0, 40
 - [ ] No automatic tiler is installed — only `virtualdesktopsonlyonprimary` — and
-      KWin 6.6's own tiling is manual (drag-with-Shift, or the Meta+T editor).
+      KWin 6.6's own tiling is manual. `[Tiling] padding` does NOT reach
+      quick-tiled windows either: with padding=4 set, Meta+Left put a test
+      window at 0,0 960x1032, flush to the corner. So Riced ships without gaps.
       Real auto-tiling means a third-party dependency such as Polonium, which
-      this theme has so far avoided. Riced therefore means gaps and quick-tile
-      keys, not automatic tiling, unless that call changes
+      this theme has so far avoided
 - [ ] `--panel=classic|neon` on install.sh, once there is a second variant to
       name
 

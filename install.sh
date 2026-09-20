@@ -246,12 +246,13 @@ elif [ -f "$DIST/config/panel-layout.js" ]; then
   printf '   %swould:%s write the classic panel layout to %s\n' \
          "$c_dim" "$c_0" "$NN_LIB/panel-classic.js"
 fi
-for v in classic compact; do
+for v in classic compact riced; do
   install_file "$DIST/config/windows-$v.tsv" "$NN_LIB/windows-$v.tsv"
 done
 if [ -f "$DIST/scripts/neon-noir-apply" ]; then
   run install -Dm755 "$DIST/scripts/neon-noir-apply" "$NN_LIB/neon-noir-apply"
   ok "~/.local/share/neon-noir/neon-noir-apply"
+  install_file "$DIST/scripts/restore-borders.js" "$NN_LIB/restore-borders.js"
 else
   skip "apply script not built yet"
 fi

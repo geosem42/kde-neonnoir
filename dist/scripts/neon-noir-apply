@@ -26,6 +26,82 @@ notify() {
     kdialog --title "Neon Noir" --passivepopup "$1" 5 >/dev/null 2>&1 || true
 }
 
+# The no-titlebar rule. A FIXED uuid, because the rule has to be findable again
+# to remove it — kwinrulesrc keys its groups by uuid and lists them in
+# [General] rules=, and that list is the user's: this machine already carries a
+# hand-made Dolphin opacity rule. So the list is merged, never overwritten, and
+# removal takes our id back out and leaves the rest alone.
+#
+# noborderrule=2 is Force (the KWin enum is Unused, DontAffect, Force, Apply,
+# Remember, ApplyNow). types=1 is normal windows only, so dialogs keep their
+# titlebar — and with it a close button — even while everything else loses one.
+RULE_ID="7b1f4e2a-9c3d-4f58-b6a1-0e5d2c8f3a44"
+RULE_KEYS="Description noborder noborderrule types wmclass wmclassmatch wmclasscomplete"
+
+rules_list() { kreadconfig6 --file kwinrulesrc --group General --key rules 2>/dev/null; }
+
+rules_write() {   # <comma list>
+  local list="$1" n=0
+  [ -n "$list" ] && n="$(printf '%s' "$list" | tr ',' '\n' | grep -c .)"
+  kwriteconfig6 --file kwinrulesrc --group General --key rules "$list"
+  kwriteconfig6 --file kwinrulesrc --group General --key count "$n"
+}
+
+rule_add() {
+  local cur; cur="$(rules_list)"
+  case ",$cur," in
+    *",$RULE_ID,"*) ;;
+    *) cur="${cur:+$cur,}$RULE_ID" ;;
+  esac
+  kwriteconfig6 --file kwinrulesrc --group "$RULE_ID" --key Description \
+                "Neon Noir riced - no titlebar"
+  kwriteconfig6 --file kwinrulesrc --group "$RULE_ID" --key noborder true
+  kwriteconfig6 --file kwinrulesrc --group "$RULE_ID" --key noborderrule 2
+  kwriteconfig6 --file kwinrulesrc --group "$RULE_ID" --key types 1
+  kwriteconfig6 --file kwinrulesrc --group "$RULE_ID" --key wmclass ".*"
+  kwriteconfig6 --file kwinrulesrc --group "$RULE_ID" --key wmclassmatch 3
+  kwriteconfig6 --file kwinrulesrc --group "$RULE_ID" --key wmclasscomplete false
+  rules_write "$cur"
+}
+
+rule_remove() {
+  local cur new k
+  cur="$(rules_list)"
+  case ",$cur," in *",$RULE_ID,"*) ;; *) return 0 ;; esac
+  # `|| true`: when ours was the only rule, grep matches nothing and exits 1,
+  # which under `set -o pipefail` would take the script down on the one path
+  # that must never fail — the way back out of Riced.
+  new="$(printf '%s' "$cur" | tr ',' '\n' | grep -vx "$RULE_ID" | paste -sd, - || true)"
+  rules_write "$new"
+  for k in $RULE_KEYS; do
+    kwriteconfig6 --file kwinrulesrc --group "$RULE_ID" --key "$k" --delete
+  done
+}
+
+# See restore-borders.js: removing the rule does not give an already-open window
+# its titlebar back, so the way out of Riced has to say so explicitly.
+restore_borders() {
+  local id
+  command -v qdbus6 >/dev/null 2>&1 || return 0
+  [ -f "$LIB/restore-borders.js" ] || return 0
+  qdbus6 org.kde.KWin /Scripting org.kde.kwin.Scripting.unloadScript \
+         neonnoir-borders >/dev/null 2>&1 || true
+  id="$(qdbus6 org.kde.KWin /Scripting org.kde.kwin.Scripting.loadScript \
+        "$LIB/restore-borders.js" neonnoir-borders 2>/dev/null)" || return 0
+  [ -n "$id" ] && qdbus6 org.kde.KWin "/Scripting/Script$id" \
+                         org.kde.kwin.Script.run >/dev/null 2>&1 || true
+  qdbus6 org.kde.KWin /Scripting org.kde.kwin.Scripting.unloadScript \
+         neonnoir-borders >/dev/null 2>&1 || true
+}
+
+reconfigure() {
+  command -v qdbus6 >/dev/null 2>&1 || return 0
+  qdbus6 org.kde.KWin /KWin reconfigure >/dev/null 2>&1 || true
+  # KWin re-reads and re-applies asynchronously; the border pass that follows
+  # has to see the rules already gone.
+  sleep 1
+}
+
 # Replay a file/group/key/value table through kwriteconfig6. Same format and
 # the same nested-group handling as install.sh: a group field may name nested
 # groups separated by "/", and kwriteconfig6 escapes brackets inside a single
@@ -68,21 +144,33 @@ case "$axis" in
 
   windows)
     case "$variant" in
-      classic|compact)
-        # Both are a table replay plus a reconfigure; they differ only in which
-        # Aurorae package the table names, so there is nothing to branch on.
+      classic|compact|riced)
+        # The table replay is the same for all three; they differ in which
+        # Aurorae package the table names and in the effect values. Only the
+        # titlebar rule needs a branch, and it is removed FIRST in every case,
+        # so a profile can never inherit the previous one's rule.
+        rule_remove
         n="$(replay "$LIB/windows-$variant.tsv")"
+        # An `if`, not `&&`: under `set -e` a false `[ ]` at the end of an
+        # && chain is the script's exit status and would kill it here.
+        if [ "$variant" = riced ]; then rule_add; fi
         kwriteconfig6 --file neonnoirrc --group Windows --key Profile "$variant"
-        command -v qdbus6 >/dev/null 2>&1 &&
-          qdbus6 org.kde.KWin /KWin reconfigure >/dev/null 2>&1 || true
+        reconfigure
+        # AFTER the reconfigure, not before. Until KWin re-reads the rules the
+        # Force rule is still live in its memory, and clearing a window's border
+        # while that rule is loaded is reverted on the spot — which is exactly
+        # what made the first attempt at this look like it did nothing. The
+        # second reconfigure then re-asserts any rule of the user's own that
+        # legitimately wants a borderless window.
+        if [ "$variant" != riced ]; then
+          restore_borders
+          reconfigure
+        fi
         case "$variant" in
           classic) notify "Windows: Standard ($n settings)" ;;
           compact) notify "Windows: Compact ($n settings)" ;;
+          riced)   notify "Windows: Riced - no titlebars. Alt+F4 closes; the panel widget switches back." ;;
         esac
-        ;;
-      riced)
-        notify "Riced window management is not built yet."
-        die "windows profile 'riced' is not built yet"
         ;;
       *) die "unknown windows profile: ${variant:-<none>}" ;;
     esac

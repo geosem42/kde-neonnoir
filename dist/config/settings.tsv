@@ -23,6 +23,11 @@ kwinrc	Plugins	blurEnabled	true
 kwinrc	Plugins	contrastEnabled	true
 kwinrc	Effect-blur	BlurStrength	7
 kwinrc	Effect-blur	NoiseStrength	0
+kwinrc	Plugins	diminactiveEnabled	false
+kwinrc	Plugins	magiclampEnabled	false
+kwinrc	Plugins	glideEnabled	false
+kwinrc	Effect-translucency	Inactive	100
+kwinrc	Effect-translucency	MoveResize	80
 kdeglobals	KDE	AnimationDurationFactor	0.5
 kdeglobals	General	font	IBM Plex Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 kdeglobals	General	fixed	JetBrains Mono,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1

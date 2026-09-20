@@ -218,6 +218,18 @@ BlinkingCursorEnabled=true
     add('kwinrc', 'Plugins', 'contrastEnabled', 'true')
     add('kwinrc', 'Effect-blur', 'BlurStrength', '7')
     add('kwinrc', 'Effect-blur', 'NoiseStrength', '0')
+    # The effects the Riced profile turns up, written out in their OFF state so
+    # that Standard and Compact restore them. Without these rows here, switching
+    # away from Riced would leave the dimming and the magic lamp behind — a
+    # profile has to be able to undo itself, and the only way it can is if every
+    # key it touches also appears in the profile you switch back to.
+    add('kwinrc', 'Plugins', 'diminactiveEnabled', 'false')
+    add('kwinrc', 'Plugins', 'magiclampEnabled', 'false')
+    add('kwinrc', 'Plugins', 'glideEnabled', 'false')
+    # translucency stays loaded either way; at 100/80 it is inert. Disabling the
+    # effect outright would be a bigger change than the profile needs.
+    add('kwinrc', 'Effect-translucency', 'Inactive', '100')
+    add('kwinrc', 'Effect-translucency', 'MoveResize', '80')
     add('kdeglobals', 'KDE', 'AnimationDurationFactor', '0.5')
     # Typography.
     add('kdeglobals', 'General', 'font',                 qfont(UI, 10))
@@ -288,4 +300,29 @@ BlinkingCursorEnabled=true
     p = DIST / 'config' / 'windows-compact.tsv'
     p.write_text(''.join('\t'.join(r) + '\n' for r in comp))
     out.append(f'config/windows-compact.tsv  ({len(comp)} settings)')
+
+    # Riced: the same table with the effect keys turned up. Overrides are keyed
+    # by (group, key) and applied to the rows that already exist, so a value can
+    # only be changed here if Standard also sets it — which is what guarantees
+    # the switch back undoes this one. The titlebar itself is NOT in the table:
+    # it comes off through a kwinrulesrc rule, which is a list to merge into
+    # rather than a key to write, and the apply script handles it.
+    RICED = {
+        ('Effect-blur', 'BlurStrength'): '12',
+        ('Plugins', 'diminactiveEnabled'): 'true',
+        ('Plugins', 'magiclampEnabled'): 'true',
+        ('Plugins', 'glideEnabled'): 'true',
+        ('Effect-translucency', 'Inactive'): '92',
+        ('Effect-translucency', 'MoveResize'): '70',
+    }
+    riced = [[r[0], r[1], r[2], RICED.get((r[1], r[2]), r[3])] for r in w]
+    unseen = set(RICED) - {(r[1], r[2]) for r in w}
+    if unseen:
+        raise SystemExit(f'riced overrides no Standard row sets: {sorted(unseen)}')
+    # Dim strength has no counterpart to override: the effect is off in every
+    # other profile, so the value is only ever read while Riced is applied.
+    riced.append(['kwinrc', 'Effect-diminactive', 'Strength', '12'])
+    p = DIST / 'config' / 'windows-riced.tsv'
+    p.write_text(''.join('\t'.join(r) + '\n' for r in riced))
+    out.append(f'config/windows-riced.tsv  ({len(riced)} settings)')
     return out
