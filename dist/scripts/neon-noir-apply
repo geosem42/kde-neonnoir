@@ -68,12 +68,17 @@ case "$axis" in
 
   windows)
     case "$variant" in
-      classic)
-        n="$(replay "$LIB/windows-classic.tsv")"
-        kwriteconfig6 --file neonnoirrc --group Windows --key Profile classic
+      classic|compact)
+        # Both are a table replay plus a reconfigure; they differ only in which
+        # Aurorae package the table names, so there is nothing to branch on.
+        n="$(replay "$LIB/windows-$variant.tsv")"
+        kwriteconfig6 --file neonnoirrc --group Windows --key Profile "$variant"
         command -v qdbus6 >/dev/null 2>&1 &&
           qdbus6 org.kde.KWin /KWin reconfigure >/dev/null 2>&1 || true
-        notify "Windows: Standard ($n settings)"
+        case "$variant" in
+          classic) notify "Windows: Standard ($n settings)" ;;
+          compact) notify "Windows: Compact ($n settings)" ;;
+        esac
         ;;
       riced)
         notify "Riced window management is not built yet."

@@ -279,4 +279,13 @@ BlinkingCursorEnabled=true
     p = DIST / 'config' / 'windows-classic.tsv'
     p.write_text(''.join('\t'.join(r) + '\n' for r in w))
     out.append(f'config/windows-classic.tsv  ({len(w)} settings)')
+
+    # Compact is the same table with the decoration theme swapped. Derived, not
+    # written out again, so a change to the window settings reaches every
+    # profile instead of only the one somebody remembered to edit.
+    comp = [[c.replace(f'__aurorae__svg__{THEME_ID}',
+                       f'__aurorae__svg__{THEME_ID}Compact') for c in r] for r in w]
+    p = DIST / 'config' / 'windows-compact.tsv'
+    p.write_text(''.join('\t'.join(r) + '\n' for r in comp))
+    out.append(f'config/windows-compact.tsv  ({len(comp)} settings)')
     return out

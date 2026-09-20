@@ -19,6 +19,10 @@ PKG_ID     = 'org.neonnoir.desktop'
 APPLET_ID  = 'org.neonnoir.sysmon'
 SEPARATOR_ID = 'org.neonnoir.separator'
 CONTROL_ID = 'org.neonnoir.control'
+# The Windows axis of the options widget. Each entry is an Aurorae theme
+# built from the same drawing at a different titlebar height.
+COMPACT_ID = THEME_ID + 'Compact'
+COMPACT_TH = 26
 THEME_NAME = 'Neon Noir'
 
 # ---------- colour helpers ----------
@@ -266,6 +270,13 @@ def main():
     for line in icons.build(T, DIST, THEME_ID, THEME_NAME, folder_hex, T['text.dim']):
         print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
     for line in decoration.build(T, DIST, THEME_ID, THEME_NAME, colors_file()):
+        print(f'  wrote dist/{line}' if not line.startswith('  !') else line)
+    # The Compact variant: same SVG generator, shorter bar, its own package so
+    # switching is one kwinrc key rather than a rebuild.
+    for line in decoration.build(T, DIST, THEME_ID, THEME_NAME, colors_file(),
+                                 title_height=COMPACT_TH, aurorae_id=COMPACT_ID,
+                                 aurorae_name=f'{THEME_NAME} Compact',
+                                 plasma_style=False):
         print(f'  wrote dist/{line}')
     for line in plasmastyle.build(T, DIST, THEME_ID):
         print(f'  wrote dist/{line}')

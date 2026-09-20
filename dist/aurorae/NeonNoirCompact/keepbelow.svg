@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="24" viewBox="0 0 160 24">
+  <g id="active-center">
+    <rect x="0" y="0" width="24" height="24" fill="#000000" fill-opacity="0"/>
+    <path d="M7.5,9.5 L12.0,15.0 L16.5,9.5" stroke="#A1A9B0" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </g>
+  <g id="hover-center">
+    <rect x="32" y="0" width="24" height="24" fill="#000000" fill-opacity="0"/>
+    <rect x="33" y="1" width="22" height="22" rx="5" fill="#0D2B2B" stroke="#067878" stroke-width="1"/>
+    <path d="M39.5,9.5 L44.0,15.0 L48.5,9.5" stroke="#36D7D7" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </g>
+  <g id="pressed-center">
+    <rect x="64" y="0" width="24" height="24" fill="#000000" fill-opacity="0"/>
+    <rect x="65" y="1" width="22" height="22" rx="5" fill="#074C4D" stroke="#36D7D7" stroke-width="1"/>
+    <path d="M71.5,9.5 L76.0,15.0 L80.5,9.5" stroke="#36D7D7" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </g>
+  <g id="inactive-center">
+    <rect x="96" y="0" width="24" height="24" fill="#000000" fill-opacity="0"/>
+    <path d="M103.5,9.5 L108.0,15.0 L112.5,9.5" stroke="#636A71" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </g>
+  <g id="deactivated-center">
+    <rect x="128" y="0" width="24" height="24" fill="#000000" fill-opacity="0"/>
+    <path d="M135.5,9.5 L140.0,15.0 L144.5,9.5" stroke="#4B5056" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

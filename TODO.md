@@ -110,11 +110,31 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       replayed by the widget, so "Standard" restores exactly what a fresh
       install applies — `windows-classic.tsv` is a filter over the installer's
       own settings table, not a second copy of it
+- [x] Windows / Compact: a 26px titlebar, shipped as a SECOND Aurorae package
+      (`NeonNoirCompact`) so switching is one `kwinrc` key and a `kwin
+      reconfigure`, not a rebuild. The height is a parameter of the generator
+      rather than a constant, because the SVG is drawn at that height — corner
+      radius, accent edge and button glyphs are all laid out against it, so an
+      rc-only change would squeeze a 40px drawing into a 26px bar. Buttons scale
+      as a proportion (0.6), which reproduces the classic 24px button and 8px
+      margin exactly, so the standard theme is byte-identical
+- [x] `windows-compact.tsv` is derived from `windows-classic.tsv` by swapping the
+      Aurorae package name, not written out separately, so a change to the window
+      settings reaches every profile
 - [ ] The riced taskbar. Islands rather than one bar, wider gaps and radii,
       per-widget backgrounds
-- [ ] Riced window management. All four, per the brief: no titlebars with KWin
-      tiling and gaps; heavier blur, transparency and larger radii; animation
-      effects; and a thin/compact titlebar variant
+- [ ] Riced window management: no titlebars (a wildcard `noborder` window rule —
+      note kwinrulesrc already holds a hand-made Dolphin opacity rule, so this
+      has to MERGE into `rules=`/`count=`, not overwrite), gaps via
+      `[Tiling][...] padding`, heavier blur and translucency, and the animation
+      effects (magiclamp, glide, diminactive are all present but unloaded).
+      Must set its own close/quit keybindings as part of applying, and the
+      return path has to be tested before the outbound one
+- [ ] No automatic tiler is installed — only `virtualdesktopsonlyonprimary` — and
+      KWin 6.6's own tiling is manual (drag-with-Shift, or the Meta+T editor).
+      Real auto-tiling means a third-party dependency such as Polonium, which
+      this theme has so far avoided. Riced therefore means gaps and quick-tile
+      keys, not automatic tiling, unless that call changes
 - [ ] `--panel=classic|neon` on install.sh, once there is a second variant to
       name
 

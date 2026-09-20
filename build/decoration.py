@@ -7,9 +7,9 @@ Element ids and rc keys were taken from a real installed Aurorae theme, not gues
 """
 import json
 
-def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
-    out = []
 
+def _plasma_style(DIST, THEME_ID, THEME_NAME, colors_text):
+    out = []
     # ══ Plasma style (desktoptheme) ═══════════════════════════════════════════
     # breeze-dark ships only colors + metadata + plasmarc and inherits every SVG
     # from the `default` theme, which recolours them from this colors file. So a
@@ -40,12 +40,32 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
         'saturation=1.3\n\n'
         '[AdaptiveTransparency]\n'
         'enabled=true\n')
-    out += [f'desktoptheme/{THEME_ID}/colors',
-            f'desktoptheme/{THEME_ID}/metadata.json',
-            f'desktoptheme/{THEME_ID}/plasmarc']
+    out = [f'desktoptheme/{THEME_ID}/colors',
+           f'desktoptheme/{THEME_ID}/metadata.json',
+           f'desktoptheme/{THEME_ID}/plasmarc']
+    return out
+
+
+
+def build(T, DIST, THEME_ID, THEME_NAME, colors_text,
+          title_height=40, aurorae_id=None, aurorae_name=None,
+          plasma_style=True):
+    """Aurorae decoration, and (unless switched off) the Plasma style with it.
+
+    title_height is a parameter rather than a constant because the SVG is DRAWN
+    at that height — the corner radius, the accent edge and the button glyphs
+    are all laid out against it. A variant that only shrank the rc key would get
+    a 40px drawing squeezed into a 26px bar.
+    """
+    out = []
+    AID = aurorae_id or THEME_ID
+    ANAME = aurorae_name or THEME_NAME
+
+    if plasma_style:
+        out += _plasma_style(DIST, THEME_ID, THEME_NAME, colors_text)
 
     # ══ Aurorae decoration ════════════════════════════════════════════════════
-    au = DIST / 'aurorae' / THEME_ID
+    au = DIST / 'aurorae' / AID
     au.mkdir(parents=True, exist_ok=True)
 
     TB      = T['titlebar.active']      # active titlebar fill
@@ -57,7 +77,7 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
     WIN     = T['surface.window']
 
     R   = 10     # top corner radius, px
-    TH  = 40     # titlebar height, px
+    TH  = title_height
     EDG = 2      # accent edge thickness, px
     BW  = 4      # side/bottom border slice width in SVG units
 
@@ -149,7 +169,7 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
         return '\n'.join(s) + '\n'
 
     (au / 'decoration.svg').write_text(decoration_svg())
-    out.append(f'aurorae/{THEME_ID}/decoration.svg')
+    out.append(f'aurorae/{AID}/decoration.svg')
 
     # ── buttons ───────────────────────────────────────────────────────────────
     # Five states per button, laid out in a row; Aurorae reads them by id.
@@ -216,7 +236,7 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
     for k in ('close', 'minimize', 'maximize', 'restore', 'alldesktops',
               'keepabove', 'keepbelow', 'shade', 'help'):
         (au / f'{k}.svg').write_text(button_svg(k))
-    out.append(f'aurorae/{THEME_ID}/*.svg  (9 buttons)')
+    out.append(f'aurorae/{AID}/*.svg  (9 buttons)')
 
     # ── theme rc ──────────────────────────────────────────────────────────────
     def dec(tok): 
@@ -227,7 +247,13 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text):
     # through it. Minimising a window hands focus to the one below, whose
     # titlebar then fades — which is how a third window's toolbar icons
     # appeared inside a titlebar two layers up.
-    (au / f'{THEME_ID}rc').write_text(f'''[General]
+    # The buttons scale with the bar, as a PROPORTION of it. 0.6 reproduces the
+    # 24px button and 8px margin of the 40px bar exactly, so the classic theme is
+    # untouched; subtracting a constant instead would have left a 26px bar with
+    # 10px buttons, which is a dot rather than a target.
+    BTN = round(TH * 0.6)
+    BTN_TOP = (TH - BTN) // 2
+    (au / f'{AID}rc').write_text(f'''[General]
 ActiveTextColor={dec('text.normal')}
 InactiveTextColor={dec('text.title.inactive')}
 Animation=0
@@ -249,11 +275,11 @@ TitleEdgeRightMaximized=8
 TitleBorderLeft=6
 TitleBorderRight=6
 TitleHeight={TH}
-ButtonWidth=24
-ButtonHeight=24
+ButtonWidth={BTN}
+ButtonHeight={BTN}
 ButtonSpacing=4
-ButtonMarginTop=8
-ButtonMarginTopMaximized=8
+ButtonMarginTop={BTN_TOP}
+ButtonMarginTopMaximized={BTN_TOP}
 ExplicitButtonSpacer=6
 PaddingTop=0
 PaddingBottom=0
@@ -263,7 +289,7 @@ PaddingRight=0
     (au / 'metadata.json').write_text(json.dumps({
         'KPackageStructure': 'KWin/Aurorae',
         'KPlugin': {
-            'Id': THEME_ID, 'Name': THEME_NAME,
+            'Id': AID, 'Name': ANAME,
             'Description': 'Neon Noir window decoration',
             'Authors': [{'Name': 'Neon Noir'}],
             'Category': 'Plasma 6 Window Decorations',
@@ -278,14 +304,14 @@ PaddingRight=0
         },
     }, indent=2) + '\n')
     (au / 'metadata.desktop').write_text(f'''[Desktop Entry]
-Name={THEME_NAME}
+Name={ANAME}
 X-KDE-PluginInfo-Author=Neon Noir
 X-KDE-PluginInfo-EnabledByDefault=true
 X-KDE-PluginInfo-License=LGPL
-X-KDE-PluginInfo-Name={THEME_ID}
+X-KDE-PluginInfo-Name={AID}
 X-KDE-PluginInfo-Version=1.0
 ''')
-    out += [f'aurorae/{THEME_ID}/{THEME_ID}rc',
-            f'aurorae/{THEME_ID}/metadata.json',
-            f'aurorae/{THEME_ID}/metadata.desktop']
+    out += [f'aurorae/{AID}/{AID}rc',
+            f'aurorae/{AID}/metadata.json',
+            f'aurorae/{AID}/metadata.desktop']
     return out

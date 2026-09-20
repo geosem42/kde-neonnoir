@@ -1,0 +1,20 @@
+{
+  "KPackageStructure": "KWin/Aurorae",
+  "KPlugin": {
+    "Id": "NeonNoirCompact",
+    "Name": "Neon Noir Compact",
+    "Description": "Neon Noir window decoration",
+    "Authors": [
+      {
+        "Name": "Neon Noir"
+      }
+    ],
+    "Category": "Plasma 6 Window Decorations",
+    "ServiceTypes": [
+      "aurorae"
+    ],
+    "License": "LGPL",
+    "Version": "1.0",
+    "EnabledByDefault": true
+  }
+}

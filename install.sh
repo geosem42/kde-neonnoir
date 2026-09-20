@@ -186,6 +186,9 @@ install_tree "$DIST/desktoptheme/$THEME_ID" "$SHARE/plasma/desktoptheme/$THEME_I
 
 say "Window decoration"
 install_tree "$DIST/aurorae/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID"
+# The Compact variant is a second Aurorae package, so switching titlebar
+# height is one kwinrc key rather than a rebuild.
+install_tree "$DIST/aurorae/${THEME_ID}Compact" "$SHARE/aurorae/themes/${THEME_ID}Compact"
 
 say "Icon theme"
 install_tree "$DIST/icons/$THEME_ID" "$SHARE/icons/$THEME_ID"
@@ -243,7 +246,9 @@ elif [ -f "$DIST/config/panel-layout.js" ]; then
   printf '   %swould:%s write the classic panel layout to %s\n' \
          "$c_dim" "$c_0" "$NN_LIB/panel-classic.js"
 fi
-install_file "$DIST/config/windows-classic.tsv" "$NN_LIB/windows-classic.tsv"
+for v in classic compact; do
+  install_file "$DIST/config/windows-$v.tsv" "$NN_LIB/windows-$v.tsv"
+done
 if [ -f "$DIST/scripts/neon-noir-apply" ]; then
   run install -Dm755 "$DIST/scripts/neon-noir-apply" "$NN_LIB/neon-noir-apply"
   ok "~/.local/share/neon-noir/neon-noir-apply"
