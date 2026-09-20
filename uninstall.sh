@@ -163,8 +163,7 @@ for p in "$SHARE/color-schemes/$THEME_ID.colors" \
 done
 for d in "$SHARE/plasma/desktoptheme/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID" \
          "$SHARE/aurorae/themes/${THEME_ID}Compact" \
-         "$SHARE/icons/$THEME_ID" "$HOME/.icons/$THEME_ID-cursors" \
-         "$SHARE/plasma/look-and-feel/$PKG_ID" "$CONF/Kvantum/$THEME_ID" \
+         "$SHARE/icons/$THEME_ID"         "$SHARE/plasma/look-and-feel/$PKG_ID" "$CONF/Kvantum/$THEME_ID" \
          "$SHARE/plasma/plasmoids/$APPLET_ID" \
          "$SHARE/plasma/plasmoids/$SEPARATOR_ID" \
          "$SHARE/plasma/plasmoids/$CONTROL_ID"; do
@@ -182,8 +181,7 @@ if [ "$SYSTEM" = 1 ]; then
     srun update-alternatives --auto default.plymouth
     ok "boot splash deregistered"
   fi
-  for p in "/usr/share/sddm/themes/$THEME_ID" "/usr/share/icons/$THEME_ID-cursors" \
-           /etc/sddm.conf.d/zz-neon-noir.conf "$P"; do
+  for p in "/usr/share/sddm/themes/$THEME_ID"   /etc/sddm.conf.d/zz-neon-noir.conf "$P"; do
     if [ -e "$p" ]; then srun rm -rf "$p"; ok "$p"; else skip "$p absent"; fi
   done
   say "Rebuilding the initramfs (this takes a moment)"

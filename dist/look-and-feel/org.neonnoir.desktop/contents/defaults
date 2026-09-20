@@ -14,7 +14,7 @@ name=NeonNoir
 Image=NeonNoir
 
 [kcminputrc][Mouse]
-cursorTheme=NeonNoir-cursors
+cursorTheme=breeze_cursors
 
 [kwinrc][org.kde.kdecoration2]
 library=org.kde.kwin.aurorae

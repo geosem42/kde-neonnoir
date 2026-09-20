@@ -229,7 +229,11 @@ BlinkingCursorEnabled=true
     add('kdeglobals', 'Icons', 'Theme', THEME_ID)
     add('plasmarc', 'Theme', 'name', THEME_ID)
     # Pointer. 24 is the nominal size, which the theme renders as a 32px image.
-    add('kcminputrc', 'Mouse', 'cursorTheme', THEME_ID + '-cursors')
+    # Breeze's own pointer, not one of ours. A hand-drawn cursor set was
+    # generated here once and dropped: it is the one piece of chrome a user
+    # looks at all day without ever choosing to, so a wrong shape is felt
+    # constantly, and breeze_cursors is already the dark set.
+    add('kcminputrc', 'Mouse', 'cursorTheme', 'breeze_cursors')
     add('kcminputrc', 'Mouse', 'cursorSize', '24')
     # Widget style. The style plugin registers exactly two keys, 'kvantum' and
     # 'kvantum-dark'; only 'kvantum' is verified to load the named theme.
@@ -253,7 +257,7 @@ BlinkingCursorEnabled=true
     # mirrors kcminputrc into these, but only on its own schedule, so they are
     # written directly too.
     for ver in ('gtk-3.0', 'gtk-4.0'):
-        add(f'{ver}/settings.ini', 'Settings', 'gtk-cursor-theme-name', THEME_ID + '-cursors')
+        add(f'{ver}/settings.ini', 'Settings', 'gtk-cursor-theme-name', 'breeze_cursors')
         add(f'{ver}/settings.ini', 'Settings', 'gtk-cursor-theme-size', '24')
         add(f'{ver}/settings.ini', 'Settings', 'gtk-icon-theme-name', THEME_ID)
 

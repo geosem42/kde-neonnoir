@@ -89,6 +89,20 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 - [x] Checked buttons are a quiet teal box with cyan text, not a solid slab
 
+## Cursors
+
+- [x] Dropped our own cursor theme and use `breeze_cursors`, which is already
+      the dark set — there is no separate "Breeze Dark" pointer. The generator
+      (`build/cursors.py`, 39 cursors x 8 sizes written as XCursor binaries by
+      hand) is gone with it. The pointer is the one piece of chrome you look at
+      all day without ever choosing it, so a shape that reads wrong is felt
+      constantly; drawing our own bought nothing that justified that risk
+- [ ] `--system` installs still leave `/usr/share/icons/NeonNoir-cursors` and a
+      `CursorTheme=NeonNoir-cursors` line in `/etc/sddm.conf.d/zz-neon-noir.conf`
+      behind. Both are root-owned, so re-running `./install.sh --system` is what
+      rewrites the greeter; the stale cursor directory is removed by
+      `./uninstall.sh --system` or by hand
+
 ## Theme options
 
 - [x] An options widget in the panel, beside the clock: `org.neonnoir.control`,

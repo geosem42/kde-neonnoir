@@ -26,10 +26,6 @@ DIST="$HERE/dist"
 SHARE="${XDG_DATA_HOME:-$HOME/.local/share}"
 CONF="${XDG_CONFIG_HOME:-$HOME/.config}"
 BACKUP="$CONF/neon-noir-backup"
-# libXcursor's search path is compiled in as ~/.icons:/usr/share/icons:
-# /usr/share/pixmaps — ~/.local/share/icons is NOT on it, so a cursor theme
-# installed there is invisible to both the KCM and the compositor.
-ICONS="$HOME/.icons"
 
 DRY=0; APPLY=0; SYSTEM=0; DESKTOP=0; FORCE=0
 for a in "$@"; do case "$a" in
@@ -137,7 +133,7 @@ fi
 if [ "$DRY" = 0 ] && [ ! -f "$BACKUP/PREVIOUS_CURSOR" ]; then
   prevc="$(kreadconfig6 --file kcminputrc --group Mouse --key cursorTheme 2>/dev/null || true)"
   [ -z "$prevc" ] && prevc="breeze_cursors"
-  [ "$prevc" = "$THEME_ID-cursors" ] || printf '%s\n' "$prevc" > "$BACKUP/PREVIOUS_CURSOR"
+  printf '%s\n' "$prevc" > "$BACKUP/PREVIOUS_CURSOR"
 fi
 if [ "$DRY" = 0 ] && [ ! -f "$BACKUP/MANIFEST" ]; then
   { echo "Neon Noir backup of pre-install KDE configuration."
@@ -189,6 +185,78 @@ install_tree "$DIST/aurorae/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID"
 # The Compact variant is a second Aurorae package, so switching titlebar
 # height is one kwinrc key rather than a rebuild.
 install_tree "$DIST/aurorae/${THEME_ID}Compact" "$SHARE/aurorae/themes/${THEME_ID}Compact"
+
+say "Icon theme"
+install_tree "$DIST/icons/$THEME_ID" "$SHARE/icons/$THEME_ID"
+
+say "Widget style"
+install_tree "$DIST/kvantum/$THEME_ID" "$CONF/Kvantum/$THEME_ID"
+
+say "Panel widgets"
+install_tree "$DIST/plasmoids/$APPLET_ID" "$SHARE/plasma/plasmoids/$APPLET_ID"
+install_tree "$DIST/plasmoids/$SEPARATOR_ID" "$SHARE/plasma/plasmoids/$SEPARATOR_ID"
+install_tree "$DIST/plasmoids/$CONTROL_ID" "$SHARE/plasma/plasmoids/$CONTROL_ID"
+
+# What the options widget drives. This is deliberately outside --desktop: the
+# widget is installed either way, and a widget whose script is missing is worse
+# than no widget. panel-classic.js is written here rather than substituted twice
+# because --desktop runs the very same file, so what the widget restores is by
+# construction what the installer applied.
+say "Theme options"
+NN_LIB="$SHARE/neon-noir"
+# The framed-hexagon variant, not brand/mark.svg: kickoff draws no button behind
+# its icon, so the design's border has to be inside the SVG. Installed here, not
+# under --desktop, because the layout script names it and the options widget can
+# replay that script on its own.
+[ -f "$DIST/brand/launcher.svg" ] && \
+  run install -Dm644 "$DIST/brand/launcher.svg" "$SHARE/icons/neon-noir-launcher.svg"
+# One slot per app, first spelling that exists — see the note in the panel
+# section; a launcher pointing at a missing .desktop still takes a slot.
+launchers=""
+pin() {
+  for cand in "$@"; do
+    for dir in /usr/share/applications "$SHARE/applications" \
+               /var/lib/snapd/desktop/applications \
+               /var/lib/flatpak/exports/share/applications; do
+      if [ -f "$dir/$cand.desktop" ]; then
+        launchers="${launchers:+$launchers,}applications:$cand.desktop"
+        return 0
+      fi
+    done
+  done
+  return 0
+}
+pin org.kde.konsole konsole
+pin org.kde.dolphin dolphin
+pin firefox_firefox firefox firefox-esr
+if [ -f "$DIST/config/panel-layout.js" ] && [ "$DRY" = 0 ]; then
+  mkdir -p "$NN_LIB"
+  sed -e "s|@MARK@|$SHARE/icons/neon-noir-launcher.svg|" \
+      -e "s|@LAUNCHERS@|$launchers|" \
+      "$DIST/config/panel-layout.js" > "$NN_LIB/panel-classic.js"
+  ok "~/.local/share/neon-noir/panel-classic.js"
+elif [ -f "$DIST/config/panel-layout.js" ]; then
+  printf '   %swould:%s write the classic panel layout to %s\n' \
+         "$c_dim" "$c_0" "$NN_LIB/panel-classic.js"
+fi
+for v in classic compact; do
+  install_file "$DIST/config/windows-$v.tsv" "$NN_LIB/windows-$v.tsv"
+done
+if [ -f "$DIST/scripts/neon-noir-apply" ]; then
+  run install -Dm755 "$DIST/scripts/neon-noir-apply" "$NN_LIB/neon-noir-apply"
+  ok "~/.local/share/neon-noir/neon-noir-apply"
+else
+  skip "apply script not built yet"
+fi
+# Seeded, never overwritten: this records which variant is applied, and a
+# re-run of the installer should not silently undo a switch made in the widget.
+for pair in "Panel:Variant:classic" "Windows:Profile:classic"; do
+  IFS=: read -r g k v <<< "$pair"
+  if [ -z "$(kreadconfig6 --file neonnoirrc --group "$g" --key "$k" 2>/dev/null)" ]; then
+    run kwriteconfig6 --file neonnoirrc --group "$g" --key "$k" "$v"
+  fi
+done
+ok "neonnoirrc"
 
 say "Global theme package"
 install_tree "$DIST/look-and-feel/$PKG_ID" "$SHARE/plasma/look-and-feel/$PKG_ID"
@@ -290,21 +358,13 @@ if [ "$SYSTEM" = 1 ]; then
     srun chmod -R a+rX "/usr/share/sddm/themes/$THEME_ID"
     ok "/usr/share/sddm/themes/$THEME_ID"
 
-    # The pointer has to be system-wide too, for the same reason.
-    if [ -d "$DIST/cursors/$THEME_ID-cursors" ]; then
-      srun rm -rf "/usr/share/icons/$THEME_ID-cursors"
-      srun cp -aT "$DIST/cursors/$THEME_ID-cursors" "/usr/share/icons/$THEME_ID-cursors"
-      srun chmod -R a+rX "/usr/share/icons/$THEME_ID-cursors"
-      ok "/usr/share/icons/$THEME_ID-cursors"
-    fi
-
     # A NEW drop-in: 10-wayland.conf, 20-kubuntu.conf and kubuntu_settings.conf
     # all belong to kubuntu-settings-desktop and an upgrade can rewrite them.
     # Digits sort before letters, so zz- is unambiguously last.
     tmp="$(mktemp)"
     { echo "[Theme]"
       echo "Current=$THEME_ID"
-      echo "CursorTheme=$THEME_ID-cursors"
+      echo "CursorTheme=breeze_cursors"
       echo "CursorSize=24"
       echo "Font=IBM Plex Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"; } > "$tmp"
     srun install -Dm644 "$tmp" /etc/sddm.conf.d/zz-neon-noir.conf
@@ -565,13 +625,12 @@ if [ "$APPLY" = 1 ]; then
 
   # plasma-apply-cursortheme refuses outright when the named theme is already
   # current, and it never writes cursorSize — that key comes from settings.tsv.
-  if command -v plasma-apply-cursortheme >/dev/null \
-     && [ -d "$ICONS/$THEME_ID-cursors" ]; then
+  if command -v plasma-apply-cursortheme >/dev/null; then
     cur="$(kreadconfig6 --file kcminputrc --group Mouse --key cursorTheme 2>/dev/null || true)"
-    if [ "$cur" = "$THEME_ID-cursors" ]; then
+    if [ "$cur" = "breeze_cursors" ]; then
       skip "cursor theme already current"
     else
-      run plasma-apply-cursortheme "$THEME_ID-cursors" >/dev/null 2>&1 \
+      run plasma-apply-cursortheme "breeze_cursors" >/dev/null 2>&1 \
         && ok "cursor theme" || warn "cursor theme could not be applied"
     fi
   fi
@@ -580,7 +639,7 @@ if [ "$APPLY" = 1 ]; then
   # GTK2 apps keep the old pointer until this is patched directly.
   if [ -f "$HOME/.gtkrc-2.0" ]; then
     [ -e "$BACKUP/home-gtkrc-2.0" ] || run cp "$HOME/.gtkrc-2.0" "$BACKUP/home-gtkrc-2.0"
-    run sed -i -E "s|^gtk-cursor-theme-name=.*|gtk-cursor-theme-name=\"$THEME_ID-cursors\"|;
+    run sed -i -E "s|^gtk-cursor-theme-name=.*|gtk-cursor-theme-name=\"breeze_cursors\"|;
                    s|^gtk-cursor-theme-size=.*|gtk-cursor-theme-size=24|" "$HOME/.gtkrc-2.0"
     ok "~/.gtkrc-2.0 pointer"
   fi

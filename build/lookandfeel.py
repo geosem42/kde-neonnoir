@@ -205,7 +205,7 @@ name={THEME_ID}
 Image={THEME_ID}
 
 [kcminputrc][Mouse]
-cursorTheme={THEME_ID}-cursors
+cursorTheme=breeze_cursors
 
 [kwinrc][org.kde.kdecoration2]
 library=org.kde.kwin.aurorae

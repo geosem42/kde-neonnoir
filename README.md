@@ -58,7 +58,6 @@ active beforehand. `--dry-run` shows what it would do and touches nothing.
 | Window decoration (Aurorae) | `~/.local/share/aurorae/themes/NeonNoir/` |
 | Widget style (Kvantum) | `~/.config/Kvantum/NeonNoir/` |
 | Icon theme | `~/.local/share/icons/NeonNoir/` |
-| Cursor theme | `~/.icons/NeonNoir-cursors/` |
 | System widget | `~/.local/share/plasma/plasmoids/org.neonnoir.sysmon/` |
 | Options widget | `~/.local/share/plasma/plasmoids/org.neonnoir.control/` |
 | Variant scripts and state | `~/.local/share/neon-noir/`, `~/.config/neonnoirrc` |
@@ -77,9 +76,8 @@ With `--system`:
 |---|---|
 | SDDM greeter | `/usr/share/sddm/themes/NeonNoir/` |
 | Plymouth boot splash | `/usr/share/plymouth/themes/NeonNoir/` |
-| Cursor theme, for the greeter | `/usr/share/icons/NeonNoir-cursors/` |
 
-`dist/icons/` and `dist/cursors/` are not committed — 4,598 icons and 39 cursors,
+`dist/icons/` is not committed — 4,598 icons,
 ~15 MB of generated binaries. `build/generate.py` writes them.
 
 ## Limits
