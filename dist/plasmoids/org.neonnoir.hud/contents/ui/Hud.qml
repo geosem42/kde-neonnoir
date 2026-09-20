@@ -26,7 +26,8 @@ import org.kde.kirigami as Kirigami
 import org.kde.ksysguard.sensors as Sensors
 import org.kde.taskmanager as TaskManager
 import org.kde.plasma.plasma5support as P5Support
-import QtQuick.Controls as QQC2
+import QtQuick.Templates as T
+import org.kde.plasma.components as PlasmaComponents
 
 Item {
     id: hud
@@ -90,14 +91,23 @@ Item {
     property string ctxUrl: ""
     property bool ctxPinned: false
     property bool ctxIsWindow: false
-    property string ctxName: ""
 
-    QQC2.Menu {
+    /* Plasma's own Menu, not QtQuick.Controls': it is drawn with the Plasma
+       theme's frame, so it matches the bar instead of the desktop style.
+
+       popupType Window is the part that matters. The default, Popup.Item,
+       renders the menu INSIDE the applet's own window — which here is 28px
+       tall, so the menu came out squashed into the bar itself. As a Window it
+       is a real top-level surface and opens below the bar at full size. */
+    PlasmaComponents.Menu {
         id: ctx
+        popupType: T.Popup.Window
 
-        QQC2.MenuItem {
-            text: hud.ctxPinned ? "Unpin from taskbar" : "Pin to taskbar"
-            enabled: hud.ctxUrl !== ""
+        PlasmaComponents.MenuItem {
+            id: pinItem
+            // text and enabled are ASSIGNED in openMenu(), not bound. The menu
+            // builds its items lazily, so a binding here can still be showing
+            // the previous row's state the first time the menu opens.
             onTriggered: {
                 if (hud.ctxPinned) {
                     tasks.requestRemoveLauncher(hud.ctxUrl);
@@ -107,13 +117,27 @@ Item {
             }
         }
 
-        QQC2.MenuSeparator { }
+        PlasmaComponents.MenuSeparator { }
 
-        QQC2.MenuItem {
+        PlasmaComponents.MenuItem {
+            id: closeItem
             text: "Close"
-            enabled: hud.ctxIsWindow
             onTriggered: tasks.requestClose(tasks.makeModelIndex(hud.ctxRow))
         }
+    }
+
+    function openMenu(cell, row, pinned, isWindow) {
+        hud.ctxRow = row;
+        hud.ctxUrl = String(hud.launcherUrl(row) || "");
+        hud.ctxPinned = pinned;
+        hud.ctxIsWindow = isWindow;
+        pinItem.text = pinned ? "Unpin from taskbar" : "Pin to taskbar";
+        pinItem.enabled = hud.ctxUrl !== "";
+        closeItem.enabled = isWindow;
+        // Anchored to the cell's bottom edge rather than to the cursor, so the
+        // menu drops from the bar instead of from wherever inside the 28px
+        // strip the click happened to land.
+        ctx.popup(cell, 0, cell.height);
     }
 
     function launcherUrl(index) {
@@ -406,12 +430,8 @@ Item {
                         onClicked: (m) => {
                             var ix = tasks.makeModelIndex(index);
                             if (m.button === Qt.RightButton) {
-                                hud.ctxRow = index;
-                                hud.ctxUrl = hud.launcherUrl(index);
-                                hud.ctxPinned = cell.pinned;
-                                hud.ctxIsWindow = model.IsWindow === true;
-                                hud.ctxName = String(model.AppName || model.display || "");
-                                ctx.popup();
+                                hud.openMenu(cell, index, cell.pinned,
+                                             model.IsWindow === true);
                             } else if (m.button === Qt.MiddleButton) {
                                 if (model.IsWindow) { tasks.requestClose(ix); }
                             } else if (model.IsActive) {
