@@ -46,19 +46,25 @@ function key(w) {
    top-level window. Dialogs, utility windows and anything that cannot be
    resized are left exactly where the application put them — a tiler that
    stretches a modal file picker across half the screen is a broken tiler. */
-function manageable(w) {
+/* Everything except the maximise test. Split out because a maximised window is
+   still a window the layout WANTS — it has just stepped out for a moment — and
+   the move shortcuts need to be able to pull it back in. */
+function tileable(w) {
     return w && w.normalWindow && !w.transient && !w.dialog
         && !w.skipTaskbar && !w.skipPager
         && w.moveable && w.resizeable
         && !w.fullScreen && !w.minimized
+        && !w.onAllDesktops;
+}
+
+function manageable(w) {
+    return tileable(w)
         // A maximised window has opted OUT of the layout. Without this the
         // tiler kept it in the tree and went on assigning it a tile, so KWin
         // held it full-screen while the tiler believed it was one cell of the
         // grid — the window covered the whole layout and every retile fought
-        // the maximise. Same treatment as fullscreen: it leaves, the others
-        // close over its space, and it comes back where it was.
-        && w.maximizeMode === 0
-        && !w.onAllDesktops;
+        // the maximise.
+        && w.maximizeMode === 0;
 }
 
 function leaf(w) {
@@ -434,10 +440,28 @@ function neighbour(root, from, dx, dy) {
 
 function moveActive(dx, dy) {
     const w = workspace.activeWindow;
-    if (!manageable(w)) {
+    if (!tileable(w)) {
         return;
     }
+    /* A maximised window is not in the tree, so there is nothing to move it
+       relative to — and the first version simply returned here, which made
+       every move key a silent no-op whenever the focused window was maximised.
+       That is the normal state for a window somebody is working in, so in
+       practice the keys never did anything.
+
+       Pressing a tiling key is a statement that the window belongs in the grid,
+       so un-maximise it and put it back. maximizeMode still reports the old
+       value at this point, which is why the re-insert below tests tileable()
+       and not manageable(). */
+    if (w.maximizeMode !== 0) {
+        w.setMaximize(false, false);
+    }
     const k = key(w);
+    forestFor(k);
+    if (!inTree(w)) {
+        insert(k, w, workspace.activeWindow);
+        retile(k);
+    }
     const forest = forests[k];
     if (!forest || !forest.root) {
         return;
@@ -485,6 +509,13 @@ registerShortcut("NeonNoirTileMoveUpArrow", "Neon Noir: move window up (arrow)",
                  "Meta+Shift+Up", function () { moveActive(0, -1); });
 registerShortcut("NeonNoirTileMoveDownArrow", "Neon Noir: move window down (arrow)",
                  "Meta+Shift+Down", function () { moveActive(0, 1); });
+/* The two arrows KDE reserves for "move window to next/previous screen", which
+   does nothing at all on a single screen. install.sh hands them back — see the
+   note there — and these are the keys anyone reaches for first. */
+registerShortcut("NeonNoirTileMoveLeftArrow", "Neon Noir: move window left (arrow)",
+                 "Meta+Shift+Left", function () { moveActive(-1, 0); });
+registerShortcut("NeonNoirTileMoveRightArrow", "Neon Noir: move window right (arrow)",
+                 "Meta+Shift+Right", function () { moveActive(1, 0); });
 registerShortcut("NeonNoirTileFullScreen", "Neon Noir: toggle fullscreen",
                  "Meta+F", toggleFullScreen);
 

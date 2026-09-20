@@ -193,6 +193,21 @@ install_tree "$DIST/aurorae/${THEME_ID}Compact" "$SHARE/aurorae/themes/${THEME_I
 # The tiler. A KWin/Script package, switched on and off through kwinrc by the
 # window profile, so it ships disabled and only the Tiled profile turns it on.
 install_tree "$DIST/kwin-scripts/$TILER_ID" "$SHARE/kwin/scripts/$TILER_ID"
+# Hand back Meta+Shift+Left/Right. KDE binds them to "move window to next/
+# previous screen", which does nothing at all on a single screen, and they are
+# the keys anyone reaches for to move a tiled window. Done over D-Bus, not by
+# editing kglobalshortcutsrc: KWin hosts the kglobalaccel registry in-process
+# and rewrites that file from memory, so a file edit is ignored now and
+# reverted later. Flag 4 is NoAutoloading, which makes it stick.
+if [ "$DRY" = 0 ] && command -v gdbus >/dev/null 2>&1; then
+  for pair in "Window to Next Screen:Move Window to Next Screen" \
+              "Window to Previous Screen:Move Window to Previous Screen"; do
+    gdbus call --session --dest org.kde.kglobalaccel --object-path /kglobalaccel \
+      --method org.kde.KGlobalAccel.setShortcutKeys \
+      "['kwin','${pair%%:*}','KWin','${pair#*:}']" "@a(ai) []" 4 >/dev/null 2>&1 || true
+  done
+  ok "Meta+Shift+arrows freed for the tiler"
+fi
 
 say "Icon theme"
 install_tree "$DIST/icons/$THEME_ID" "$SHARE/icons/$THEME_ID"

@@ -199,6 +199,40 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       have no `setTimeout`, `Qt` or `createTimer` to defer with (all verified
       undefined). So the settled state is read on the next `frameGeometryChanged`
       instead, which also puts a hand-dragged window back in its tile
+- [x] The move shortcuts were never broken at the keyboard. All seven were
+      registered under [kwin] with exactly the Qt key codes KWin computes
+      (Meta+Shift+H = 0x12000048), and a dump of all 149 bindings across 21
+      components found no conflict. The bug was in the callback:
+      `moveActive()` opened with `if (!manageable(w)) return;` and
+      `manageable()` excludes maximised windows — so every move key was a
+      silent no-op whenever the focused window was maximised, which is the
+      normal state for a window you are working in. It now un-maximises and
+      pulls the window back into the grid instead
+- [x] Meta+Shift+Left/Right freed and given to the tiler, so all four arrows
+      move a window. They were KDE's "move window to next/previous screen",
+      which does nothing on a single screen. Freed over the kglobalaccel D-Bus
+      API with flag 4 (NoAutoloading) — editing kglobalshortcutsrc does NOT
+      work, because KWin hosts the registry in-process and rewrites the file
+      from memory
+- [ ] DEAD END: verifying a shortcut with
+      `kglobalaccel Component.invokeShortcut` proves nothing about the key path.
+      It emits the activation signal directly, skipping the `isActive()` and
+      `isShortcutAllowed()` gates a real key press must pass. Earlier "it works
+      over D-Bus, so the callbacks are fine" was not a test
+- [ ] DEAD END: a 1px outline around EVERY window, CSD apps included. Three
+      routes, all ruled out. (1) The decoration reaches only server-side
+      decorated windows — `Window::updateDecorationBorderRadius()` sources the
+      outline from `decoration()`, which is null for a CSD window, so it is
+      decoration-only by construction. (2) A JavaScript scripted effect has no
+      drawing API at all: the surface is registerShortcut/registerScreenEdge/
+      animate/set/retarget/freezeInTime/redirect/complete/cancel/addShader/
+      setUniform, and the shader hook paints only a frozen snapshot layer.
+      (3) KWin's own Outline overlay ([Outline] QmlPath, workspace.showOutline)
+      looked right — the key, `__kwin_outline` and `outputOnly` are all in the
+      binary and both slots exist — but nothing renders when it is driven from
+      a script, and the STOCK outline does not render that way either. Firefox
+      here does not even bind zxdg_decoration_manager_v1, so no rule can give
+      it a real decoration
 - [ ] Tiler, still to build: per-window float toggle, adjustable split ratios,
       stacking when no tile has room, and deciding what dragging a tiled window
       by its titlebar should do (today it just moves, and the layout does not
