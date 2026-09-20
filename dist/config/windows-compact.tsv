@@ -17,5 +17,6 @@ kwinrc	Effect-blur	NoiseStrength	0
 kwinrc	Plugins	diminactiveEnabled	false
 kwinrc	Plugins	magiclampEnabled	false
 kwinrc	Plugins	glideEnabled	false
+kwinrc	Plugins	neonnoirtilerEnabled	false
 kwinrc	Effect-translucency	Inactive	100
 kwinrc	Effect-translucency	MoveResize	80

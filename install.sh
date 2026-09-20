@@ -19,6 +19,7 @@ PKG_ID="org.neonnoir.desktop"
 APPLET_ID="org.neonnoir.sysmon"
 SEPARATOR_ID="org.neonnoir.separator"
 CONTROL_ID="org.neonnoir.control"
+TILER_ID="neonnoirtiler"
 NN_MARK_BEGIN="# >>> neon noir prompt >>>"
 NN_MARK_END="# <<< neon noir prompt <<<"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -189,6 +190,9 @@ install_tree "$DIST/aurorae/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID"
 # The Compact variant is a second Aurorae package, so switching titlebar
 # height is one kwinrc key rather than a rebuild.
 install_tree "$DIST/aurorae/${THEME_ID}Compact" "$SHARE/aurorae/themes/${THEME_ID}Compact"
+# The tiler. A KWin/Script package, switched on and off through kwinrc by the
+# window profile, so it ships disabled and only the Tiled profile turns it on.
+install_tree "$DIST/kwin-scripts/$TILER_ID" "$SHARE/kwin/scripts/$TILER_ID"
 
 say "Icon theme"
 install_tree "$DIST/icons/$THEME_ID" "$SHARE/icons/$THEME_ID"
@@ -246,7 +250,7 @@ elif [ -f "$DIST/config/panel-layout.js" ]; then
   printf '   %swould:%s write the classic panel layout to %s\n' \
          "$c_dim" "$c_0" "$NN_LIB/panel-classic.js"
 fi
-for v in classic compact riced; do
+for v in classic compact tiled; do
   install_file "$DIST/config/windows-$v.tsv" "$NN_LIB/windows-$v.tsv"
 done
 if [ -f "$DIST/scripts/neon-noir-apply" ]; then

@@ -226,6 +226,10 @@ BlinkingCursorEnabled=true
     add('kwinrc', 'Plugins', 'diminactiveEnabled', 'false')
     add('kwinrc', 'Plugins', 'magiclampEnabled', 'false')
     add('kwinrc', 'Plugins', 'glideEnabled', 'false')
+    # The tiler is a KWin script, so it is enabled exactly like any other KWin
+    # plugin — which is what lets a window profile switch tiling on and off by
+    # writing one key, with no separate machinery.
+    add('kwinrc', 'Plugins', 'neonnoirtilerEnabled', 'false')
     # translucency stays loaded either way; at 100/80 it is inert. Disabling the
     # effect outright would be a bigger change than the profile needs.
     add('kwinrc', 'Effect-translucency', 'Inactive', '100')
@@ -301,13 +305,17 @@ BlinkingCursorEnabled=true
     p.write_text(''.join('\t'.join(r) + '\n' for r in comp))
     out.append(f'config/windows-compact.tsv  ({len(comp)} settings)')
 
-    # Riced: the same table with the effect keys turned up. Overrides are keyed
+    # Tiled: the same table with the tiler on and the effect keys turned up. Overrides are keyed
     # by (group, key) and applied to the rows that already exist, so a value can
     # only be changed here if Standard also sets it — which is what guarantees
-    # the switch back undoes this one. The titlebar itself is NOT in the table:
-    # it comes off through a kwinrulesrc rule, which is a list to merge into
-    # rather than a key to write, and the apply script handles it.
-    RICED = {
+    # the switch back undoes this one.
+    #
+    # Titlebars STAY. An earlier cut took them off, on the reading that a riced
+    # desktop has none; without a tiler placing and sizing windows the titlebar
+    # was doing all the moving, resizing and closing, and removing it left
+    # windows that could not be used. Revisit only once the tiler owns those.
+    TILED = {
+        ('Plugins', 'neonnoirtilerEnabled'): 'true',
         ('Effect-blur', 'BlurStrength'): '12',
         ('Plugins', 'diminactiveEnabled'): 'true',
         ('Plugins', 'magiclampEnabled'): 'true',
@@ -315,14 +323,14 @@ BlinkingCursorEnabled=true
         ('Effect-translucency', 'Inactive'): '92',
         ('Effect-translucency', 'MoveResize'): '70',
     }
-    riced = [[r[0], r[1], r[2], RICED.get((r[1], r[2]), r[3])] for r in w]
-    unseen = set(RICED) - {(r[1], r[2]) for r in w}
+    tiled = [[r[0], r[1], r[2], TILED.get((r[1], r[2]), r[3])] for r in w]
+    unseen = set(TILED) - {(r[1], r[2]) for r in w}
     if unseen:
-        raise SystemExit(f'riced overrides no Standard row sets: {sorted(unseen)}')
+        raise SystemExit(f'Tiled overrides no Standard row sets: {sorted(unseen)}')
     # Dim strength has no counterpart to override: the effect is off in every
     # other profile, so the value is only ever read while Riced is applied.
-    riced.append(['kwinrc', 'Effect-diminactive', 'Strength', '12'])
-    p = DIST / 'config' / 'windows-riced.tsv'
-    p.write_text(''.join('\t'.join(r) + '\n' for r in riced))
-    out.append(f'config/windows-riced.tsv  ({len(riced)} settings)')
+    tiled.append(['kwinrc', 'Effect-diminactive', 'Strength', '12'])
+    p = DIST / 'config' / 'windows-tiled.tsv'
+    p.write_text(''.join('\t'.join(r) + '\n' for r in tiled))
+    out.append(f'config/windows-tiled.tsv  ({len(tiled)} settings)')
     return out

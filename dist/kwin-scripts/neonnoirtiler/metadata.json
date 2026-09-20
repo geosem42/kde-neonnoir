@@ -1,0 +1,19 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Id": "neonnoirtiler",
+        "Name": "Neon Noir Tiler",
+        "Description": "Automatic window tiling for the Neon Noir Tiled profile",
+        "Icon": "preferences-system-windows-script-test",
+        "Authors": [
+            {
+                "Name": "George",
+                "Email": "geosem042@gmail.com"
+            }
+        ],
+        "License": "GPL-3.0-or-later",
+        "Version": "1.0",
+        "EnabledByDefault": false
+    },
+    "X-Plasma-API": "javascript"
+}

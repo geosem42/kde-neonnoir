@@ -130,11 +130,31 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       Tiled; what is actually wanted is Pop!_OS-style automatic tiling, and the
       titlebar question only arises once that exists. The effect half (blur,
       translucency, dim, animations) is built and still in windows-riced.tsv
-- [ ] Windows / Tiled: automatic tiling. No tiler is packaged for Kubuntu 26.04
-      (nothing in apt, and only virtualdesktopsonlyonprimary is installed), so
-      this is either a third-party KWin script from the store or one of ours.
-      Needs: auto-place on open, inner and outer gaps, focus and swap
-      keybindings, per-window float toggle, and a global off switch
+- [x] Windows / Tiled: our own tiler, `kwin-scripts/neonnoirtiler`. Nothing is
+      packaged for Kubuntu 26.04 — apt has none and only
+      virtualdesktopsonlyonprimary is installed — so rather than take the
+      theme's first third-party dependency it is a KWin/Script we generate like
+      everything else. Pop!_OS-shaped: a binary tree per screen-and-desktop, a
+      new window SPLITS the focused one, closing a window gives its space back
+      to the sibling it was split from. Splits follow the shape of the rect
+      (wide splits vertically, tall horizontally) so tiles stay near square
+- [x] Because it is a KWin plugin, tiling switches on and off through one kwinrc
+      key — `neonnoirtilerEnabled` — which the profile tables already carry. No
+      separate machinery
+- [x] Gaps: 12px outer, 8px inner. Verified by arithmetic, not by eye — on
+      1920x1032 with two windows: 1920-24 = 1896, (1896-8)/2 = 944 each
+- [ ] Splitting is bounded by each window's OWN declared minimum, not a
+      constant. The first cut used one MIN_TILE for everything, which is the
+      wrong rule: Firefox asks for 500px and a terminal far less, so a 468px
+      tile suited one and made the other clamp itself back up and sit on top of
+      its neighbour. Now the split test compares the half against the larger of
+      the two windows' minimums on the axis being halved. Still open: when NO
+      leaf has room the split happens anyway and those two windows overlap.
+      Real tilers stack or tab at that point, which is the proper fix
+- [ ] Tiler, still to build: focus and swap keybindings, per-window float
+      toggle, adjustable split ratios, and deciding what dragging a tiled
+      window by its titlebar should do (today it just moves, and the layout
+      does not follow)
 - [x] Superseded detail from the reverted attempt: no titlebars on normal windows, blur 7 -> 12, inactive
       windows at 92% and 70% while moving, dim-inactive at 12, plus the magic
       lamp and glide animations. Dialogs keep their titlebar (`types=1`) so they

@@ -144,16 +144,7 @@ case "$axis" in
 
   windows)
     case "$variant" in
-      riced)
-        # Held back on purpose. Riced used to mean "take the titlebars off",
-        # which without a tiler leaves a window that cannot be moved, resized or
-        # closed by pointer — the decoration was doing all of that work. The
-        # profile is only useful once tiling places and sizes windows for you,
-        # so the rule stays out of reach until that exists.
-        notify "Tiled window management is not built yet."
-        die "windows profile 'riced' is not built yet"
-        ;;
-      classic|compact)
+      classic|compact|tiled)
         # The table replay is the same for all three; they differ in which
         # Aurorae package the table names and in the effect values. Only the
         # titlebar rule needs a branch, and it is removed FIRST in every case,
@@ -162,7 +153,6 @@ case "$axis" in
         n="$(replay "$LIB/windows-$variant.tsv")"
         # An `if`, not `&&`: under `set -e` a false `[ ]` at the end of an
         # && chain is the script's exit status and would kill it here.
-        if [ "$variant" = riced ]; then rule_add; fi
         kwriteconfig6 --file neonnoirrc --group Windows --key Profile "$variant"
         reconfigure
         # AFTER the reconfigure, not before. Until KWin re-reads the rules the
@@ -178,7 +168,7 @@ case "$axis" in
         case "$variant" in
           classic) notify "Windows: Standard ($n settings)" ;;
           compact) notify "Windows: Compact ($n settings)" ;;
-          riced)   notify "Windows: Riced - no titlebars. Alt+F4 closes; the panel widget switches back." ;;
+          tiled)   notify "Windows: Tiled - windows arrange themselves." ;;
         esac
         ;;
       *) die "unknown windows profile: ${variant:-<none>}" ;;
