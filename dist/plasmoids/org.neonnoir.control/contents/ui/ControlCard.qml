@@ -165,12 +165,17 @@ ColumnLayout {
 
                     HoverHandler {
                         id: hover
-                        enabled: cell.ready && !cell.selected
+                        enabled: cell.ready
                         cursorShape: Qt.PointingHandCursor
                     }
 
+                    // The SELECTED cell stays clickable on purpose: clicking it
+                    // re-applies its variant, which is how you put the panel
+                    // back after dragging something out of place. Without that
+                    // the widget is inert whenever an axis has only one built
+                    // variant, which is every axis today.
                     TapHandler {
-                        enabled: cell.ready && !cell.selected
+                        enabled: cell.ready
                         onTapped: row.pick(row.axis, cell.modelData.id)
                     }
                 }
