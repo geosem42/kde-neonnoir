@@ -144,7 +144,16 @@ case "$axis" in
 
   windows)
     case "$variant" in
-      classic|compact|riced)
+      riced)
+        # Held back on purpose. Riced used to mean "take the titlebars off",
+        # which without a tiler leaves a window that cannot be moved, resized or
+        # closed by pointer — the decoration was doing all of that work. The
+        # profile is only useful once tiling places and sizes windows for you,
+        # so the rule stays out of reach until that exists.
+        notify "Tiled window management is not built yet."
+        die "windows profile 'riced' is not built yet"
+        ;;
+      classic|compact)
         # The table replay is the same for all three; they differ in which
         # Aurorae package the table names and in the effect values. Only the
         # titlebar rule needs a branch, and it is removed FIRST in every case,

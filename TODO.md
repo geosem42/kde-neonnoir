@@ -123,7 +123,19 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       settings reaches every profile
 - [ ] The riced taskbar. Islands rather than one bar, wider gaps and radii,
       per-widget backgrounds
-- [x] Windows / Riced: no titlebars on normal windows, blur 7 -> 12, inactive
+- [ ] REVERTED: "Riced" shipped as no-titlebars-plus-effects, which was the
+      wrong reading. Without a tiler to place and size windows, the decoration
+      was doing all the moving, resizing and closing, so removing it left
+      windows that could not be used at all. The cell is held back and renamed
+      Tiled; what is actually wanted is Pop!_OS-style automatic tiling, and the
+      titlebar question only arises once that exists. The effect half (blur,
+      translucency, dim, animations) is built and still in windows-riced.tsv
+- [ ] Windows / Tiled: automatic tiling. No tiler is packaged for Kubuntu 26.04
+      (nothing in apt, and only virtualdesktopsonlyonprimary is installed), so
+      this is either a third-party KWin script from the store or one of ours.
+      Needs: auto-place on open, inner and outer gaps, focus and swap
+      keybindings, per-window float toggle, and a global off switch
+- [x] Superseded detail from the reverted attempt: no titlebars on normal windows, blur 7 -> 12, inactive
       windows at 92% and 70% while moving, dim-inactive at 12, plus the magic
       lamp and glide animations. Dialogs keep their titlebar (`types=1`) so they
       keep a close button; Alt+F4 was already bound and is the escape hatch, and
