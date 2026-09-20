@@ -1,11 +1,11 @@
 /*
     The Neon Noir options popup.
 
-    Two axes, each a pair of named variants rather than an on/off switch: a
-    switch has to decide which side is "on", and neither "standard" nor "riced"
-    is the absence of the other. A variant that has not been built yet is shown
-    rather than hidden, and says so on its face — hiding it would leave a
-    control that changes shape the first time a second variant lands.
+    Two axes, each a list of named variants rather than an on/off switch: a
+    switch has to decide which side is "on", and one variant is not the absence
+    of another. A variant that has not been built yet is shown rather than
+    hidden, and says so on its face — hiding it would leave a control that
+    changes shape the first time a second variant lands.
 
     The selected cell is a cyan border over the ghost fill, which is exactly how
     the pager marks the desktop you are on. Every colour is a palette token
@@ -56,8 +56,7 @@ ColumnLayout {
                 current: card.windowsProfile
                 variants: [
                     { id: "classic", label: "Standard", ready: true },
-                    { id: "compact", label: "Compact", ready: true },
-                    { id: "tiled", label: "Tiled", ready: true }
+                    { id: "compact", label: "Compact", ready: true }
                 ]
                 onPick: (a, v) => card.choose(a, v)
             }

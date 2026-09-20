@@ -19,7 +19,6 @@ PKG_ID="org.neonnoir.desktop"
 APPLET_ID="org.neonnoir.sysmon"
 SEPARATOR_ID="org.neonnoir.separator"
 CONTROL_ID="org.neonnoir.control"
-TILER_ID="neonnoirtiler"
 NN_MARK_BEGIN="# >>> neon noir prompt >>>"
 NN_MARK_END="# <<< neon noir prompt <<<"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -190,100 +189,6 @@ install_tree "$DIST/aurorae/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID"
 # The Compact variant is a second Aurorae package, so switching titlebar
 # height is one kwinrc key rather than a rebuild.
 install_tree "$DIST/aurorae/${THEME_ID}Compact" "$SHARE/aurorae/themes/${THEME_ID}Compact"
-# The tiler. A KWin/Script package, switched on and off through kwinrc by the
-# window profile, so it ships disabled and only the Tiled profile turns it on.
-install_tree "$DIST/kwin-scripts/$TILER_ID" "$SHARE/kwin/scripts/$TILER_ID"
-# Hand back Meta+Shift+Left/Right. KDE binds them to "move window to next/
-# previous screen", which does nothing at all on a single screen, and they are
-# the keys anyone reaches for to move a tiled window. Done over D-Bus, not by
-# editing kglobalshortcutsrc: KWin hosts the kglobalaccel registry in-process
-# and rewrites that file from memory, so a file edit is ignored now and
-# reverted later. Flag 4 is NoAutoloading, which makes it stick.
-if [ "$DRY" = 0 ] && command -v gdbus >/dev/null 2>&1; then
-  for pair in "Window to Next Screen:Move Window to Next Screen" \
-              "Window to Previous Screen:Move Window to Previous Screen"; do
-    gdbus call --session --dest org.kde.kglobalaccel --object-path /kglobalaccel \
-      --method org.kde.KGlobalAccel.setShortcutKeys \
-      "['kwin','${pair%%:*}','KWin','${pair#*:}']" "@a(ai) []" 4 >/dev/null 2>&1 || true
-  done
-  ok "Meta+Shift+arrows freed for the tiler"
-fi
-
-say "Icon theme"
-install_tree "$DIST/icons/$THEME_ID" "$SHARE/icons/$THEME_ID"
-
-say "Cursor theme"
-install_tree "$DIST/cursors/$THEME_ID-cursors" "$ICONS/$THEME_ID-cursors"
-
-say "Widget style"
-install_tree "$DIST/kvantum/$THEME_ID" "$CONF/Kvantum/$THEME_ID"
-
-say "Panel widgets"
-install_tree "$DIST/plasmoids/$APPLET_ID" "$SHARE/plasma/plasmoids/$APPLET_ID"
-install_tree "$DIST/plasmoids/$SEPARATOR_ID" "$SHARE/plasma/plasmoids/$SEPARATOR_ID"
-install_tree "$DIST/plasmoids/$CONTROL_ID" "$SHARE/plasma/plasmoids/$CONTROL_ID"
-
-# What the options widget drives. This is deliberately outside --desktop: the
-# widget is installed either way, and a widget whose script is missing is worse
-# than no widget. panel-classic.js is written here rather than substituted twice
-# because --desktop runs the very same file, so what the widget restores is by
-# construction what the installer applied.
-say "Theme options"
-NN_LIB="$SHARE/neon-noir"
-# The framed-hexagon variant, not brand/mark.svg: kickoff draws no button behind
-# its icon, so the design's border has to be inside the SVG. Installed here, not
-# under --desktop, because the layout script names it and the options widget can
-# replay that script on its own.
-[ -f "$DIST/brand/launcher.svg" ] && \
-  run install -Dm644 "$DIST/brand/launcher.svg" "$SHARE/icons/neon-noir-launcher.svg"
-# One slot per app, first spelling that exists — see the note in the panel
-# section; a launcher pointing at a missing .desktop still takes a slot.
-launchers=""
-pin() {
-  for cand in "$@"; do
-    for dir in /usr/share/applications "$SHARE/applications" \
-               /var/lib/snapd/desktop/applications \
-               /var/lib/flatpak/exports/share/applications; do
-      if [ -f "$dir/$cand.desktop" ]; then
-        launchers="${launchers:+$launchers,}applications:$cand.desktop"
-        return 0
-      fi
-    done
-  done
-  return 0
-}
-pin org.kde.konsole konsole
-pin org.kde.dolphin dolphin
-pin firefox_firefox firefox firefox-esr
-if [ -f "$DIST/config/panel-layout.js" ] && [ "$DRY" = 0 ]; then
-  mkdir -p "$NN_LIB"
-  sed -e "s|@MARK@|$SHARE/icons/neon-noir-launcher.svg|" \
-      -e "s|@LAUNCHERS@|$launchers|" \
-      "$DIST/config/panel-layout.js" > "$NN_LIB/panel-classic.js"
-  ok "~/.local/share/neon-noir/panel-classic.js"
-elif [ -f "$DIST/config/panel-layout.js" ]; then
-  printf '   %swould:%s write the classic panel layout to %s\n' \
-         "$c_dim" "$c_0" "$NN_LIB/panel-classic.js"
-fi
-for v in classic compact tiled; do
-  install_file "$DIST/config/windows-$v.tsv" "$NN_LIB/windows-$v.tsv"
-done
-if [ -f "$DIST/scripts/neon-noir-apply" ]; then
-  run install -Dm755 "$DIST/scripts/neon-noir-apply" "$NN_LIB/neon-noir-apply"
-  ok "~/.local/share/neon-noir/neon-noir-apply"
-  install_file "$DIST/scripts/restore-borders.js" "$NN_LIB/restore-borders.js"
-else
-  skip "apply script not built yet"
-fi
-# Seeded, never overwritten: this records which variant is applied, and a
-# re-run of the installer should not silently undo a switch made in the widget.
-for pair in "Panel:Variant:classic" "Windows:Profile:classic"; do
-  IFS=: read -r g k v <<< "$pair"
-  if [ -z "$(kreadconfig6 --file neonnoirrc --group "$g" --key "$k" 2>/dev/null)" ]; then
-    run kwriteconfig6 --file neonnoirrc --group "$g" --key "$k" "$v"
-  fi
-done
-ok "neonnoirrc"
 
 say "Global theme package"
 install_tree "$DIST/look-and-feel/$PKG_ID" "$SHARE/plasma/look-and-feel/$PKG_ID"

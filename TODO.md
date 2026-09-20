@@ -92,9 +92,9 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 ## Theme options
 
 - [x] An options widget in the panel, beside the clock: `org.neonnoir.control`,
-      a cog over a popup with one row per axis. Two axes so far — Windows and
-      Taskbar — each a pair of NAMED variants rather than an on/off switch,
-      because neither side is the absence of the other
+      a cog over a popup with one row per axis. Two axes — Windows and Taskbar —
+      each a list of NAMED variants rather than an on/off switch, because one
+      variant is not the absence of another
 - [x] `~/.config/neonnoirrc` is the single source of truth for which variant is
       applied. The widget reads it back through `kreadconfig6` instead of
       keeping its own copy, so the popup is right even when the last change came
@@ -123,147 +123,39 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
       settings reaches every profile
 - [ ] The riced taskbar. Islands rather than one bar, wider gaps and radii,
       per-widget backgrounds
-- [ ] REVERTED: "Riced" shipped as no-titlebars-plus-effects, which was the
-      wrong reading. Without a tiler to place and size windows, the decoration
-      was doing all the moving, resizing and closing, so removing it left
-      windows that could not be used at all. The cell is held back and renamed
-      Tiled; what is actually wanted is Pop!_OS-style automatic tiling, and the
-      titlebar question only arises once that exists. The effect half (blur,
-      translucency, dim, animations) is built and still in windows-riced.tsv
-- [x] Windows / Tiled: our own tiler, `kwin-scripts/neonnoirtiler`. Nothing is
-      packaged for Kubuntu 26.04 — apt has none and only
-      virtualdesktopsonlyonprimary is installed — so rather than take the
-      theme's first third-party dependency it is a KWin/Script we generate like
-      everything else. Pop!_OS-shaped: a binary tree per screen-and-desktop, a
-      new window SPLITS the focused one, closing a window gives its space back
-      to the sibling it was split from. Splits follow the shape of the rect
-      (wide splits vertically, tall horizontally) so tiles stay near square
-- [x] Because it is a KWin plugin, tiling switches on and off through one kwinrc
-      key — `neonnoirtilerEnabled` — which the profile tables already carry. No
-      separate machinery
-- [x] Gaps: 12px outer, 8px inner. Verified by arithmetic, not by eye — on
-      1920x1032 with two windows: 1920-24 = 1896, (1896-8)/2 = 944 each
-- [ ] Splitting is bounded by each window's OWN declared minimum, not a
-      constant. The first cut used one MIN_TILE for everything, which is the
-      wrong rule: Firefox asks for 500px and a terminal far less, so a 468px
-      tile suited one and made the other clamp itself back up and sit on top of
-      its neighbour. Now the split test compares the half against the larger of
-      the two windows' minimums on the axis being halved. Still open: when NO
-      leaf has room the split happens anyway and those two windows overlap.
-      Real tilers stack or tab at that point, which is the proper fix
-- [x] Moving a window in the layout: Meta+Shift+H/J/K/L, plus Meta+Shift+Up and
-      Meta+Shift+Down. The arrows are only half available — Meta+Shift+Left and
-      Meta+Shift+Right are KDE's "move window to next/previous screen", which is
-      global and not this script's to take, so H and L carry the horizontal.
-      Implemented as a SWAP of two leaves, not a re-insert, so moving a window
-      out and back restores the layout exactly. The neighbour is chosen
-      geometrically from the stamped rects — nearest centre in that direction,
-      and only where the direction dominates — because walking the tree instead
-      would follow split order, which is not what the screen looks like
-- [x] Directional focus needed nothing built: KDE already binds Meta+Alt+arrows
-      to "Switch to Window Left/Right/Above/Below" and it works with tiling
-- [x] Fullscreen on Meta+F. The layout follows by itself — a fullscreen window
-      fails manageable(), so it drops out of the tree and the rest close over
-      its space; leaving fullscreen puts it back. Measured: 944x500 -> 1920x1080
-      -> 944x500, with the neighbour growing to 944x1008 in between
-- [x] Cyan outline on the active window, Tiled only, via a third Aurorae package
-      (`NeonNoirTiled`). Tiles do not overlap, so the usual depth cues are gone
-      and the border is the only thing left to mark focus. It needed
-      `BorderSize=Normal` in the profile: every other profile sets `None`, and
-      None means KWin draws no side or foot border at all and never consults the
-      theme's own BorderLeft — the outline was generated, shipped and invisible
-- [ ] The border renders 4px and I could not drive the thickness. Neither the
-      SVG slice width (tried 2) nor BorderLeft (tried 1) changed it, and Tiny,
-      NoSides and Normal all produced the same 4px. Left as is because it reads
-      well, but the number is KWin's, not ours
-- [ ] Client-side-decorated apps get no cyan border, because they have no KWin
-      decoration to put one on. On this machine that is VS Code and Firefox.
-      Nothing in Aurorae can reach them
-- [x] `kwin reconfigure` does NOT reload an already-enabled KWin script. It only
-      starts newly-enabled ones and stops newly-disabled ones, so re-applying
-      Tiled while already in Tiled left the OLD script running — which is why
-      several fixes to the tiler appeared to change nothing whatsoever. The
-      apply script now writes `neonnoirtilerEnabled=false`, reconfigures, and
-      only then replays the table that turns it back on. Every tiler change
-      before this was being tested against stale code
-- [x] Maximise and minimise now work with the tiler. A maximised window has
-      opted out of the layout, so `manageable()` excludes `maximizeMode !== 0`
-      and the rest close over its space. Measured: Konsole maximised leaves
-      Dolphin at 1896x1008 (the full area), un-maximised both return to
-      944x1008. Minimise already worked. Meta+PgUp and Meta+PgDown are KDE's own
-      bindings and were there all along
-- [ ] Membership alone was not enough: coming out of maximise a window is
-      manageable AND already in the tree, so nothing fired and it kept the size
-      it remembered. `maximizedChanged` cannot be trusted at signal time either —
-      `maximizeMode` still reports the value it is leaving — and KWin scripts
-      have no `setTimeout`, `Qt` or `createTimer` to defer with (all verified
-      undefined). So the settled state is read on the next `frameGeometryChanged`
-      instead, which also puts a hand-dragged window back in its tile
-- [x] The move shortcuts were never broken at the keyboard. All seven were
-      registered under [kwin] with exactly the Qt key codes KWin computes
-      (Meta+Shift+H = 0x12000048), and a dump of all 149 bindings across 21
-      components found no conflict. The bug was in the callback:
-      `moveActive()` opened with `if (!manageable(w)) return;` and
-      `manageable()` excludes maximised windows — so every move key was a
-      silent no-op whenever the focused window was maximised, which is the
-      normal state for a window you are working in. It now un-maximises and
-      pulls the window back into the grid instead
-- [x] Meta+Shift+Left/Right freed and given to the tiler, so all four arrows
-      move a window. They were KDE's "move window to next/previous screen",
-      which does nothing on a single screen. Freed over the kglobalaccel D-Bus
-      API with flag 4 (NoAutoloading) — editing kglobalshortcutsrc does NOT
-      work, because KWin hosts the registry in-process and rewrites the file
-      from memory
-- [ ] DEAD END: verifying a shortcut with
-      `kglobalaccel Component.invokeShortcut` proves nothing about the key path.
-      It emits the activation signal directly, skipping the `isActive()` and
-      `isShortcutAllowed()` gates a real key press must pass. Earlier "it works
-      over D-Bus, so the callbacks are fine" was not a test
-- [ ] DEAD END: a 1px outline around EVERY window, CSD apps included. Three
-      routes, all ruled out. (1) The decoration reaches only server-side
-      decorated windows — `Window::updateDecorationBorderRadius()` sources the
-      outline from `decoration()`, which is null for a CSD window, so it is
-      decoration-only by construction. (2) A JavaScript scripted effect has no
-      drawing API at all: the surface is registerShortcut/registerScreenEdge/
-      animate/set/retarget/freezeInTime/redirect/complete/cancel/addShader/
-      setUniform, and the shader hook paints only a frozen snapshot layer.
-      (3) KWin's own Outline overlay ([Outline] QmlPath, workspace.showOutline)
-      looked right — the key, `__kwin_outline` and `outputOnly` are all in the
-      binary and both slots exist — but nothing renders when it is driven from
-      a script, and the STOCK outline does not render that way either. Firefox
-      here does not even bind zxdg_decoration_manager_v1, so no rule can give
-      it a real decoration
-- [ ] Tiler, still to build: per-window float toggle, adjustable split ratios,
-      stacking when no tile has room, and deciding what dragging a tiled window
-      by its titlebar should do (today it just moves, and the layout does not
-      follow)
-- [x] Superseded detail from the reverted attempt: no titlebars on normal windows, blur 7 -> 12, inactive
-      windows at 92% and 70% while moving, dim-inactive at 12, plus the magic
-      lamp and glide animations. Dialogs keep their titlebar (`types=1`) so they
-      keep a close button; Alt+F4 was already bound and is the escape hatch, and
-      the options widget lives in the panel, which no window rule can touch
-- [x] The no-titlebar rule MERGES into kwinrulesrc. That file already held a
-      hand-made Dolphin opacity rule, so the rule carries a fixed uuid, is
-      appended to `[General] rules=` rather than replacing it, and is taken back
-      out by id on the way out. Verified across six switches: the Dolphin rule
-      and `count=1` survive every one
-- [x] Leaving Riced needs an explicit border pass. KWin applies a Force
-      `noborder` rule to windows that are already open, but does NOT put the
-      border back when the rule goes away — only new windows recover. So
-      `restore-borders.js` clears `noBorder` on every window, and it has to run
-      AFTER the reconfigure: while the rule is still live in KWin's memory the
-      clear is reverted on the spot, which is what made the first attempt look
-      like a no-op. A second reconfigure then re-asserts any rule of the user's
-      own. Measured decoration heights across classic/riced/classic/compact/
-      riced/classic: 40, 0, 40, 26, 0, 40
-- [ ] No automatic tiler is installed — only `virtualdesktopsonlyonprimary` — and
-      KWin 6.6's own tiling is manual. `[Tiling] padding` does NOT reach
-      quick-tiled windows either: with padding=4 set, Meta+Left put a test
-      window at 0,0 960x1032, flush to the corner. So Riced ships without gaps.
-      Real auto-tiling means a third-party dependency such as Polonium, which
-      this theme has so far avoided
 - [ ] `--panel=classic|neon` on install.sh, once there is a second variant to
       name
+
+## Removed: tiled windows
+
+Built and then taken out at the user's request — KDE's own tiling covers it.
+Kept here because the findings cost real time and are not obvious.
+
+- KWin 6.6 ships no automatic tiler and none is packaged for Kubuntu 26.04.
+  `[Tiling] padding` does NOT reach quick-tiled windows either: with padding=4
+  set, Meta+Left put a test window at 0,0 960x1032, flush to the corner
+- `kwin reconfigure` does NOT reload an already-enabled KWin script. It only
+  starts newly-enabled ones and stops newly-disabled ones, so editing a running
+  script and reconfiguring leaves the OLD code running. Several fixes appeared
+  to do nothing for exactly this reason
+- Verifying a shortcut with `kglobalaccel Component.invokeShortcut` proves
+  nothing about the key path: it emits the activation signal directly, skipping
+  the `isActive()` and `isShortcutAllowed()` gates a real key press must pass
+- Editing `kglobalshortcutsrc` in a live session has no effect and is reverted:
+  KWin hosts the kglobalaccel registry in-process and rewrites the file from
+  memory. The D-Bus `setShortcutKeys` with flag 4 (NoAutoloading) is the only
+  way — and passing it a malformed `a(ai)` argument disconnects the service and
+  takes plasmashell down with it
+- A 1px outline around EVERY window, CSD apps included, is not achievable.
+  The decoration reaches only server-side decorated windows
+  (`updateDecorationBorderRadius()` sources it from `decoration()`, null for a
+  CSD window); a JavaScript scripted effect has no drawing API at all; and
+  KWin's own Outline overlay renders nothing when driven from a script — the
+  STOCK outline does not either. `BorderSize=None` in kwinrc also suppresses
+  side and foot borders whatever the theme asks for
+- KWin's own window actions, already bound and left alone: Meta+PgUp maximise,
+  Meta+PgDown minimise, Meta+Alt+arrows directional focus, Meta+arrows quick
+  tile, Meta+Shift+Left/Right move to next/previous screen
 
 ## Taskbar
 

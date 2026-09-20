@@ -71,9 +71,10 @@ def build(T, DIST, THEME_ID, THEME_NAME, colors_text,
     TB      = T['titlebar.active']      # active titlebar fill
     TBI     = T['titlebar.inactive']    # inactive titlebar fill
     # The outline down the sides and across the foot. Inactive is always the
-    # hairline; active is a parameter so a variant can use it as a focus cue —
-    # which is what the Tiled profile does, because in a grid of windows with no
-    # overlap there is nothing else to say which one has the keyboard.
+    # hairline; active is a parameter so a variant can use it as a focus cue.
+    # No variant does today — note that kwinrc's BorderSize=None suppresses
+    # these entirely whatever the theme says, so a variant wanting them must set
+    # BorderSize as well.
     BORD    = border_active or T['border.hairline']
     BORDI   = T['border.hairline']
     CY      = T['accent.cyan']

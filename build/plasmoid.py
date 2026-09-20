@@ -121,32 +121,3 @@ def build(T, DIST, THEME_ID, THEME_NAME, PLASMOID_ID, template_dir):
         'utilities-system-monitor', 'System Information', ['desktop']))
     out.append(f'plasmoids/{PLASMOID_ID}/  (metadata.json, main.qml, SystemCard.qml)')
     return out
-
-
-def build_tiler(DIST, THEME_NAME, TILER_ID, template_dir, gap_outer, gap_inner):
-    """The tiling KWin script. A KWin/Script package, not an applet: it is
-    enabled and disabled through kwinrc like any other KWin plugin, which is
-    what lets a window profile switch tiling on and off by writing one key."""
-    root = DIST / 'kwin-scripts' / TILER_ID
-    code = root / 'contents' / 'code'
-    code.mkdir(parents=True, exist_ok=True)
-
-    js = (template_dir / 'kwin-tiler.js').read_text()
-    js = js.replace('@GAP_OUTER@', str(gap_outer)).replace('@GAP_INNER@', str(gap_inner))
-    (code / 'main.js').write_text(js)
-
-    (root / 'metadata.json').write_text(json.dumps({
-        'KPackageStructure': 'KWin/Script',
-        'KPlugin': {
-            'Id': TILER_ID,
-            'Name': f'{THEME_NAME} Tiler',
-            'Description': 'Automatic window tiling for the Neon Noir Tiled profile',
-            'Icon': 'preferences-system-windows-script-test',
-            'Authors': [{'Name': 'George', 'Email': 'geosem042@gmail.com'}],
-            'License': 'GPL-3.0-or-later',
-            'Version': '1.0',
-            'EnabledByDefault': False,
-        },
-        'X-Plasma-API': 'javascript',
-    }, indent=4) + '\n')
-    return [f'kwin-scripts/{TILER_ID}/  (metadata.json, main.js)']

@@ -23,13 +23,6 @@ CONTROL_ID = 'org.neonnoir.control'
 # built from the same drawing at a different titlebar height.
 COMPACT_ID = THEME_ID + 'Compact'
 COMPACT_TH = 26
-TILER_ID = 'neonnoirtiler'
-# The Tiled profile gets its own decoration: same drawing, but the active
-# window's outline is the accent. Tiles do not overlap, so the usual depth
-# cues are gone and the border is the only thing left to mark focus.
-TILED_DECO_ID = THEME_ID + 'Tiled'
-# Gaps, in px. Outer is screen edge to window, inner is window to window.
-GAP_OUTER, GAP_INNER = 12, 8
 THEME_NAME = 'Neon Noir'
 
 # ---------- colour helpers ----------
@@ -321,13 +314,6 @@ def main():
     _a.write_text((ROOT / 'build' / 'templates' / 'neon-noir-apply').read_text())
     _a.chmod(0o755)
     print('  wrote dist/scripts/neon-noir-apply')
-    for line in plasmoid.build_tiler(DIST, THEME_NAME, TILER_ID,
-                                     ROOT / 'build' / 'templates',
-                                     GAP_OUTER, GAP_INNER):
-        print(f'  wrote dist/{line}')
-    _b = _s / 'restore-borders.js'
-    _b.write_text((ROOT / 'build' / 'templates' / 'restore-borders.js').read_text())
-    print('  wrote dist/scripts/restore-borders.js')
     for line in shell.build(DIST, THEME_NAME):
         print(f'  wrote dist/{line}')
     for line in apps.build(T, ANSI, DIST, THEME_ID, THEME_NAME,
