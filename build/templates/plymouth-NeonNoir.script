@@ -14,48 +14,77 @@
 Window.SetBackgroundTopColor(@BG@);
 Window.SetBackgroundBottomColor(@BG@);
 
-global.w = Window.GetWidth();
-global.h = Window.GetHeight();
-global.u = Math.Int(Math.Min(global.w, global.h) / 90);
-if (global.u < 8)
-    global.u = 8;
+# Source images, loaded once. Scaling makes a copy, so the originals are kept
+# to rescale from when the display changes size.
+global.ground_src = Image("background.png");
+global.mark_src   = Image("mark.png");
+global.word_src   = Image("wordmark.png");
+global.track_src  = Image("bar-track.png");
+global.fill_src   = Image("bar-fill.png");
 
-global.ground = Sprite(Image("background.png").Scale(global.w, global.h));
-global.ground.SetPosition(Window.GetX(), Window.GetY(), -100);
-
-# ── lockup geometry, mirroring Splash.qml ────────────────────────────────────
-global.mark_px = global.u * 19;
-global.gap     = global.u * 3;
-global.word_w  = global.u * 20;
-
-global.word_src = Image("wordmark.png");
-global.word_h = Math.Int(global.word_w * global.word_src.GetHeight()
-                         / global.word_src.GetWidth());
-global.bar_w = global.u * 28;
-global.bar_h = 2;
-
-global.total_h = global.mark_px + global.gap + global.word_h + global.gap + global.bar_h;
-global.top = Window.GetY() + Math.Int((global.h - global.total_h) / 2);
-global.cx  = Window.GetX() + Math.Int(global.w / 2);
-
-global.mark = Sprite(Image("mark.png").Scale(global.mark_px, global.mark_px));
-global.mark.SetPosition(global.cx - Math.Int(global.mark_px / 2), global.top, 1);
-
-global.word = Sprite(global.word_src.Scale(global.word_w, global.word_h));
-global.word.SetPosition(global.cx - Math.Int(global.word_w / 2),
-                        global.top + global.mark_px + global.gap, 1);
-
-global.bar_y = global.top + global.mark_px + global.gap + global.word_h + global.gap;
-global.bar_x = global.cx - Math.Int(global.bar_w / 2);
-
-global.track = Sprite(Image("bar-track.png").Scale(global.bar_w, global.bar_h));
-global.track.SetPosition(global.bar_x, global.bar_y, 1);
-
-global.fill_src = Image("bar-fill.png");
-global.fill = Sprite();
-global.fill.SetPosition(global.bar_x, global.bar_y, 2);
+# The sprites exist before they have any image. Re-layout then reassigns images
+# to these same objects rather than making new ones, which would leave the old
+# ones on screen underneath.
+global.ground = Sprite();
+global.mark   = Sprite();
+global.word   = Sprite();
+global.track  = Sprite();
+global.fill   = Sprite();
 global.fill.SetOpacity(0);
 global.fill_w = 0;
+global.progress = 0;
+global.w = 0;
+global.h = 0;
+
+# ── layout, recomputed whenever the display size changes ─────────────────────
+# Not done once at load, which is what this used to do. Plymouth starts on the
+# firmware framebuffer and the real KMS driver takes over part-way through boot,
+# usually at a different resolution; sprites sized against the first mode then
+# keep those pixel sizes forever, and the whole lockup sits in a corner of the
+# real screen occupying a fraction of it. refresh_cb() calls this whenever
+# Window.GetWidth() disagrees with what was last drawn.
+fun layout() {
+    global.w = Window.GetWidth();
+    global.h = Window.GetHeight();
+    global.u = Math.Int(Math.Min(global.w, global.h) / 90);
+    if (global.u < 8)
+        global.u = 8;
+
+    global.ground.SetImage(global.ground_src.Scale(global.w, global.h));
+    global.ground.SetPosition(Window.GetX(), Window.GetY(), -100);
+
+    # ── lockup geometry, mirroring Splash.qml ────────────────────────────────
+    global.mark_px = global.u * 19;
+    global.gap     = global.u * 3;
+    global.word_w  = global.u * 20;
+    global.word_h  = Math.Int(global.word_w * global.word_src.GetHeight()
+                              / global.word_src.GetWidth());
+    global.bar_w = global.u * 28;
+    global.bar_h = 2;
+
+    global.total_h = global.mark_px + global.gap + global.word_h
+                     + global.gap + global.bar_h;
+    global.top = Window.GetY() + Math.Int((global.h - global.total_h) / 2);
+    global.cx  = Window.GetX() + Math.Int(global.w / 2);
+
+    global.mark.SetImage(global.mark_src.Scale(global.mark_px, global.mark_px));
+    global.mark.SetPosition(global.cx - Math.Int(global.mark_px / 2), global.top, 1);
+
+    global.word.SetImage(global.word_src.Scale(global.word_w, global.word_h));
+    global.word.SetPosition(global.cx - Math.Int(global.word_w / 2),
+                            global.top + global.mark_px + global.gap, 1);
+
+    global.bar_y = global.top + global.mark_px + global.gap + global.word_h + global.gap;
+    global.bar_x = global.cx - Math.Int(global.bar_w / 2);
+
+    global.track.SetImage(global.track_src.Scale(global.bar_w, global.bar_h));
+    global.track.SetPosition(global.bar_x, global.bar_y, 1);
+
+    global.fill.SetPosition(global.bar_x, global.bar_y, 2);
+    # The bar was sized against the old width, so redraw it at the new one.
+    global.fill_w = 0;
+    set_progress(global.progress);
+}
 
 # ── boot progress ────────────────────────────────────────────────────────────
 # No bare "return;" anywhere in this file: none of the shipped script themes on
@@ -65,6 +94,8 @@ fun set_progress(fraction) {
         fraction = 0;
     if (fraction > 1)
         fraction = 1;
+    # Remembered, so a re-layout can redraw the bar at the new width.
+    global.progress = fraction;
     want = Math.Int(global.bar_w * fraction);
     if (want < 1) {
         global.fill.SetOpacity(0);
@@ -83,6 +114,10 @@ fun boot_progress_cb(time, progress) {
     set_progress(progress);
 }
 Plymouth.SetBootProgressFunction(boot_progress_cb);
+
+# First layout, here rather than beside the sprite declarations because it calls
+# set_progress(), which has to exist by the time it runs.
+layout();
 
 # ── messages ─────────────────────────────────────────────────────────────────
 global.message = NULL;
@@ -165,6 +200,11 @@ Plymouth.SetDisplayNormalFunction(display_normal_cb);
 global.ticks = 0;
 fun refresh_cb() {
     global.ticks++;
+    # The one place that notices the mode change. Plymouth has no resize
+    # callback, so the size is polled here — it runs about fifty times a
+    # second, and the comparison costs nothing on the ticks where it matches.
+    if (Window.GetWidth() != global.w || Window.GetHeight() != global.h)
+        layout();
 }
 Plymouth.SetRefreshFunction(refresh_cb);
 

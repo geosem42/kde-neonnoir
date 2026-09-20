@@ -45,7 +45,20 @@ ok()   { printf '   %s✔%s %s\n' "$c_ok" "$c_0" "$*"; }
 warn() { printf '   %s!%s %s\n' "$c_wn" "$c_0" "$*"; }
 skip() { printf '   %s·%s %s\n' "$c_dim" "$c_0" "$*"; }
 run()  { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s\n' "$c_dim" "$c_0" "$*"; else "$@"; fi; }
-SUDO=""; [ "$(id -u)" != 0 ] && SUDO="sudo"
+SUDO=""
+if [ "$(id -u)" != 0 ]; then
+  SUDO="sudo"
+  # With no controlling terminal — run from an editor's task runner, a hook, or
+  # any non-interactive shell — sudo cannot prompt and simply fails with "a
+  # terminal is required". An askpass helper puts the prompt in a dialog
+  # instead, which is the only way --system can work from there.
+  if ! sudo -n true 2>/dev/null && [ ! -t 0 ]; then
+    for a in /usr/bin/ksshaskpass /usr/bin/lxqt-openssh-askpass \
+             /usr/lib/ssh/x11-ssh-askpass; do
+      if [ -x "$a" ]; then export SUDO_ASKPASS="$a"; SUDO="sudo -A"; break; fi
+    done
+  fi
+fi
 # Same as run(), but for the two components that cannot live in $HOME.
 srun() { if [ "$DRY" = 1 ]; then printf '   %swould:%s %s %s\n' "$c_dim" "$c_0" "$SUDO" "$*"
          else ${SUDO:+$SUDO} "$@"; fi; }

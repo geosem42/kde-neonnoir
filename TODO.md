@@ -89,6 +89,28 @@ Worked one item at a time, top to bottom. `x` means done and verified on screen.
 
 - [x] Checked buttons are a quiet teal box with cyan text, not a solid slab
 
+## Boot splash
+
+- [x] The Plymouth lockup no longer sits in a corner at a fraction of the
+      screen. Everything was sized ONCE at script load from
+      `Window.GetWidth()`, and Plymouth starts on the firmware framebuffer with
+      the real KMS driver taking over part-way through boot, usually at another
+      resolution — sprites sized against the first mode keep those pixel sizes
+      forever. The geometry now lives in `layout()`, and `refresh_cb()` (which
+      runs ~50x/sec and previously only counted ticks) calls it whenever
+      `Window.GetWidth()` disagrees with what was last drawn. Plymouth has no
+      resize callback, so polling there is the only hook available
+- [x] Sprites are created empty once and re-imaged by `layout()` rather than
+      recreated, which would leave the old ones on screen underneath. The
+      progress fraction is remembered so the bar is redrawn at the new width
+- [ ] UNVERIFIED until a reboot: there is no Plymouth preview tool on this box
+      (no plymouth-x11), and `plymouthd` needs root and a spare VT. The script
+      is in the initramfs and the syntax matches what shipped themes use, but
+      the fix itself has not been seen working
+- [x] install.sh falls back to an askpass helper when sudo has no controlling
+      terminal. Without it `--system` dies on "a terminal is required", which is
+      every non-interactive shell
+
 ## Cursors
 
 - [x] Dropped our own cursor theme and use `breeze_cursors`, which is already
