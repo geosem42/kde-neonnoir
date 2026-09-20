@@ -166,7 +166,8 @@ for d in "$SHARE/plasma/desktoptheme/$THEME_ID" "$SHARE/aurorae/themes/$THEME_ID
          "$SHARE/icons/$THEME_ID"         "$SHARE/plasma/look-and-feel/$PKG_ID" "$CONF/Kvantum/$THEME_ID" \
          "$SHARE/plasma/plasmoids/$APPLET_ID" \
          "$SHARE/plasma/plasmoids/$SEPARATOR_ID" \
-         "$SHARE/plasma/plasmoids/$CONTROL_ID"; do
+         "$SHARE/plasma/plasmoids/$CONTROL_ID" \
+         "$SHARE/plasma/plasmoids/org.neonnoir.hud"; do
   if [ -d "$d" ]; then run rm -rf "$d"; ok "${d/#$HOME/\~}"; else skip "${d/#$HOME/\~} absent"; fi
 done
 if [ -d "$SHARE/wallpapers/$THEME_ID" ]; then

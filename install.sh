@@ -19,6 +19,7 @@ PKG_ID="org.neonnoir.desktop"
 APPLET_ID="org.neonnoir.sysmon"
 SEPARATOR_ID="org.neonnoir.separator"
 CONTROL_ID="org.neonnoir.control"
+HUD_ID="org.neonnoir.hud"
 NN_MARK_BEGIN="# >>> neon noir prompt >>>"
 NN_MARK_END="# <<< neon noir prompt <<<"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -209,6 +210,7 @@ say "Panel widgets"
 install_tree "$DIST/plasmoids/$APPLET_ID" "$SHARE/plasma/plasmoids/$APPLET_ID"
 install_tree "$DIST/plasmoids/$SEPARATOR_ID" "$SHARE/plasma/plasmoids/$SEPARATOR_ID"
 install_tree "$DIST/plasmoids/$CONTROL_ID" "$SHARE/plasma/plasmoids/$CONTROL_ID"
+install_tree "$DIST/plasmoids/$HUD_ID" "$SHARE/plasma/plasmoids/$HUD_ID"
 
 # What the options widget drives. This is deliberately outside --desktop: the
 # widget is installed either way, and a widget whose script is missing is worse
@@ -242,15 +244,17 @@ pin() {
 pin org.kde.konsole konsole
 pin org.kde.dolphin dolphin
 pin firefox_firefox firefox firefox-esr
-if [ -f "$DIST/config/panel-layout.js" ] && [ "$DRY" = 0 ]; then
+if [ "$DRY" = 0 ]; then
   mkdir -p "$NN_LIB"
-  sed -e "s|@MARK@|$SHARE/icons/neon-noir-launcher.svg|" \
-      -e "s|@LAUNCHERS@|$launchers|" \
-      "$DIST/config/panel-layout.js" > "$NN_LIB/panel-classic.js"
-  ok "~/.local/share/neon-noir/panel-classic.js"
-elif [ -f "$DIST/config/panel-layout.js" ]; then
-  printf '   %swould:%s write the classic panel layout to %s\n' \
-         "$c_dim" "$c_0" "$NN_LIB/panel-classic.js"
+  for pv in "$DIST"/config/panel-*.js; do
+    [ -f "$pv" ] || continue
+    sed -e "s|@MARK@|$SHARE/icons/neon-noir-launcher.svg|" \
+        -e "s|@LAUNCHERS@|$launchers|" "$pv" > "$NN_LIB/$(basename "$pv")"
+    ok "~/.local/share/neon-noir/$(basename "$pv")"
+  done
+else
+  printf '   %swould:%s write the panel layouts to %s\n' \
+         "$c_dim" "$c_0" "$NN_LIB/"
 fi
 for v in classic compact; do
   install_file "$DIST/config/windows-$v.tsv" "$NN_LIB/windows-$v.tsv"

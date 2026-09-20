@@ -30,6 +30,29 @@ BREEZE = pathlib.Path('/usr/share/icons/breeze-dark')
 HICOLOR = pathlib.Path('/usr/share/icons/hicolor/scalable/apps')
 
 HEX = re.compile(r'#([0-9a-fA-F]{6})\b')
+
+# Monochrome status glyphs the panel shows. Breeze draws these with a
+# `.ColorScheme-Text` stylesheet that KIconLoader rewrites to the palette's text
+# colour at load time, so in a panel they come out near-white whatever the theme
+# does — and a bar whose own type is dim grey and cyan then ends in a run of
+# bright white outlines that belong to nothing.
+#
+# Re-emitted under this theme with the colour baked, which `FollowsColorScheme=
+# false` in index.theme then keeps. The list is deliberately narrow: the tray
+# this theme configures (network, volume, bluetooth, notifications, battery)
+# plus the panel's own show-desktop button, and nothing an application draws in
+# its own toolbars.
+TRAY_FAMILIES = (
+    'audio-volume-', 'microphone-sensitivity-',
+    'network-wireless-', 'network-wired-', 'network-mobile-',
+    'network-vpn', 'network-offline', 'network-connect', 'network-disconnect',
+    'network-flightmode',
+    'battery-',
+    'bluetooth', 'preferences-system-bluetooth',
+    'notification', 'preferences-desktop-notification',
+    'user-desktop',
+)
+SCHEME_TEXT = re.compile(r'(\.ColorScheme-Text\s*\{[^}]*?color:\s*)#[0-9a-fA-F]{6}')
 HUE_LO, HUE_HI = 188.0, 265.0     # blue band: past cyan-green, short of violet
 MIN_SAT = 0.18                    # below this it is a grey and must stay one
 
@@ -134,6 +157,30 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
             dirs.add('apps/scalable')
             n_apps += 1
 
+    # Panel status glyphs, colour baked. Both the plain and the `-symbolic`
+    # spelling, because which one the tray asks for depends on the applet, and a
+    # bright twin left behind would be the one that answers.
+    n_tray = 0
+    for svg in sorted(BREEZE.rglob('*.svg')):
+        stem = svg.stem
+        base = stem[:-len('-symbolic')] if stem.endswith('-symbolic') else stem
+        if not base.startswith(TRAY_FAMILIES):
+            continue
+        real = svg.resolve()
+        if not real.is_file():
+            continue
+        try:
+            text = real.read_text(encoding='utf-8')
+        except Exception:
+            continue
+        new, n = SCHEME_TEXT.subn(r'\g<1>' + T['text.dim'], text)
+        if not n:
+            continue                    # not a monochrome glyph; leave it alone
+        rel = svg.relative_to(BREEZE)
+        emit(str(rel), new)
+        dirs.add(str(rel.parent))
+        n_tray += 1
+
     # Symbolic hand-off. Asked for `<name>-symbolic`, KIconLoader strips the
     # suffix and looks for `<name>` IN THIS THEME before it falls through to
     # breeze-dark — so every icon recoloured above also answers for its
@@ -189,5 +236,6 @@ def build(T, DIST, THEME_ID, THEME_NAME, folder_hex, app_glyph_hex):
         lines.append('')
     (dst / 'index.theme').write_text('\n'.join(lines))
     return [f'icons/{THEME_ID}/  ({n_written} icons, {n_hits} colours rotated, '
-            f'{n_apps} from hicolor, {n_sym} symbolic kept mono, {len(dirs)} dirs; '
+            f'{n_apps} from hicolor, {n_tray} panel glyphs dimmed, '
+            f'{n_sym} symbolic kept mono, {len(dirs)} dirs; '
             f'everything untouched inherits breeze-dark)']

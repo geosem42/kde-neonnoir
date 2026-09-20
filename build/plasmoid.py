@@ -121,3 +121,96 @@ def build(T, DIST, THEME_ID, THEME_NAME, PLASMOID_ID, template_dir):
         'utilities-system-monitor', 'System Information', ['desktop']))
     out.append(f'plasmoids/{PLASMOID_ID}/  (metadata.json, main.qml, SystemCard.qml)')
     return out
+
+
+def build_hud(T, DIST, THEME_NAME, HUD_ID, template_dir):
+    """The Futuristic bar's entire contents as one widget.
+
+    One widget rather than a handful, because the look depends on every module
+    sharing a grid, a typeface and a slant — which cannot happen while each one
+    is a separate applet with its own background and its own metrics.
+    """
+    root = DIST / 'plasmoids' / HUD_ID
+    ui = root / 'contents' / 'ui'
+    ui.mkdir(parents=True, exist_ok=True)
+
+    subs = {
+        '@CYAN@': T['accent.cyan'],   '@MAGENTA@': T['accent.magenta'],
+        '@AMBER@': T['status.neutral'],
+        '@TEXT@': T['text.normal'],   '@DIM@': T['text.dim'],
+        '@FAINT@': T['text.faint'],   '@HAIR@': T['border.hairline'],
+        # The slanted dividers read as neon rather than as furniture, so they
+        # take a cyan rather than a grey.
+        '@HAIR2@': T['accent.cyan.deep'],
+        # NOT surface.window: that is exactly the panel background, so the
+        # segments and their wedges were painting themselves invisible.
+        # A step darker reads as a slot cut into the bar.
+        '@SEG@': T['surface.sheet'],
+        '@MONO@': 'JetBrains Mono',
+    }
+    # The pinned list has to live in the applet's own configuration: it is the
+    # only per-widget store that survives a shell restart, and the panel script
+    # seeds it through the same key at install time.
+    cfg = root / 'contents' / 'config'
+    cfg.mkdir(parents=True, exist_ok=True)
+    (cfg / 'main.xml').write_text('''<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+  <group name="General">
+    <entry name="launchers" type="StringList">
+      <default></default>
+    </entry>
+  </group>
+</kcfg>
+''')
+
+    body = (template_dir / 'plasmoid-Hud.qml').read_text()
+    for k, v in subs.items():
+        body = body.replace(k, v)
+    (ui / 'Hud.qml').write_text(body)
+
+    (ui / 'main.qml').write_text('''/*
+    Wrapper. No background of its own: the bar is one continuous surface and the
+    HUD paints its own segments onto it, so a Plasma applet frame here would
+    draw a button around the whole row.
+
+    The Layout hints sit on the PlasmoidItem and the HUD is a direct child of
+    it. Declared inside a `fullRepresentation` component instead, the shell
+    falls back to the COMPACT representation — which in a panel is the applet's
+    own icon, a lone system-monitor glyph where the bar should be. The
+    separator applet carries the same note for the same reason.
+*/
+import QtQuick
+import QtQuick.Layouts
+import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
+
+PlasmoidItem {
+    id: root
+
+    Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground
+    preferredRepresentation: fullRepresentation
+
+    Layout.fillWidth: true
+    Layout.fillHeight: true
+    Layout.minimumWidth: 360
+
+    Hud {
+        anchors.fill: parent
+        // Passed in rather than read inside: screenGeometry and the applet
+        // configuration live on the PlasmoidItem, and the HUD is a plain Item
+        // so it can be rendered outside a running shell.
+        screenGeo: root.screenGeometry
+        launchers: Plasmoid.configuration.launchers
+        onLaunchersWritten: (list) => Plasmoid.configuration.launchers = list
+    }
+}
+''')
+    (root / 'metadata.json').write_text(_metadata(
+        HUD_ID, f'{THEME_NAME} HUD',
+        'Workspaces, windows, telemetry and the clock as one status bar',
+        'utilities-system-monitor', 'System Information', ['desktop']))
+    return [f'plasmoids/{HUD_ID}/  (metadata.json, main.qml, Hud.qml)']

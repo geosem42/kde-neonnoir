@@ -311,14 +311,26 @@ def build(T, ANSI, DIST, THEME_ID, THEME_NAME, UI_FONT, MONO_FONT, template_dir=
         cfg = DIST / 'config'
         cfg.mkdir(parents=True, exist_ok=True)
         shutil.copy(template_dir / 'desktop-layout.js', cfg / 'desktop-layout.js')
-        # The launcher icon is referenced by absolute path, so it is expanded
-        # at install time, not here.
-        (cfg / 'panel-layout.js').write_text(
-            (template_dir / 'panel-layout.js').read_text())
+        # One file per taskbar variant, each with the shared widget
+        # configuration prepended. The launcher icon and the pinned launchers
+        # are absolute paths resolved on the machine, so they stay as
+        # placeholders here and are expanded at install time.
+        # Stale variants are cleared first: the install loop ships every
+        # panel-*.js it finds here, so a variant whose template was deleted
+        # would otherwise keep being installed and offered.
+        for old in cfg.glob('panel-*.js'):
+            old.unlink()
+        shared = (template_dir / 'panel-configure.js').read_text()
+        variants = sorted(p.stem.split('panel-')[1]
+                          for p in template_dir.glob('panel-*.js')
+                          if p.stem != 'panel-configure')
+        for v in variants:
+            body = (template_dir / f'panel-{v}.js').read_text()
+            (cfg / f'panel-{v}.js').write_text(shared + '\n' + body)
         (cfg / 'dolphinui.rc').write_text(
             (template_dir / 'dolphinui.rc').read_text())
-        out.append('config/desktop-layout.js, config/panel-layout.js, '
-                   'config/dolphinui.rc')
+        out.append('config/desktop-layout.js, config/dolphinui.rc, '
+                   f'config/panel-{{{",".join(variants)}}}.js')
 
     fc = DIST / 'fontconfig'
     fc.mkdir(parents=True, exist_ok=True)

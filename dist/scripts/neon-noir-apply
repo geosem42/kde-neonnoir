@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # neon-noir-apply <axis> <variant>
 #
-#   neon-noir-apply panel   classic|neon
+#   neon-noir-apply panel   classic|dock|neon
 #   neon-noir-apply windows classic|compact
 #
 # Switches one axis of the theme and records the choice in neonnoirrc, which is
@@ -57,20 +57,21 @@ replay() {
 
 case "$axis" in
   panel)
+    # No per-variant branch: a variant IS its layout script, so adding one is
+    # dropping a panel-<name>.js into the lib directory and nothing else.
+    js="$LIB/panel-$variant.js"
+    if [ ! -f "$js" ]; then
+      notify "The $variant taskbar is not built yet."
+      die "unknown panel variant: ${variant:-<none>}"
+    fi
+    command -v qdbus6 >/dev/null 2>&1 || die "qdbus6 not found"
+    kwriteconfig6 --file neonnoirrc --group Panel --key Variant "$variant"
+    qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
+           "$(cat "$js")" >/dev/null
     case "$variant" in
-      classic)
-        [ -f "$LIB/panel-classic.js" ] || die "missing $LIB/panel-classic.js"
-        command -v qdbus6 >/dev/null 2>&1 || die "qdbus6 not found"
-        kwriteconfig6 --file neonnoirrc --group Panel --key Variant classic
-        qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
-               "$(cat "$LIB/panel-classic.js")" >/dev/null
-        notify "Taskbar: Standard"
-        ;;
-      neon)
-        notify "The futuristic taskbar is not built yet."
-        die "panel variant 'neon' is not built yet"
-        ;;
-      *) die "unknown panel variant: ${variant:-<none>}" ;;
+      classic) notify "Taskbar: Standard" ;;
+      dock)    notify "Taskbar: Dock" ;;
+      *)       notify "Taskbar: $variant" ;;
     esac
     ;;
 

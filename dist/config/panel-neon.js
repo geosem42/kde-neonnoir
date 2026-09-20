@@ -1,40 +1,7 @@
-// Build the panel the design specifies, rather than recolouring the stock one.
-//
-// Artboard 04 "Panel variants" gives the default: floating, 48px, full width
-// with a gap at each screen edge. Artboard 01 gives the contents, left to
-// right: framed hexagon launcher, rule, task buttons WITH LABELS and an
-// underline indicator, then the tray, a rule, and the clock as time over date.
-//
-// The widget list is rebuilt wholesale when it does not already match, because
-// Plasma's scripting API can append a widget but cannot reorder one.
-
-var TARGET = [
-    "org.kde.plasma.kickoff",
-    "org.neonnoir.separator",
-    // Not on the artboard, which was drawn against a single desktop. With two
-    // or more there is otherwise no way to see which one you are on, and no way
-    // to switch without alt-tabbing into a window that happens to live there.
-    // No second rule after it: Plasma hides the pager outright when there is
-    // only one desktop, and a rule on each side would then collapse into two
-    // parallel lines with a gap between them.
-    "org.kde.plasma.pager",
-    // Icons only. The artboard labels each task, but a label as wide as a
-    // window title crowds the bar, so this deliberately departs from it.
-    "org.kde.plasma.icontasks",
-    "org.kde.plasma.systemtray",
-    "org.neonnoir.separator",
-    "org.kde.plasma.digitalclock",
-    // The theme's own options popup, beside the clock rather than in the tray:
-    // the tray hides what it does not have room for, and a control that can
-    // move the panel out from under you should not be the thing that vanishes.
-    "org.neonnoir.control",
-    // Last, hard against the right edge, where every desktop since CDE has put
-    // it. minimizeall, not showdesktop: showdesktop asks KWin to slide the
-    // windows aside and slides them back the moment anything takes focus, which
-    // is a peek, not a "clear the screen". This one minimises for real and
-    // restores the same set on a second click.
-    "org.kde.plasma.minimizeall"
-];
+// Shared by every panel variant: the pinned apps, the tray contents, the
+// per-widget configuration, and the reset that gives a variant a clean panel to
+// build into. Concatenated ahead of each variant file at build time, so a change
+// to how a widget is configured cannot reach one layout and miss another.
 
 // Pinned apps, in the artboard's order. Resolved at install time against the
 // desktop files that actually exist — a launcher pointing at a missing .desktop
@@ -98,6 +65,14 @@ function configure(w) {
         w.writeConfig("fill", true);
         w.reloadConfig();
 
+    } else if (w.type === "org.neonnoir.hud") {
+        w.currentConfigGroup = ["General"];
+        // Same pinned list as the other variants, so switching taskbar does not
+        // lose the apps. The HUD writes this key back itself when something is
+        // pinned or unpinned from its menu.
+        w.writeConfig("launchers", LAUNCHERS);
+        w.reloadConfig();
+
     } else if (w.type === "org.kde.plasma.pager") {
         w.currentConfigGroup = ["General"];
         // 0 = Number, 1 = Name, 2 = None. A number is legible in a 24px tile;
@@ -153,41 +128,72 @@ function configure(w) {
     }
 }
 
-var out = [];
-var ps = panels();
-for (var i = 0; i < ps.length; i++) {
-    var p = ps[i];
-    if (p.location !== "bottom" && p.location !== "top") { continue; }
-
-    p.height = 48;
-    p.floating = true;
-    // "fill", not "fit". Fit shrinks the panel to its contents, which reads as a
-    // small box in the middle of the screen; the design is a full-width bar that
-    // floats clear of the edges.
-    p.lengthMode = "fill";
-    p.alignment = "center";
-    p.opacityMode = "adaptive";
-    out.push("panel: 48px floating, full width");
-
-    var ids = p.widgetIds;
-    var current = [];
-    for (var j = 0; j < ids.length; j++) {
-        current.push(p.widgetById(ids[j]).type);
+// Every variant builds from scratch rather than reshaping what is there. The
+// variants differ in the NUMBER of panels as well as their contents — the dock
+// is one, an earlier islands attempt was three — so "adjust the existing panel"
+// has no single meaning. Removing and re-adding is also the only way to reorder:
+// Plasma's scripting API can append a widget but cannot move one.
+function resetPanel() {
+    var ps = panels();
+    for (var i = 0; i < ps.length; i++) {
+        if (ps[i].location === "bottom" || ps[i].location === "top") {
+            ps[i].remove();
+        }
     }
-
-    if (current.join("|") !== TARGET.join("|")) {
-        for (var k = 0; k < ids.length; k++) {
-            p.widgetById(ids[k]).remove();
-        }
-        for (var m = 0; m < TARGET.length; m++) {
-            configure(p.addWidget(TARGET[m]));
-        }
-        out.push("widgets: " + TARGET.length + " rebuilt in design order");
-    } else {
-        for (var n = 0; n < ids.length; n++) {
-            configure(p.widgetById(ids[n]));
-        }
-        out.push("widgets: already in design order, reconfigured");
-    }
+    var p = new Panel;
+    p.location = "bottom";
+    p.hiding = "none";
+    // Cleared explicitly. A new panel inherits the length bounds of the one it
+    // replaces, and a stale minimumLength of 1920 pins a "fit" panel to the full
+    // width — which is what made the first islands attempt look like one bar.
+    p.minimumLength = 0;
+    p.maximumLength = 100000;
+    return p;
 }
-print(out.length ? out.join("; ") : "no horizontal panel found");
+
+// Futuristic variant — a polybar, not a shorter taskbar.
+//
+// The first attempt at this was the standard row of Plasma applets in a 30px
+// panel, and it read as exactly that: the normal bar, smaller. The look comes
+// from the modules sharing one grid, one monospaced face and one slant, which
+// no arrangement of separate applets can give, so almost the whole bar is a
+// single widget — org.neonnoir.hud — that draws the workspaces, the open
+// windows, the focused window's title, the telemetry and the clock itself.
+//
+// Top edge, which is where polybar and its imitators live, and where a status
+// bar belongs: the bottom of the screen is where windows put their own
+// controls, and a readout competing with those is a taskbar again.
+//
+// Flush and NOT floating. A floating panel leaves a margin on three sides, and
+// margin around a 28px bar is most of its own height again.
+
+var TARGET = [
+    // Left of the HUD rather than inside it: reimplementing Kickoff's popup to
+    // gain a hexagon is not a trade worth making.
+    "org.kde.plasma.kickoff",
+    "org.neonnoir.hud",
+    // The tray has to stay a stock applet — it hosts other processes' icons.
+    // It lands immediately right of the HUD's clock, so the two read as one
+    // group at the end of the bar.
+    "org.kde.plasma.systemtray",
+    "org.neonnoir.control",
+    "org.kde.plasma.minimizeall"
+];
+
+var p = resetPanel();
+p.location = "top";
+// 28, not 30: the sparklines need 11px and the state underlines 2px, and 28 is
+// the smallest height that leaves the 10px figures optically centred between
+// them.
+p.height = 28;
+p.floating = false;
+p.lengthMode = "fill";
+p.alignment = "center";
+// Opaque, not adaptive. Adaptive fades the background out when no window is
+// near it, and the slanted segments only read as segments against a bar.
+p.opacityMode = "opaque";
+
+for (var m = 0; m < TARGET.length; m++) {
+    configure(p.addWidget(TARGET[m]));
+}
+print("neon: 28px flush top bar, " + TARGET.length + " widgets");

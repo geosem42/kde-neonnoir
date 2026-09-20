@@ -102,6 +102,11 @@ PlasmoidItem {
             anchors.fill: parent
             active: compact.containsMouse
             source: "configure"
+            // isMask + colour: left alone the cog is recoloured to the panel's
+            // text colour, which is near-white, and it then sits brighter than
+            // everything around it on both bars.
+            isMask: true
+            color: compact.containsMouse ? "@CYAN@" : "@DIM@"
         }
     }
 

@@ -75,7 +75,8 @@ ColumnLayout {
                 current: card.panelVariant
                 variants: [
                     { id: "classic", label: "Standard", ready: true },
-                    { id: "neon", label: "Futuristic", ready: false }
+                    { id: "dock", label: "Dock", ready: true },
+                    { id: "neon", label: "Futuristic", ready: true }
                 ]
                 onPick: (a, v) => card.choose(a, v)
             }

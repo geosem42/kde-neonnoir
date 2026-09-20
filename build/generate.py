@@ -19,6 +19,7 @@ PKG_ID     = 'org.neonnoir.desktop'
 APPLET_ID  = 'org.neonnoir.sysmon'
 SEPARATOR_ID = 'org.neonnoir.separator'
 CONTROL_ID = 'org.neonnoir.control'
+HUD_ID = 'org.neonnoir.hud'
 # The Windows axis of the options widget. Each entry is an Aurorae theme
 # built from the same drawing at a different titlebar height.
 COMPACT_ID = THEME_ID + 'Compact'
@@ -302,6 +303,9 @@ def main():
     # Resolved by the shell that runs it, not here: KProcess::setShellCommand
     # puts the command through /bin/sh, so the widget can carry the XDG lookup
     # itself instead of the build guessing where the install will land.
+    for line in plasmoid.build_hud(T, DIST, THEME_NAME, HUD_ID,
+                                     ROOT / 'build' / 'templates'):
+        print(f'  wrote dist/{line}')
     apply_path = '${XDG_DATA_HOME:-$HOME/.local/share}/neon-noir/neon-noir-apply'
     for line in plasmoid.build_control(T, DIST, THEME_NAME, CONTROL_ID,
                                        ROOT / 'build' / 'templates', apply_path):
